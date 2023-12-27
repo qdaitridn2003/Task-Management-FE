@@ -11,7 +11,6 @@ module.exports = function (api) {
             ],
             'nativewind/babel',
             '@babel/transform-react-jsx-source',
-            'react-native-paper/babel',
         ],
     };
 };
