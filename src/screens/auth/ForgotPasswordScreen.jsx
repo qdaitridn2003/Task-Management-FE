@@ -23,6 +23,7 @@ const validationSchema = yup.object({
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation();
+
   return (
     <ContainerView>
       <SubHeaderBar tw="pb-4" onBackPress={() => navigation.goBack()} />

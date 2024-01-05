@@ -6,6 +6,7 @@ import { Card } from 'react-native-paper';
 import { Color } from '../../common';
 import { Icon } from './CustomIcon';
 import { Text, View } from './TailwindComponent';
+import { StatusIndicator } from './StatusIndicator';
 
 const RNPaperCard = ({ status, title, startDate, endDate, onPress, onLongPress, ...props }) => {
   const statusMappings = {
@@ -34,12 +35,15 @@ const RNPaperCard = ({ status, title, startDate, endDate, onPress, onLongPress, 
     <View {...props}>
       <Card onPress={onPress} onLongPress={onLongPress} style={styles.cardStyle}>
         <ImageBackground style={styles.imageStyle} source={{ uri: 'https://picsum.photos/700' }}>
-          <View style={[styles.statusContainer, { borderColor: getStatusColor() }]}>
+          {/* Status Indicator */}
+          <StatusIndicator tw="absolute bottom-4 left-6" status={status} />
+          {/* <View style={[styles.statusContainer, { borderColor: getStatusColor() }]}>
             <Icon source={statusMappings[status].icon} size={20} color={getStatusColor()} />
+
             <Text style={[styles.statusText, { color: getStatusColor() }]}>
               {statusMappings[status].text}
             </Text>
-          </View>
+          </View> */}
         </ImageBackground>
 
         <View style={styles.contentStyle}>

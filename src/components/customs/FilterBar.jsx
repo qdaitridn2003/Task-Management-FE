@@ -46,7 +46,7 @@ const CustomFilterBar = ({ listTab, style }) => {
   );
 };
 
-export const FilterBar = styled(CustomFilterBar, 'px-5 py-2');
+export const FilterBar = styled(CustomFilterBar, 'px-5 pb-2 ');
 
 const styles = StyleSheet.create({
   container: {
@@ -54,9 +54,6 @@ const styles = StyleSheet.create({
   },
   filterBar: {
     flexDirection: 'row',
-  },
-  button: {
-    margin: 4,
   },
 });
 

@@ -11,4 +11,6 @@ export * from './Searchbar';
 export * from './FilterBar';
 export * from './TextInput';
 export * from './SubHeaderBar';
+export * from './StatusIndicator';
+export * from './LocationTextInput';
 export const TextInput = styled(CustomTextInput);

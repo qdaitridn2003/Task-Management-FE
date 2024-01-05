@@ -3,7 +3,7 @@ import { styled } from 'nativewind';
 import { StyleSheet } from 'react-native';
 import { Color } from '../../common';
 import { Icon } from './CustomIcon';
-import { View, PaperTextInput, TouchableOpacity, Text } from './TailwindComponent';
+import { View, Text } from './TailwindComponent';
 import { TextInput as RNPaperTextInPut } from 'react-native-paper';
 
 export const CustomTextInput = ({
@@ -15,7 +15,8 @@ export const CustomTextInput = ({
   placeholder,
   multiline,
   keyboardType,
-  ...props
+  notEditable,
+  style,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
 
@@ -24,14 +25,15 @@ export const CustomTextInput = ({
   };
 
   return (
-    <View tw="mb-4" {...props}>
+    <View tw="mb-2" style={style}>
       {label && <Text tw="mb-2 text-base font-bold">{label}</Text>}
       <RNPaperTextInPut
+        editable={!notEditable}
         multiline={multiline}
         keyboardType={keyboardType}
-        theme={{ colors: { onSurfaceVariant: Color.neutral2 } }}
-        placeholder={placeholder}
         style={styles.textInputStyle}
+        placeholderTextColor={Color.neutral2}
+        placeholder={placeholder}
         contentStyle={styles.contentStyle}
         underlineStyle={styles.underlineStyle}
         outlineStyle={styles.outlineStyle}
@@ -65,17 +67,16 @@ export const CustomTextInput = ({
 // export const TextInput = styled(CustomTextInput);
 
 const styles = StyleSheet.create({
-  textInputStyle: {
-    backgroundColor: Color.neutral4,
-    heigh: 48,
-    fontSize: 16,
-    marginBottom: 8,
-  },
+  textInputStyle: {},
   contentStyle: {
     paddingHorizontal: 20,
+    backgroundColor: Color.neutral4,
+    borderRadius: 16,
+    height: 48,
   },
   underlineStyle: {},
   outlineStyle: {
+    height: 48,
     borderRadius: 16,
     elevation: 3,
     borderWidth: 2,
