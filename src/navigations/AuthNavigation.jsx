@@ -6,21 +6,20 @@ import { ScreenName } from '../common';
 import { SignInScreen, SignUpScreen, ForgotPasswordScreen } from '../screens';
 
 const AuthNavigation = () => {
-    const AuthStack = createNativeStackNavigator();
-    return (
-        <NavigationContainer>
-            <AuthStack.Navigator
-                initialRouteName={ScreenName.signIn}
-                screenOptions={{ headerShown: false }}>
-                <AuthStack.Screen name={ScreenName.signIn} component={SignInScreen} />
-                <AuthStack.Screen name={ScreenName.signUp} component={SignUpScreen} />
-                <AuthStack.Screen
-                    name={ScreenName.forgotPassword}
-                    component={ForgotPasswordScreen}
-                />
-            </AuthStack.Navigator>
-        </NavigationContainer>
-    );
+  const AuthStack = createNativeStackNavigator();
+  return (
+    <NavigationContainer>
+      <AuthStack.Navigator
+        initialRouteName={ScreenName.signIn}
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <AuthStack.Screen name={ScreenName.signIn} component={SignInScreen} />
+        <AuthStack.Screen name={ScreenName.signUp} component={SignUpScreen} />
+        <AuthStack.Screen name={ScreenName.forgotPassword} component={ForgotPasswordScreen} />
+      </AuthStack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default AuthNavigation;
