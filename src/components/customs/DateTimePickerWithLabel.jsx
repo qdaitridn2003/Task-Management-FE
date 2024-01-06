@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
+import { styled } from 'nativewind';
+
 import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Pressable, View } from './TailwindComponent';
+import { Pressable, Text, View } from './TailwindComponent';
 import { Color } from '../../common';
+import { DateTimeButton } from './DateTimeButton';
 
-const DateTimePickerWrapper = ({ onChange, children, mode = 'datetime' }) => {
+const CustomDateTimePickerWithLabel = ({
+  label,
+  onChange,
+  style,
+  mode = 'datetime',
+  type,
+  value,
+  onChangeText,
+  error,
+  notEditable,
+  buttonStyle,
+}) => {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [processedDate, setProcessedDate] = useState(value);
 
   const handleDateChange = (selected) => {
     setShowPicker(false);
@@ -27,6 +42,7 @@ const DateTimePickerWrapper = ({ onChange, children, mode = 'datetime' }) => {
       }
 
       setSelectedDate(selected);
+      setProcessedDate(processedDate);
       onChange(processedDate);
     }
   };
@@ -40,23 +56,29 @@ const DateTimePickerWrapper = ({ onChange, children, mode = 'datetime' }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <TouchableWithoutFeedback
-        android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', borderless: false }}
-        underlayColor={Color.primary}
-        style={{ zIndex: 10 }}
-        onPress={showDateTimePicker}>
-        {children}
-      </TouchableWithoutFeedback>
+    <View tw="flex-1" style={style}>
+      {label && <Text tw="text-base font-bold mb-2 px-4">{label}</Text>}
+      <Pressable onPress={showDateTimePicker}>
+        <DateTimeButton
+          tw="px-5"
+          type={type}
+          value={processedDate}
+          onChangeText={onChangeText}
+          error={error}
+          notEditable={notEditable}
+          style={buttonStyle}
+        />
+      </Pressable>
 
       <DateTimePickerModal
         isVisible={showPicker}
         mode={mode}
         onConfirm={handleDateChange}
         onCancel={hideDateTimePicker}
+        onChange={handleDateChange}
       />
     </View>
   );
 };
 
-export default DateTimePickerWrapper;
+export const DateTimePickerWithLabel = styled(CustomDateTimePickerWithLabel);

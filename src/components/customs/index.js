@@ -14,4 +14,5 @@ export * from './SubHeaderBar';
 export * from './StatusIndicator';
 export * from './LocationTextInput';
 export * from './SingleSelector';
-export * from './DatetimeButton';
+export * from './DateTimeButton';
+export * from './DateTimePickerWithLabel';

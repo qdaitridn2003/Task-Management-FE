@@ -6,17 +6,7 @@ import { Icon } from './CustomIcon';
 import { View, Text, TextInput } from './TailwindComponent';
 import { TextInput as RNPaperTextInPut } from 'react-native-paper';
 
-const CustomDatetimeButton = ({
-  type,
-  value,
-  onChangeText,
-  error,
-  placeholder,
-  multiline,
-  keyboardType,
-  notEditable,
-  style,
-}) => {
+const CustomDateTimeButton = ({ type, value, onChangeText, error, notEditable, style }) => {
   const typeDataMap = {
     eventStart: {
       iconSource: require('../../assets/icons/EventStart.png'),
@@ -40,7 +30,7 @@ const CustomDatetimeButton = ({
       iconSource: require('../../assets/icons/Alarm.png'),
       text: 'Thời gian nhắc nhở',
       color: Color.secondary,
-      editable: true,
+      editable: false,
     },
     location: {
       iconSource: require('../../assets/icons/Location.png'),
@@ -53,7 +43,7 @@ const CustomDatetimeButton = ({
       iconSource: require('../../assets/icons/QuestionMark.png'),
       text: '',
       color: Color.primary,
-      editable: !notEditable,
+      editable: false,
     },
   };
 
@@ -85,7 +75,7 @@ const CustomDatetimeButton = ({
           editable={editable}
           placeholder={text}
           autoCapitalize="none"
-          value={value}
+          value={value ? value : ''}
           onChangeText={onChangeText}
         />
 
@@ -103,7 +93,7 @@ const CustomDatetimeButton = ({
   );
 };
 
-export const DatetimeButton = styled(CustomDatetimeButton);
+export const DateTimeButton = styled(CustomDateTimeButton);
 
 const styles = StyleSheet.create({
   textInputStyle: {

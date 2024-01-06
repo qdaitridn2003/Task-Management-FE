@@ -20,101 +20,166 @@ import {
   View,
   SingleSelector,
   Icon,
-  DatetimeButton,
+  DateTimeButton,
+  TextInputWithLabel,
+  DateTimePickerWithLabel,
 } from '../../components';
 import { Color, ScreenName } from '../../common';
 import { BackHandler, ToastAndroid, TextInput as BlankTextInput } from 'react-native';
 import DateTimePickerWrapper from '../../components/customs/DateTimePickerWrapper';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
-const RNTextInput = styled(BlankTextInput);
+/*
+  TO DO:
+  - Image picker
+  - Edit event
+  - Loading indicator
+*/
 
 const AddEventScreen = () => {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedClientId, setSelectedClientId] = useState(null);
-
-  useEffect(() => {
-    console.log('selectedClientId:', selectedClientId);
-  }, [selectedClientId]);
-
-  const handleEdit = () => {
-    console.log('Edit');
+  // FORM SUBMISSION
+  const initialValues = {
+    eventName: '',
+    eventDescription: '',
+    clientId: '',
+    eventStart: '',
+    eventEnd: '',
+    location: '',
+    image: '',
   };
 
-  const handleDelete = () => {
-    console.log('Delete');
-  };
+  const validationSchema = Yup.object().shape({
+    eventStart: Yup.date().required('Chưa chọn ngày bắt đầu'),
+    eventEnd: Yup.date().required('Chưa chọn ngày kết thúc'),
+    location: Yup.string(),
+    image: Yup.string(),
+    eventName: Yup.string().required('Tên sự kiện là bắt buộc'),
+    eventDescription: Yup.string(),
+    clientId: Yup.string(),
+  });
 
-  const handleDateChange = (selectedDate) => {
-    console.log('Selected Date:', selectedDate);
-    // Do something with the selected date
-  };
+  const onSubmit = ({ values }) => {
+    const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleSelectClient = (clientId) => {
-    setSelectedClientId(clientId);
-    console.log('Selected Client:', clientId);
+    setIsLoading(true);
+    console.log('Form submitted with values:', values);
+
+    /* 
+      >>> CALL API HERE <<<
+    */
+
+    // Simulate API call
+    setTimeout(() => {
+      console.log('Simulating API call...');
+      console.log('API response: Success');
+
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
     <ContainerView tw="px-0 ">
       <SubHeaderBar tw="px-5" title="Tạo sự kiện" onBackPress={() => navigation.goBack()} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <TextInput tw="px-5" label="Sự kiện" placeholder="Tên sự kiện" />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          setIsLoading(true);
+          console.log('Form submitted with values:', values);
 
-        <TextInput tw="px-5" label="Mô tả sự kiện" placeholder="Mô tả sự kiện nếu có" />
+          /* 
+              >>> CALL API HERE <<<
+              */
 
-        <SingleSelector tw="px-5" onSelectClient={handleSelectClient} />
+          // Simulate API call
+          setTimeout(() => {
+            console.log('Simulating API call...');
+            console.log('API response: Success');
 
-        <View tw="mb-4">
-          <Text tw="text-base font-bold ">Thời gian diễn ra</Text>
-        </View>
+            setIsLoading(false);
+          }, 1000);
+        }}>
+        {(props) => (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <TextInputWithLabel
+              tw="px-5"
+              label="Sự kiện"
+              placeholder="Tên sự kiện"
+              onChangeText={props.handleChange('eventName')}
+              onBlur={props.handleBlur('eventName')}
+              value={props.values.eventName}
+              error={props.touched.eventName && props.errors.eventName}
+            />
 
-        {/* Data Range Buttons */}
-        <View tw="flex-row flex-1">
-          {/* Event Start Button */}
-          <DateTimePickerWrapper onChange={handleDateChange} mode="date">
-            <DatetimeButton tw="pl-5 pr-0.5 flex-1" type="eventStart" />
-          </DateTimePickerWrapper>
-          {/* Middle Icon */}
-          <View tw="self-center mb-4">
-            <Icon source={require('../../assets/icons/KeyboardArrowRight.png')} />
-          </View>
-          {/* Event End Button */}
-          <DateTimePickerWrapper onChange={handleDateChange} mode="date">
-            <DatetimeButton tw="pr-5 pl-0.5 flex-1" type="eventEnd" />
-          </DateTimePickerWrapper>
-        </View>
+            <TextInputWithLabel
+              tw="px-5"
+              label="Mô tả sự kiện"
+              placeholder="Mô tả sự kiện nếu có"
+              onChangeText={props.handleChange('eventDescription')}
+              onBlur={props.handleBlur('eventDescription')}
+              value={props.values.eventDescription}
+              error={props.touched.eventDescription && props.errors.eventDescription}
+            />
 
-        <DatetimeButton tw="px-5" type="eventStart" value="Test Test Test Test" />
-        <DatetimeButton tw="px-5" type="event" value="Test Test Test Test" />
-        <DatetimeButton tw="px-5" type="alarm" />
+            {/* Select Client */}
+            <SingleSelector
+              tw="px-5"
+              onSelectClient={(clientId) => props.handleChange('clientId')(clientId)}
+            />
 
-        <DateTimePickerWrapper onChange={handleDateChange} mode="date">
-          <Text>Datetime picker</Text>
-        </DateTimePickerWrapper>
-        <DateTimePickerWrapper mode="date" onChange={handleDateChange}>
-          <Text>Datetime picker</Text>
-        </DateTimePickerWrapper>
-        <DateTimePickerWrapper mode="time" onChange={handleDateChange}>
-          <Text>Datetime picker</Text>
-        </DateTimePickerWrapper>
+            <View tw="mb-2 px-4">
+              <Text tw="text-base font-bold ">Thời gian diễn ra</Text>
+            </View>
+            {/* Data Range Buttons */}
+            <View tw="flex-row flex-1">
+              {/* Event Start Button */}
+              <DateTimePickerWithLabel
+                onChange={(date) => props.handleChange('eventStart')(date)}
+                type="eventStart"
+                mode="date"
+                buttonStyle={{ paddingRight: 0, marginRight: 2 }}
+              />
+              {/* Middle Icon */}
+              <View tw="self-center mb-4">
+                <Icon source={require('../../assets/icons/KeyboardArrowRight.png')} />
+              </View>
+              {/* Event End Button */}
+              <DateTimePickerWithLabel
+                onChange={(date) => props.handleChange('eventEnd')(date)}
+                type="eventEnd"
+                mode="date"
+                buttonStyle={{ paddingLeft: 0, marginLeft: 2 }}
+              />
+            </View>
 
-        <LocationTextInput tw="px-5" />
+            <LocationTextInput
+              tw="px-5"
+              onChangeText={props.handleChange('location')}
+              onBlur={props.handleBlur('location')}
+              value={props.values.location}
+            />
 
-        <LocationTextInput tw="px-5" value="Test Test Test Test" notEditable />
+            <View tw="mb-4">
+              <Text tw="text-base font-bold ">Hình ảnh</Text>
+            </View>
 
-        <View tw="mb-4">
-          <Text tw="text-base font-bold ">Hình ảnh</Text>
-        </View>
-
-        <Button
-          tw="px-5"
-          icon="right"
-          iconSource={require('../../assets/icons/ForwardArow.png')}
-          right>
-          Tạo sự kiện
-        </Button>
-      </ScrollView>
+            <Button
+              tw="px-5 mb-4"
+              icon="right"
+              loading={isLoading}
+              iconSource={require('../../assets/icons/ForwardArow.png')}
+              right
+              onPress={props.handleSubmit}>
+              Tạo sự kiện
+            </Button>
+          </ScrollView>
+        )}
+      </Formik>
     </ContainerView>
   );
 };

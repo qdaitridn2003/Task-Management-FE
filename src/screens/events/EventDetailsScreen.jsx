@@ -15,6 +15,7 @@ import {
   SubHeaderBar,
   Text,
   TextInput,
+  TextInputWithLabel,
   View,
 } from '../../components';
 import { Color, ScreenName } from '../../common';
@@ -53,18 +54,8 @@ const EventDetailsScreen = () => {
 
         <StatusIndicator status="" tw="mb-4" />
 
-        <TextInput label="Mô tả" notEditable />
-        <TextInput label="Khách hàng" notEditable />
-
-        <DateTimePickerWrapper onChange={handleDateChange}>
-          <Text>Your Custom Trigger Component</Text>
-        </DateTimePickerWrapper>
-        <DateTimePickerWrapper mode="date" onChange={handleDateChange}>
-          <Text>Your Custom Trigger Component</Text>
-        </DateTimePickerWrapper>
-        <DateTimePickerWrapper mode="time" onChange={handleDateChange}>
-          <Text>Your Custom Trigger Component</Text>
-        </DateTimePickerWrapper>
+        <TextInputWithLabel label="Mô tả" notEditable />
+        <TextInputWithLabel label="Khách hàng" notEditable />
       </ScrollView>
     </ContainerView>
   );

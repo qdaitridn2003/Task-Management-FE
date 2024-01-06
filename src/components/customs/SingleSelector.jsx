@@ -7,18 +7,18 @@ import { Color } from '../../common';
 import { Searchbar } from './Searchbar';
 
 const mockClientList = [
-  { id: 1, name: 'Nguyễn Văn A', avatar: 'https://picsum.photos/200' },
-  { id: 2, name: 'Nguyễn Văn B', avatar: 'https://picsum.photos/200' },
-  { id: 3, name: 'Nguyễn Văn C', avatar: 'https://picsum.photos/200' },
-  { id: 4, name: 'Nguyễn Văn D', avatar: 'https://picsum.photos/200' },
-  { id: 5, name: 'Nguyễn Văn E', avatar: 'https://picsum.photos/200' },
-  { id: 6, name: 'Nguyễn Văn F', avatar: 'https://picsum.photos/200' },
+  { id: '1', name: 'Nguyễn Văn A', avatar: 'https://picsum.photos/200' },
+  { id: '2', name: 'Nguyễn Văn B', avatar: 'https://picsum.photos/200' },
+  { id: '3', name: 'Nguyễn Văn C', avatar: 'https://picsum.photos/200' },
+  { id: '4', name: 'Nguyễn Văn D', avatar: 'https://picsum.photos/200' },
+  { id: '5', name: 'Nguyễn Văn E', avatar: 'https://picsum.photos/200' },
+  { id: '6', name: 'Nguyễn Văn F', avatar: 'https://picsum.photos/200' },
   // Add more clients as needed
 ];
 
 const mockSearchResults = [
-  { id: 7, name: 'Lê Thị G', avatar: 'https://picsum.photos/200' },
-  { id: 8, name: 'Lê Thị H', avatar: 'https://picsum.photos/200' },
+  { id: '7', name: 'Lê Thị G', avatar: 'https://picsum.photos/200' },
+  { id: '8', name: 'Lê Thị H', avatar: 'https://picsum.photos/200' },
   // Add more search results as needed
 ];
 
@@ -107,14 +107,13 @@ const CustomSingleSelector = ({ onSelectClient, style }) => {
             )}
 
             {/* Display selected client name or default text */}
-            {/* <View tw="flex-1 flex-row content-stretch justify-stretch"> */}
-            <Text tw="text-base flex-1">
+            <Text
+              tw="text-base flex-1"
+              style={{ color: selectedClient ? Color.neutral1 : Color.neutral2 }}>
               {selectedClient ? selectedClient.name : 'Chọn khách hàng'}
             </Text>
-            {/* </View> */}
 
             {/* Right Icon */}
-            {/* Assuming you have an icon component, replace 'YourRightIconComponent' with the actual component */}
             <View tw="ml-2 mr-4">
               <Icon source={require('../../assets/icons/Edit.png')} color={Color.neutral2} />
             </View>
@@ -138,7 +137,6 @@ const CustomSingleSelector = ({ onSelectClient, style }) => {
                   {loading && <PaperActivityIndicator size={40} />}
                   {/* Client List */}
                   {!loading && (
-                    // <View tw="elevation flex-1 rounded-2xl overflow-hidden p-4">
                     <FlatList
                       data={clientList}
                       keyExtractor={(item) => item.id.toString()}

@@ -15,6 +15,7 @@ const CustomTextInput = ({
   keyboardType,
   notEditable,
   style,
+  onBlur,
 }) => {
   return (
     <View tw="mb-4" style={style}>
@@ -42,6 +43,7 @@ const CustomTextInput = ({
           autoCapitalize="none"
           value={value}
           onChangeText={onChangeText}
+          onBlur={onBlur}
         />
 
         {error && (
