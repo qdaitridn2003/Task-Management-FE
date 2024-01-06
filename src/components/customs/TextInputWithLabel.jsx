@@ -3,8 +3,7 @@ import { styled } from 'nativewind';
 import { StyleSheet, TextInput as RNTextInput } from 'react-native';
 import { Color } from '../../common';
 import { Icon } from './CustomIcon';
-import { View, Text } from './TailwindComponent';
-import { TextInput as RNPaperTextInPut } from 'react-native-paper';
+import { View, Text, TouchableOpacity } from './TailwindComponent';
 
 const StyledRNTextInput = styled(RNTextInput);
 
@@ -27,14 +26,16 @@ const CustomTextInput = ({
   };
 
   return (
-    <View tw="mb-2" style={style}>
+    <View tw="mb-4" style={style}>
       {label && <Text tw="mb-2 text-base font-bold">{label}</Text>}
-      <View tw="mb-1   elevation overflow-hidden rounded-2xl">
+      <View
+        tw={
+          error
+            ? 'border-2 border-semanticRed mb-1 flex-row items-center elevation overflow-hidden rounded-2xl'
+            : 'mb-1 flex-row items-center elevation overflow-hidden rounded-2xl'
+        }>
         <StyledRNTextInput
-          style={[
-            styles.textInputStyle,
-            { borderWidth: error ? 2 : 0, borderColor: error ? Color.semanticRed : 'transparent' },
-          ]}
+          style={styles.textInputStyle}
           selectionColor={'rgba(100, 80, 255, 0.5)'}
           editable={!notEditable}
           multiline={multiline}
@@ -45,6 +46,18 @@ const CustomTextInput = ({
           onChangeText={onChangeText}
           secureTextEntry={isPasswordVisible}
         />
+        {secureTextEntry && (
+          <TouchableOpacity tw="mr-4" onPress={togglePasswordVisibility}>
+            <Icon
+              source={
+                isPasswordVisible
+                  ? require('../../assets/icons/Visibility.png')
+                  : require('../../assets/icons/VisibilityOff.png')
+              }
+              color={Color.neutral1}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {/* <RNPaperTextInPut
         editable={!notEditable}
@@ -87,6 +100,7 @@ export const TextInputWithLabel = styled(CustomTextInput);
 
 const styles = StyleSheet.create({
   textInputStyle: {
+    flex: 1,
     borderRadius: 16,
     height: 48,
     paddingHorizontal: 16,

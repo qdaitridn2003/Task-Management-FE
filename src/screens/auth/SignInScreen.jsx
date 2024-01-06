@@ -32,8 +32,6 @@ const SignInScreen = () => {
         <View tw="flex-1">
           <Text tw="self-center text-2xl font-semibold py-4">Đăng nhập</Text>
 
-          <TextInputWithLabel label="Email" placeholder="Địa chỉ email" value="abc" error="text" />
-
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={validationSchema}
@@ -75,9 +73,9 @@ const SignInScreen = () => {
                 />
 
                 <TouchableOpacity
-                  tw="pb-3"
+                  tw="pb-3 self-end"
                   onPress={() => navigation.navigate(ScreenName.forgotPassword)}>
-                  <Text tw="self-end py-1.5 font-medium text-base" style={{ color: Color.primary }}>
+                  <Text tw="py-1.5 font-medium text-base" style={{ color: Color.primary }}>
                     Quên mật khẩu?
                   </Text>
                 </TouchableOpacity>
