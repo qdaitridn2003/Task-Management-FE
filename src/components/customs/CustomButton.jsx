@@ -7,9 +7,19 @@ import { Color } from '../../common';
 import { Icon } from './CustomIcon';
 import { View } from './TailwindComponent';
 
-const CustomButton = ({ type, size, icon, iconSource, onPress, loading, children, ...props }) => {
+const CustomButton = ({
+  type,
+  size,
+  icon,
+  textColor,
+  iconSource,
+  onPress,
+  loading,
+  children,
+  style,
+}) => {
   return (
-    <View {...props}>
+    <View style={style}>
       <RNPaperButton
         style={[styles.containerStyle, { alignSelf: size === 'small' ? 'baseline' : 'stretch' }]}
         labelStyle={styles.labelStyle}
@@ -22,13 +32,13 @@ const CustomButton = ({ type, size, icon, iconSource, onPress, loading, children
         ]}
         mode="elevated"
         loading={loading}
-        textColor={type === 'secondary' ? Color.primary : Color.neutral4}
+        textColor={textColor ? textColor : type === 'secondary' ? Color.primary : Color.neutral4}
         buttonColor={type === 'secondary' ? Color.neutral4 : Color.primary}
         icon={() =>
           iconSource && (
             <Icon
               source={iconSource}
-              color={type === 'secondary' ? Color.primary : Color.neutral4}
+              color={textColor ? textColor : type === 'secondary' ? Color.primary : Color.neutral4}
             />
           )
         }
@@ -39,7 +49,7 @@ const CustomButton = ({ type, size, icon, iconSource, onPress, loading, children
   );
 };
 
-export const Button = styled(CustomButton);
+export const Button = styled(CustomButton, 'mb-4 mx-5');
 
 CustomButton.propTypes = {
   type: PropTypes.oneOf(['primary', 'secondary']),

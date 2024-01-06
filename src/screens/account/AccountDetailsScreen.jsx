@@ -45,7 +45,7 @@ const AccountDetailsScreen = () => {
   return (
     <ContainerView tw="px-0">
       <SubHeaderBar
-        tw="-mt-2 mx-5"
+        tw="-mb-2 mx-5"
         title={'Cá nhân'}
         backButton={false}
         onEditPress={handleOnEdit}

@@ -33,7 +33,7 @@ const CustomSingleSelector = ({ onSelectClient, style }) => {
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
 
-  const simulateApiCall = async () => {
+  const initialApiCall = async () => {
     setLoading(true);
     try {
       /*
@@ -54,7 +54,7 @@ const CustomSingleSelector = ({ onSelectClient, style }) => {
   useEffect(() => {
     console.log('useEffect ran!');
     if (modalVisible) {
-      simulateApiCall();
+      initialApiCall();
     }
   }, [modalVisible]);
 

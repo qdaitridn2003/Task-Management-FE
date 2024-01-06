@@ -93,8 +93,8 @@ const AddEventScreen = () => {
           console.log('Form submitted with values:', values);
 
           /* 
-              >>> CALL API HERE <<<
-              */
+            >>> CALL API HERE <<<
+          */
 
           // Simulate API call
           setTimeout(() => {
@@ -107,7 +107,6 @@ const AddEventScreen = () => {
         {(props) => (
           <ScrollView showsVerticalScrollIndicator={false}>
             <TextInputWithLabel
-              tw="px-5"
               label="Sự kiện"
               placeholder="Tên sự kiện"
               onChangeText={props.handleChange('eventName')}
@@ -117,7 +116,6 @@ const AddEventScreen = () => {
             />
 
             <TextInputWithLabel
-              tw="px-5"
               label="Mô tả sự kiện"
               placeholder="Mô tả sự kiện nếu có"
               onChangeText={props.handleChange('eventDescription')}

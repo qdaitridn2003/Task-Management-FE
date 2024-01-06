@@ -16,6 +16,11 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
+/* 
+  TO DO:
+  - OTP input
+*/
+
 const validationSchema = yup.object({
   email: yup.string().email('Email không hợp lệ').required('Nhập email để đăng ký'),
   password: yup.string().required('Nhập mật khẩu để đăng ký'),
@@ -90,13 +95,15 @@ const SignUpScreen = () => {
                 </Button>
 
                 {/* Seperator */}
-                <View tw="flex-row items-center pb-4">
+                <View tw="flex-row items-center pb-4 mx-5">
                   <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }}></View>
                   <Text tw="px-2 text-base" style={{ color: Color.neutral2 }}>
                     Hoặc
                   </Text>
                   <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }}></View>
                 </View>
+
+                <TextInputWithLabel label="OTP" placeholder="Nhập mã OTP" />
 
                 <Button
                   tw="mb-4"

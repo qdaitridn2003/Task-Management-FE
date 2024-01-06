@@ -23,23 +23,13 @@ const CustomFilterBar = ({ listTab, style }) => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterBar}>
         {listTab.map((tab, index) => (
           <Button
-            tw="mx-1.5 my-2"
+            tw="mx-1 my-2 px-0"
             size="small"
             key={index}
             onPress={() => setStatusFilter(tab.status)}
             type={status === tab.status ? 'primary' : 'secondary'}>
             {tab.status}
           </Button>
-          // <IconTextButton
-          //   isSmall
-          //   showShadow
-          //   key={index}
-          //   onPress={() => setStatusFilter(tab.status)}
-          //   label={tab.status}
-          //   textColor={status === tab.status ? Color.neutral4 : Color.neutral1}
-          //   buttonColor={status === tab.status ? Color.primary : Color.neutral4}
-          //   style={styles.button}
-          // />
         ))}
       </ScrollView>
     </View>

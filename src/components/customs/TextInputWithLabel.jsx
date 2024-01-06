@@ -96,7 +96,7 @@ const CustomTextInput = ({
   );
 };
 
-export const TextInputWithLabel = styled(CustomTextInput);
+export const TextInputWithLabel = styled(CustomTextInput, 'mx-5');
 
 const styles = StyleSheet.create({
   textInputStyle: {

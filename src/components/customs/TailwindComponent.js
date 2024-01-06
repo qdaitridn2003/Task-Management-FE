@@ -42,4 +42,4 @@ export const PaperActivityIndicator = styled(RNPaperActivityIndicator, 'flex-1')
 
 export const ColView = styled(RNView, 'flex-col');
 export const RowView = styled(RNView, 'flex-row');
-export const ContainerView = styled(SafeAreaView, 'flex-1 bg-white px-5 pt-4');
+export const ContainerView = styled(SafeAreaView, 'flex-1 bg-white pt-4');
