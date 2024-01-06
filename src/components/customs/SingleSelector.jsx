@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { styled } from 'nativewind';
 import { TouchableOpacity, StyleSheet, Modal, TouchableWithoutFeedback } from 'react-native';
 import { View, Text, Image, PaperActivityIndicator, FlatList } from './TailwindComponent';
 import { Icon } from './CustomIcon';
@@ -21,7 +22,8 @@ const mockSearchResults = [
   // Add more search results as needed
 ];
 
-const SingleSelector = ({ onSelectClient }) => {
+// SingleSelector
+const CustomSingleSelector = ({ onSelectClient, style }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [clientList, setClientList] = useState([]);
@@ -88,7 +90,7 @@ const SingleSelector = ({ onSelectClient }) => {
   };
 
   return (
-    <View tw="mb-4">
+    <View tw="mb-4" style={style}>
       <Text tw="text-base font-bold mb-2 ">Khách hàng</Text>
       <View tw="elevation rounded-2xl overflow-hidden h-12 justify-center">
         <TouchableOpacity onPress={openModal}>
@@ -164,7 +166,7 @@ const SingleSelector = ({ onSelectClient }) => {
   );
 };
 
-export default SingleSelector;
+export const SingleSelector = styled(CustomSingleSelector);
 
 const styles = StyleSheet.create({
   modalContainer: {

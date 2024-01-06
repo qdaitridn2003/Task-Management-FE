@@ -20,12 +20,24 @@ const CustomTextInput = ({
     <View tw="mb-4" style={style}>
       <Text tw="mb-2 text-base font-bold">Địa điểm</Text>
       <View tw="elevation overflow-hidden h-12 rounded-2xl flex-row items-center">
-        <View tw="h-12 w-12 bg-primary justify-center items-center">
-          <Icon source={require('../../assets/icons/Location.png')} color={Color.neutral4} />
+        <View
+          tw={
+            notEditable
+              ? 'ml-4 h-12 justify-center items-center'
+              : 'h-12 w-12 bg-primary justify-center items-center'
+          }>
+          <Icon
+            source={require('../../assets/icons/Location.png')}
+            color={notEditable ? Color.primary : Color.neutral4}
+          />
         </View>
 
-        <TextInput
-          tw="ml-2"
+        <RNPaperTextInPut
+          style={styles.textInputStyle}
+          contentStyle={styles.contentStyle}
+          underlineStyle={styles.underlineStyle}
+          placeholderTextColor={Color.neutral2}
+          editable={!notEditable}
           placeholder="Nhập địa điểm"
           autoCapitalize="none"
           value={value}
@@ -49,14 +61,15 @@ const CustomTextInput = ({
 export const LocationTextInput = styled(CustomTextInput);
 
 const styles = StyleSheet.create({
-  textInputStyle: {},
-  contentStyle: {
-    paddingHorizontal: 20,
-    backgroundColor: Color.neutral4,
-    borderRadius: 16,
-    height: 48,
+  textInputStyle: {
+    flex: 1,
   },
-  underlineStyle: {},
+  contentStyle: {
+    paddingLeft: 8,
+    backgroundColor: Color.neutral4,
+    height: '100%',
+  },
+  underlineStyle: { flex: 1 },
   outlineStyle: {
     height: 48,
     borderRadius: 16,

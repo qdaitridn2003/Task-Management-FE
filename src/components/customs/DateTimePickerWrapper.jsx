@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableHighlight, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { View } from './TailwindComponent';
+import { Pressable, View } from './TailwindComponent';
+import { Color } from '../../common';
 
 const DateTimePickerWrapper = ({ onChange, children, mode = 'datetime' }) => {
   const [showPicker, setShowPicker] = useState(false);
@@ -39,8 +40,14 @@ const DateTimePickerWrapper = ({ onChange, children, mode = 'datetime' }) => {
   };
 
   return (
-    <View>
-      <TouchableOpacity onPress={showDateTimePicker}>{children}</TouchableOpacity>
+    <View style={{ flex: 1 }}>
+      <Pressable
+        android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', borderless: false }}
+        underlayColor={Color.primary}
+        style={{ zIndex: 10 }}
+        onPress={showDateTimePicker}>
+        {children}
+      </Pressable>
 
       <DateTimePickerModal
         isVisible={showPicker}

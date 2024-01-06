@@ -1,7 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { Button, ContainerView, Text, TextInput, TouchableOpacity, View } from '../../components';
+import {
+  Button,
+  ContainerView,
+  Text,
+  TextInputWithLabel,
+  TouchableOpacity,
+  View,
+} from '../../components';
 import { AuthContext } from '../../contexts';
 import { Color, ScreenName } from '../../common';
 
@@ -25,6 +32,8 @@ const SignInScreen = () => {
         <View tw="flex-1">
           <Text tw="self-center text-2xl font-semibold py-4">Đăng nhập</Text>
 
+          <TextInputWithLabel label="Email" placeholder="Địa chỉ email" value="abc" error="text" />
+
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={validationSchema}
@@ -47,7 +56,7 @@ const SignInScreen = () => {
             }}>
             {(props) => (
               <View>
-                <TextInput
+                <TextInputWithLabel
                   label="Email"
                   placeholder="Địa chỉ email"
                   onChangeText={props.handleChange('email')}
@@ -55,7 +64,7 @@ const SignInScreen = () => {
                   value={props.values.email}
                   error={props.touched.email && props.errors.email}
                 />
-                <TextInput
+                <TextInputWithLabel
                   label="Mật khẩu"
                   placeholder="Mật khẩu"
                   secureTextEntry

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { styled } from 'nativewind';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextInput as RNTextInput } from 'react-native';
 import { Color } from '../../common';
 import { Icon } from './CustomIcon';
 import { View, Text } from './TailwindComponent';
 import { TextInput as RNPaperTextInPut } from 'react-native-paper';
 
-export const CustomTextInput = ({
+const StyledRNTextInput = styled(RNTextInput);
+
+const CustomTextInput = ({
   label,
   value,
   onChangeText,
@@ -27,7 +29,24 @@ export const CustomTextInput = ({
   return (
     <View tw="mb-2" style={style}>
       {label && <Text tw="mb-2 text-base font-bold">{label}</Text>}
-      <RNPaperTextInPut
+      <View tw="mb-1   elevation overflow-hidden rounded-2xl">
+        <StyledRNTextInput
+          style={[
+            styles.textInputStyle,
+            { borderWidth: error ? 2 : 0, borderColor: error ? Color.semanticRed : 'transparent' },
+          ]}
+          selectionColor={'rgba(100, 80, 255, 0.5)'}
+          editable={!notEditable}
+          multiline={multiline}
+          keyboardType={keyboardType}
+          placeholder={placeholder}
+          autoCapitalize="none"
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={isPasswordVisible}
+        />
+      </View>
+      {/* <RNPaperTextInPut
         editable={!notEditable}
         multiline={multiline}
         keyboardType={keyboardType}
@@ -53,7 +72,7 @@ export const CustomTextInput = ({
             />
           )
         }
-      />
+      /> */}
       {error && (
         <View tw="flex-row items-center">
           <Icon source={require('../../assets/icons/ErrorOutline.png')} color={Color.semanticRed} />
@@ -64,18 +83,27 @@ export const CustomTextInput = ({
   );
 };
 
-// export const TextInput = styled(CustomTextInput);
+export const TextInputWithLabel = styled(CustomTextInput);
 
 const styles = StyleSheet.create({
-  textInputStyle: {},
-  contentStyle: {
-    paddingHorizontal: 20,
-    backgroundColor: Color.neutral4,
+  textInputStyle: {
     borderRadius: 16,
     height: 48,
+    paddingHorizontal: 16,
+    fontSize: 16,
   },
-  underlineStyle: {},
+  contentStyle: {
+    paddingHorizontal: 20,
+    backgroundColor: 'transparent',
+    borderRadius: 16,
+    height: 48,
+    marginBottom: 8,
+  },
+  underlineStyle: {
+    backgroundColor: 'transparent',
+  },
   outlineStyle: {
+    backgroundColor: Color.neutral4,
     height: 48,
     borderRadius: 16,
     elevation: 3,

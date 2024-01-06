@@ -1,5 +1,5 @@
 import { styled } from 'nativewind';
-import { CustomTextInput } from './TextInput';
+import { CustomTextInput } from './TextInputWithLabel';
 
 export * from './TailwindComponent';
 export * from './CustomIcon';
@@ -9,8 +9,9 @@ export * from './IconButton';
 export * from './CustomAppBar';
 export * from './Searchbar';
 export * from './FilterBar';
-export * from './TextInput';
+export * from './TextInputWithLabel';
 export * from './SubHeaderBar';
 export * from './StatusIndicator';
 export * from './LocationTextInput';
-export const TextInput = styled(CustomTextInput);
+export * from './SingleSelector';
+export * from './DatetimeButton';

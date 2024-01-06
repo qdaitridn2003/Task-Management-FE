@@ -6,12 +6,11 @@ import {
   Image,
   SubHeaderBar,
   Text,
-  TextInput,
-  TouchableOpacity,
+  TextInputWithLabel,
   View,
 } from '../../components';
 
-import { Color, ScreenName } from '../../common';
+import { Color } from '../../common';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -53,7 +52,7 @@ const ForgotPasswordScreen = () => {
             }}>
             {(props) => (
               <View>
-                <TextInput
+                <TextInputWithLabel
                   placeholder="Địa chỉ email"
                   onChangeText={props.handleChange('email')}
                   onBlur={props.handleBlur('email')}
