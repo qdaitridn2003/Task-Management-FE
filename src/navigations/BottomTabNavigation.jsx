@@ -8,7 +8,7 @@ import { DemoScreen, InquiryScreen, ManagementScreen, TestScreen, TrialScreen } 
 
 import { AccountStack, EventsStack, ManagementStack, TasksStack } from './StackNavigations';
 import { Icon, View } from '../components';
-import NotificationScreen from '../screens/notification/NotificationScreen';
+import NotificationsScreen from '../screens/notification/NotificationsScreen';
 import { CustomModalScreen } from '../components/customs/CustomModalScreen';
 
 const BottomTabNavigation = () => {
@@ -59,7 +59,7 @@ const BottomTabNavigation = () => {
 
         <BottomTab.Screen
           name={ScreenName.notification}
-          component={NotificationScreen}
+          component={NotificationsScreen}
           options={{
             tabBarLabelStyle: tabBarLabelStyle,
             tabBarIcon: ({ color }) => (

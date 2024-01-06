@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   AppBar,
@@ -12,10 +12,13 @@ import {
   LocationTextInput,
   ScrollView,
   View,
+  MainHeaderBar,
+  SingleSelector,
 } from '../../components';
 import { Color } from '../../common';
 
 const DemoScreen = () => {
+  const [selectedClientId, setSelectedClientId] = useState(null);
   const handleDateChange = (selectedDate) => {
     console.log('Selected Date:', selectedDate);
   };
@@ -32,7 +35,8 @@ const DemoScreen = () => {
 
   return (
     <ContainerView>
-      <AppBar />
+      {/* <AppBar /> */}
+      <MainHeaderBar />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View tw="flex-row p-4 justify-between">
           <IconButton iconSource={require('../../assets/icons/Plus.png')} />

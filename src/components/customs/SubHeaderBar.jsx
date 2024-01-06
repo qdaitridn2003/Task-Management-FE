@@ -7,14 +7,23 @@ import { Color } from '../../common';
 import { TouchableOpacity } from './TailwindComponent';
 import { Icon } from './CustomIcon';
 
-const CustomSubHeaderBar = ({ onBackPress, title, onDeletePress, onEditPress, style }) => {
+const CustomSubHeaderBar = ({
+  backButton = true,
+  onBackPress,
+  title,
+  onDeletePress,
+  onEditPress,
+  style,
+}) => {
   return (
     <View style={style}>
-      <View style={styles.container}>
+      <View tw={backButton ? 'justify-between' : 'justify-end'} style={styles.container}>
         {/* Back Button */}
-        <TouchableOpacity onPress={onBackPress}>
-          <Icon source={require('../../assets/icons/Back.png')} />
-        </TouchableOpacity>
+        {backButton && (
+          <TouchableOpacity onPress={onBackPress}>
+            <Icon source={require('../../assets/icons/Back.png')} />
+          </TouchableOpacity>
+        )}
 
         {/* Title (optional) */}
         {title && <Text style={styles.title}>{title}</Text>}
@@ -48,8 +57,8 @@ export const SubHeaderBar = styled(CustomSubHeaderBar, 'pb-4');
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    minHeight: 40,
   },
   title: {
     fontSize: 18,

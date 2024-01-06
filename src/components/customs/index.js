@@ -16,3 +16,4 @@ export * from './LocationTextInput';
 export * from './SingleSelector';
 export * from './DateTimeButton';
 export * from './DateTimePickerWithLabel';
+export * from './MainHeaderBar';
