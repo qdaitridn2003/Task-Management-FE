@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
 import * as yup from 'yup';
 
-import { Color, ScreenName, authIdKey } from '../../common';
+import { Color, ScreenName, accessTokenKey, authIdKey } from '../../common';
 import {
   Button,
   ContainerView,
@@ -51,6 +51,7 @@ const SignInScreen = () => {
                   ToastAndroid.show('Mật khẩu không đúng', ToastAndroid.SHORT);
                 } else {
                   if (response) {
+                    await AsyncStorage.setItem(accessTokenKey, response.accessToken);
                     setIsLogin(true);
                   } else {
                     await AsyncStorage.setItem(authIdKey, response.data.auth_id);
