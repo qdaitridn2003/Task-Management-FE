@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
 import { styled } from 'nativewind';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Color } from '../../common';
+import { TextInput as RNPaperTextInPut } from 'react-native-paper';
+
 import { Icon } from './CustomIcon';
 import { View, Text, TextInput } from './TailwindComponent';
-import { TextInput as RNPaperTextInPut } from 'react-native-paper';
+import { Color } from '../../common';
 
 const CustomDateTimeButton = ({ type, value, onChangeText, error, notEditable, style }) => {
   const typeDataMap = {

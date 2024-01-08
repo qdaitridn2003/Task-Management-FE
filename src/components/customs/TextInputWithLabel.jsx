@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import { styled } from 'nativewind';
+import React, { useState } from 'react';
 import { StyleSheet, TextInput as RNTextInput } from 'react-native';
-import { Color } from '../../common';
+
 import { Icon } from './CustomIcon';
 import { View, Text, TouchableOpacity } from './TailwindComponent';
+import { Color } from '../../common';
 
 const StyledRNTextInput = styled(RNTextInput);
 
@@ -36,7 +37,7 @@ const CustomTextInput = ({
         }>
         <StyledRNTextInput
           style={styles.textInputStyle}
-          selectionColor={'rgba(100, 80, 255, 0.5)'}
+          selectionColor="rgba(100, 80, 255, 0.5)"
           editable={!notEditable}
           multiline={multiline}
           keyboardType={keyboardType}
@@ -59,33 +60,6 @@ const CustomTextInput = ({
           </TouchableOpacity>
         )}
       </View>
-      {/* <RNPaperTextInPut
-        editable={!notEditable}
-        multiline={multiline}
-        keyboardType={keyboardType}
-        style={styles.textInputStyle}
-        placeholderTextColor={Color.neutral2}
-        placeholder={placeholder}
-        contentStyle={styles.contentStyle}
-        underlineStyle={styles.underlineStyle}
-        outlineStyle={styles.outlineStyle}
-        outlineColor={error ? Color.semanticRed : 'transparent'}
-        autoCapitalize="none"
-        label=""
-        mode="outlined"
-        value={value}
-        onChangeText={onChangeText}
-        secureTextEntry={isPasswordVisible}
-        right={
-          secureTextEntry && (
-            <RNPaperTextInPut.Icon
-              icon={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
-              color={Color.neutral1}
-              onPress={togglePasswordVisibility}
-            />
-          )
-        }
-      /> */}
       {error && (
         <View tw="flex-row items-center">
           <Icon source={require('../../assets/icons/ErrorOutline.png')} color={Color.semanticRed} />

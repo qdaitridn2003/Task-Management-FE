@@ -5,8 +5,8 @@ import HomeNavigation from './HomeNavigation';
 import { AuthContext } from '../contexts';
 
 const AppNavigation = () => {
-    const { isLogin } = useContext(AuthContext);
-    return isLogin ? <HomeNavigation /> : <AuthNavigation />;
+  const { isLogin } = useContext(AuthContext);
+  return isLogin ? <HomeNavigation /> : <AuthNavigation />;
 };
 
 export default AppNavigation;
