@@ -89,6 +89,16 @@ const SignUpScreen = () => {
                   error={props.touched.confirmPassword && props.errors.confirmPassword}
                 />
 
+                <View tw="flex flex-row">
+                  <TextInputWithLabel label="OTP" placeholder="Nhập mã OTP" tw="w-8/12 mr-0" />
+                  <Button
+                    type="secondary"
+                    tw="flex justify-end mb-5 ml-1"
+                    onPress={() => console.log('Gửi mã')}>
+                    Gủi mã
+                  </Button>
+                </View>
+
                 <Button tw="mb-4" onPress={props.handleSubmit} loading={isLoading}>
                   Đăng ký
                 </Button>
@@ -101,9 +111,6 @@ const SignUpScreen = () => {
                   </Text>
                   <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
                 </View>
-
-                <TextInputWithLabel label="OTP" placeholder="Nhập mã OTP" />
-
                 <Button
                   tw="mb-4"
                   type="secondary"
