@@ -29,4 +29,9 @@ export const ScreenName = {
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
+
+  client: 'client',
+  clientList: 'client-list',
+  clientDetails: 'client-details',
+  addClient: 'add-client',
 };

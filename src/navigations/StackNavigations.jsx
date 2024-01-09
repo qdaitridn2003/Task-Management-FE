@@ -14,6 +14,7 @@ import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
 import EditAccountScreen from '../screens/account/EditAccountScreen';
 import { ManagementButtonModal } from '../components';
 import { ManagementScreen } from '../screens/management';
+import { AddClientScreen, ClientDetailsScreen, ClientScreen } from '../screens/client';
 
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
@@ -54,6 +55,21 @@ export const AccountStack = () => {
   );
 };
 
+export const ClientStack = () => {
+  const ClientStack = createNativeStackNavigator();
+  return (
+    <ClientStack.Navigator
+      initialRouteName={ScreenName.clientList}
+      screenOptions={{ headerShown: false }}>
+      <ClientStack.Screen name={ScreenName.clientList} component={ClientScreen} />
+      <ClientStack.Screen name={ScreenName.clientDetails} component={ClientDetailsScreen} />
+      <ClientStack.Screen name={ScreenName.addClient} component={AddClientScreen} />
+    </ClientStack.Navigator>
+  );
+};
+
+
+
 export const ManagementStack = () => {
   const ManagementStack = createNativeStackNavigator();
   return (
@@ -63,6 +79,7 @@ export const ManagementStack = () => {
       <ManagementStack.Screen name={ScreenName.managementMenu} component={ManagementScreen} />
       <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
       <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
+      <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
     </ManagementStack.Navigator>
   );
 };
