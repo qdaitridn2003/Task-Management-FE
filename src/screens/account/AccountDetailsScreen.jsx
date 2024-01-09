@@ -1,19 +1,20 @@
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
+
+import { Color, accessTokenKey } from '../../common';
 import {
   ContainerView,
-  FilterBar,
   Icon,
-  IconButton,
   Image,
-  Pressable,
   ScrollView,
-  Searchbar,
   SubHeaderBar,
   Text,
   TouchableOpacity,
   View,
 } from '../../components';
-import { Color } from '../../common';
+import { axiosAuthGet } from '../../configs';
 
 const TextRow = ({ label, value }) => {
   let textColor = '';
@@ -28,9 +29,9 @@ const TextRow = ({ label, value }) => {
   }
 
   return (
-    <View tw="mb-2 flex-row self-start">
+    <View tw="mb-2 flex-row self-start justify-center">
       <View tw="items-end mr-6 min-w-[95px]">
-        <Text tw={`color-neutral2 text-base text-neutral2`}>{label}</Text>
+        <Text tw="color-neutral2 text-base text-neutral2">{label}</Text>
       </View>
       <Text tw={`flex-1 text-base ${textColor}`}>{displayText}</Text>
     </View>
@@ -38,32 +39,72 @@ const TextRow = ({ label, value }) => {
 };
 
 const AccountDetailsScreen = () => {
+  const navigation = useNavigation();
+  const [permissions, setPermissions] = useState();
+  const [image, setImage] = useState(null);
+  const [data, setData] = useState({});
+  const [checkData, setCheckData] = useState({});
+  const [isModalIndicator, setIsModalIndicator] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 0);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [checkData]);
+
+  const fetchData = async () => {
+    const accessToken = await AsyncStorage.getItem(accessTokenKey);
+    const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
+    if (respone) {
+      setIsModalIndicator(false);
+    }
+
+    if (checkData !== respone) {
+      setCheckData(respone);
+      const employee = respone.employee;
+      const date = format(new Date(employee.birthday), 'dd/MM/yyyy');
+      const gender = employee.gender === 'male' ? 'Nam' : 'Nữ';
+      setData({
+        name: employee.name,
+        role: employee.auth.role.name,
+        birthDay: date,
+        gender,
+        phone: employee.phone,
+        address: employee.address,
+        email: employee.email,
+        avatar: employee.avatar,
+      });
+    }
+  };
+
   const handleOnEdit = () => {
     console.log('handleOnEdit');
   };
 
   return (
     <ContainerView tw="px-0">
-      <SubHeaderBar
-        tw="-mb-2 mx-5"
-        title={'Cá nhân'}
-        backButton={false}
-        onEditPress={handleOnEdit}
-      />
+      <SubHeaderBar tw="-mb-2 mx-5" title="Cá nhân" backButton={false} onEditPress={handleOnEdit} />
 
       <ScrollView>
         <View tw="p-5 mt-2 mb-4 mx-5 rounded-2xl elevation items-center">
-          <Image tw="mb-3.5 h-32 w-32 rounded-full" source={{ uri: 'https://picsum.photos/700' }} />
+          <Image
+            tw="mb-3.5 h-32 w-32 rounded-full"
+            source={data.avatar ? { uri: data.avatar } : { uri: 'https://picsum.photos/700' }}
+          />
 
-          <Text tw="mb-3.5 text-2xl font-bold">Họ Và Tên</Text>
+          <Text tw="mb-3.5 text-primary text-2xl font-bold">{data.name}</Text>
 
-          <Text tw="mb-3.5 text-lg font-bold">Chức vụ</Text>
+          <Text tw="mb-3.5 text-primary text-lg font-bold">{data.role}</Text>
 
-          <TextRow label="Ngày sinh" value="28/06/2001" />
-          <TextRow label="Giới tính" value="Nam" />
-          <TextRow label="Số điện thoại" value="0905123456" />
-          <TextRow label="Email" value="email@gmail.com" />
-          <TextRow label="Địa chỉ" value="123 Trần Cao Vân" />
+          <TextRow label="Ngày sinh" value={data.birthDay} />
+          <TextRow label="Giới tính" value={data.gender} />
+          <TextRow label="Số điện thoại" value={data.phone} />
+          <TextRow label="Email" value={data.email} />
+          <TextRow label="Địa chỉ" value={data.address} />
           <TextRow label="Tài khoản" value="active" />
         </View>
         <View tw="pb-4">

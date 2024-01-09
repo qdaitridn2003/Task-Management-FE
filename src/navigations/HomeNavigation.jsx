@@ -4,7 +4,6 @@ import React from 'react';
 
 import BottomTabNavigation from './BottomTabNavigation';
 import { ScreenName } from '../common';
-import { ContainerView } from '../components';
 
 const HomeNavigation = () => {
   const HomeStack = createNativeStackNavigator();
@@ -13,7 +12,13 @@ const HomeNavigation = () => {
       <HomeStack.Navigator
         initialRouteName={ScreenName.bottomTab}
         screenOptions={{ headerShown: false }}>
-        <HomeStack.Screen name={ScreenName.bottomTab} component={BottomTabNavigation} />
+        <HomeStack.Screen
+          name={ScreenName.bottomTab}
+          component={BottomTabNavigation}
+          options={({ route }) => ({
+            tabBarVisible: route.state && route.state.index === 0, // Ẩn thanh tab khi không ở trang chính
+          })}
+        />
       </HomeStack.Navigator>
     </NavigationContainer>
   );

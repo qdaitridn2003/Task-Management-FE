@@ -1,6 +1,10 @@
-import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { Formik } from 'formik';
+import React, { useContext, useState } from 'react';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import * as yup from 'yup';
 
+import { Color, ScreenName } from '../../common';
 import {
   Button,
   ContainerView,
@@ -10,11 +14,6 @@ import {
   View,
 } from '../../components';
 import { AuthContext } from '../../contexts';
-import { Color, ScreenName } from '../../common';
-
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 /* 
   TO DO:
@@ -96,11 +95,11 @@ const SignUpScreen = () => {
 
                 {/* Seperator */}
                 <View tw="flex-row items-center pb-4 mx-5">
-                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }}></View>
+                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
                   <Text tw="px-2 text-base" style={{ color: Color.neutral2 }}>
                     Hoặc
                   </Text>
-                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }}></View>
+                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
                 </View>
 
                 <TextInputWithLabel label="OTP" placeholder="Nhập mã OTP" />

@@ -1,6 +1,11 @@
-import React, { useContext, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { Formik } from 'formik';
+import React, { useContext, useState } from 'react';
+import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
+import * as yup from 'yup';
 
+import { Color, ScreenName, accessTokenKey, authIdKey } from '../../common';
 import {
   Button,
   ContainerView,
@@ -9,17 +14,8 @@ import {
   TouchableOpacity,
   View,
 } from '../../components';
+import { axiosPost } from '../../configs';
 import { AuthContext } from '../../contexts';
-import { Color, ScreenName } from '../../common';
-
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
-
-const validationSchema = yup.object({
-  email: yup.string().email('Email không hợp lệ').required('Nhập email để đăng nhập'),
-  password: yup.string().required('Nhập mật khẩu để đăng nhập'),
-});
 
 const SignInScreen = () => {
   const navigation = useNavigation();
@@ -34,23 +30,39 @@ const SignInScreen = () => {
 
           <Formik
             initialValues={{ email: '', password: '' }}
-            validationSchema={validationSchema}
-            onSubmit={(values) => {
+            validationSchema={yup.object({
+              email: yup.string().email('Email không hợp lệ').required('Nhập email để đăng nhập'),
+              password: yup.string().required('Nhập mật khẩu để đăng nhập'),
+            })}
+            onSubmit={async (values) => {
               setIsLoading(true);
-              console.log('Form submitted with values:', values);
 
-              /* 
-              >>> CALL API HERE <<<
-              */
+              try {
+                // Call your API here
+                const response = await axiosPost('/auth/sign-in', {
+                  username: values.email,
+                  password: values.password,
+                });
 
-              // Simulate API call
-              setTimeout(() => {
-                console.log('Simulating API call...');
-                console.log('API response: Success');
+                console.log('API response:', response);
+                if (response.message === 'Tài khoản không tồn tại') {
+                  ToastAndroid.show('Email không hợp lệ', ToastAndroid.SHORT);
+                } else if (response.message === 'Mật khẩu không đúng') {
+                  ToastAndroid.show('Mật khẩu không đúng', ToastAndroid.SHORT);
+                } else {
+                  if (response) {
+                    await AsyncStorage.setItem(accessTokenKey, response.accessToken);
+                    setIsLogin(true);
+                  } else {
+                    await AsyncStorage.setItem(authIdKey, response.data.auth_id);
+                    navigation.navigate('AddEmployee', { email: values.email });
+                  }
+                }
+              } catch (error) {
+                console.log('API error:', error);
+              }
 
-                setIsLogin(true);
-                setIsLoading(false);
-              }, 1000);
+              setIsLoading(false);
             }}>
             {(props) => (
               <View>
@@ -86,11 +98,11 @@ const SignInScreen = () => {
 
                 {/* Seperator */}
                 <View tw="flex-row items-center pb-4">
-                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }}></View>
+                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
                   <Text tw="px-2 text-base" style={{ color: Color.neutral2 }}>
                     Hoặc
                   </Text>
-                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }}></View>
+                  <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
                 </View>
 
                 <Button

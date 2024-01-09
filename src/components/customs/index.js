@@ -1,6 +1,3 @@
-import { styled } from 'nativewind';
-import { CustomTextInput } from './TextInputWithLabel';
-
 export * from './TailwindComponent';
 export * from './CustomIcon';
 export * from './CustomButton';

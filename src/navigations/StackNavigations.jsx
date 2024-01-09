@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+
 import { ScreenName } from '../common';
 import {
   AddEventScreen,
@@ -12,7 +13,6 @@ import {
 } from '../screens';
 import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
 import EditAccountScreen from '../screens/account/EditAccountScreen';
-import { ManagementButtonModal } from '../components';
 import { ManagementScreen } from '../screens/management';
 import { AddClientScreen, ClientDetailsScreen, ClientScreen } from '../screens/client';
 
