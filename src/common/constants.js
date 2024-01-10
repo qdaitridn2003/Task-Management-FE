@@ -34,13 +34,9 @@ export const ScreenName = {
   managementMenu: 'management-menu',
 
   employee: 'Nhân viên',
+  addEmployee: 'add-employee',
 
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
-
-  client: 'client',
-  clientList: 'client-list',
-  clientDetails: 'client-details',
-  addClient: 'add-client',
 };

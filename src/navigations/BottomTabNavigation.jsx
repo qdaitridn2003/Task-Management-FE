@@ -16,68 +16,66 @@ const BottomTabNavigation = () => {
   };
 
   return (
-    <>
-      <BottomTab.Navigator
-        initialRouteName={ScreenName.demo}
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: { height: 64 },
-          tabBarActiveTintColor: Color.primary,
-          tabBarInactiveTintColor: Color.neutral2,
-        }}>
-        <BottomTab.Screen
-          name={ScreenName.events}
-          component={EventsStack}
-          options={{
-            tabBarLabelStyle,
-            tabBarIcon: ({ color }) => (
-              <View tw="pt-2">
-                <Icon source={require('../assets/icons/Event.png')} color={color} />
-              </View>
-            ),
-          }}
-        />
+    <BottomTab.Navigator
+      initialRouteName={ScreenName.demo}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { height: 64 },
+        tabBarActiveTintColor: Color.primary,
+        tabBarInactiveTintColor: Color.neutral2,
+      }}>
+      <BottomTab.Screen
+        name={ScreenName.events}
+        component={EventsStack}
+        options={{
+          tabBarLabelStyle,
+          tabBarIcon: ({ color }) => (
+            <View tw="pt-2">
+              <Icon source={require('../assets/icons/Event.png')} color={color} />
+            </View>
+          ),
+        }}
+      />
 
-        <BottomTab.Screen
-          name={ScreenName.tasks}
-          component={TasksStack}
-          options={{
-            tabBarLabelStyle,
-            tabBarIcon: ({ color }) => (
-              <View tw="pt-2">
-                <Icon source={require('../assets/icons/Task.png')} color={color} />
-              </View>
-            ),
-          }}
-        />
+      <BottomTab.Screen
+        name={ScreenName.tasks}
+        component={TasksStack}
+        options={{
+          tabBarLabelStyle,
+          tabBarIcon: ({ color }) => (
+            <View tw="pt-2">
+              <Icon source={require('../assets/icons/Task.png')} color={color} />
+            </View>
+          ),
+        }}
+      />
 
-        <BottomTab.Screen
-          name={ScreenName.notification}
-          component={NotificationsScreen}
-          options={{
-            tabBarLabelStyle,
-            tabBarIcon: ({ color }) => (
-              <View tw="pt-2">
-                <Icon source={require('../assets/icons/NotificationsOutline.png')} color={color} />
-              </View>
-            ),
-          }}
-        />
+      <BottomTab.Screen
+        name={ScreenName.notification}
+        component={NotificationsScreen}
+        options={{
+          tabBarLabelStyle,
+          tabBarIcon: ({ color }) => (
+            <View tw="pt-2">
+              <Icon source={require('../assets/icons/NotificationsOutline.png')} color={color} />
+            </View>
+          ),
+        }}
+      />
 
-        <BottomTab.Screen
-          name={ScreenName.management}
-          component={ManagementStack}
-          options={{
-            tabBarLabelStyle,
-            tabBarIcon: ({ color }) => (
-              <View tw="pt-2">
-                <Icon source={require('../assets/icons/Manager.png')} color={color} />
-              </View>
-            ),
-          }}
-        />
-      </BottomTab.Navigator>
-    </>
+      <BottomTab.Screen
+        name={ScreenName.management}
+        component={ManagementStack}
+        options={{
+          tabBarLabelStyle,
+          tabBarIcon: ({ color }) => (
+            <View tw="pt-2">
+              <Icon source={require('../assets/icons/Manager.png')} color={color} />
+            </View>
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
   );
 };
 

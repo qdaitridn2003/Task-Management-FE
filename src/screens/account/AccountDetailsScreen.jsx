@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
-import { Color, accessTokenKey } from '../../common';
+import { Color, ScreenName, accessTokenKey } from '../../common';
 import {
   ContainerView,
   Icon,
@@ -40,8 +40,6 @@ const TextRow = ({ label, value }) => {
 
 const AccountDetailsScreen = () => {
   const navigation = useNavigation();
-  const [permissions, setPermissions] = useState();
-  const [image, setImage] = useState(null);
   const [data, setData] = useState({});
   const [checkData, setCheckData] = useState({});
   const [isModalIndicator, setIsModalIndicator] = useState(true);
@@ -82,7 +80,7 @@ const AccountDetailsScreen = () => {
   };
 
   const handleOnEdit = () => {
-    console.log('handleOnEdit');
+    navigation.navigate(ScreenName.editAccount);
   };
 
   return (

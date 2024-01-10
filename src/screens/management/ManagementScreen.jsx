@@ -60,9 +60,6 @@ const ManagementScreen = () => {
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.account)}>
         Cá nhân
       </Button>
-      <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.client)}>
-        Quản lý khách hàng
-      </Button>
 
       <Button tw="mb-4" type="secondary">
         Nhân viên

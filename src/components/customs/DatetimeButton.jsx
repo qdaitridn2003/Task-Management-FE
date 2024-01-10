@@ -39,12 +39,6 @@ const CustomDateTimeButton = ({ type, value, onChangeText, error, notEditable, s
       color: Color.primary,
       editable: true,
     },
-    birthday: {
-      iconSource: require('../../assets/icons/Cake.png'),
-      text: 'Ngày sinh',
-      color: Color.primary,
-      editable: false,
-    },
 
     default: {
       iconSource: require('../../assets/icons/QuestionMark.png'),

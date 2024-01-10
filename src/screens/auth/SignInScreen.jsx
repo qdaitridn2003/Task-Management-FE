@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
 import * as yup from 'yup';
 
-import { Color, ScreenName, accessTokenKey, authIdKey } from '../../common';
+import { Color, ScreenName, accessTokenKey } from '../../common';
 import {
   Button,
   ContainerView,
@@ -50,12 +50,14 @@ const SignInScreen = () => {
                 } else if (response.message === 'Mật khẩu không đúng') {
                   ToastAndroid.show('Mật khẩu không đúng', ToastAndroid.SHORT);
                 } else {
-                  if (response) {
+                  if (response && response.authId && response.username) {
+                    await AsyncStorage.setItem(accessTokenKey, response.accessToken);
+                    // await AsyncStorage.setItem(authIdKey, response.data.authId);
+                    navigation.navigate(ScreenName.addEmployee);
+                    // navigation.navigate('AddEmployee', { email: values.email });
+                  } else if (response) {
                     await AsyncStorage.setItem(accessTokenKey, response.accessToken);
                     setIsLogin(true);
-                  } else {
-                    await AsyncStorage.setItem(authIdKey, response.data.auth_id);
-                    navigation.navigate('AddEmployee', { email: values.email });
                   }
                 }
               } catch (error) {

@@ -62,19 +62,21 @@ export const axiosDel = async (path, query, config) => {
   }
 };
 
-export const axiosAuthGet = async (path, query, token, configs) => {
+export const axiosAuthGet = async (path, accessToken, query, config) => {
   try {
     const result = await axiosInstance.get(path, {
+      headers: { Authorization: `Bearer ${accessToken}` },
       params: query,
-      headers: { Authorization: `Bearer ${token}` },
-      ...configs,
+      ...config,
     });
-    return result.data;
+    return result.data.data;
   } catch (error) {
-    console.log('Axios Get Error:', error);
-    return error.response
-      ? error.response.data
-      : { message: 'An error has occurred', status: 'failure' };
+    if (error.response && error.response.data) {
+      return error.response.data;
+    } else {
+      console.log('Axios Error:', error.message);
+      return { message: 'An error has occurred', status: 'failure' };
+    }
   }
 };
 
