@@ -12,6 +12,7 @@ export const ScreenName = {
   signIn: 'sign-in',
   signUp: 'sign-up',
   forgotPassword: 'forgot-password',
+  resetPassword: 'reset-password',
   test: 'test',
   demo: 'demo',
   inquiry: 'inquiry',
