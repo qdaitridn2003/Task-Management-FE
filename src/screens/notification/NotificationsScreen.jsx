@@ -18,6 +18,7 @@ import { asyncStorageGetItem, axiosAuthGet } from '../../configs';
 
 const NotificationsScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [listNotification, setListNotification] = useState([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -32,27 +33,39 @@ const NotificationsScreen = () => {
         if (page === 1) {
           setListNotification(listNotices);
         } else {
-          setListNotification([...listNotification, listNotices]);
+          setListNotification((prevList) => [...prevList, ...listNotices]);
         }
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
+        setIsFetching(false);
       }
     })();
   }, [page]);
+
+  const onScrollEndList = () => {
+    if (!isFetching) {
+      setIsFetching(true);
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
 
   return (
     <ContainerView tw="px-0">
       <MainHeaderBar type="notifications" rightButton={false} />
       {isLoading ? (
-        <ActivityIndicator color={Color.primary} size={24} />
+        <ActivityIndicator color={Color.primary} size={48} />
       ) : (
         <FlatList
           className="mb-2"
           data={listNotification}
           renderItem={(notification) => <NotificationCard notification={notification} />}
           keyExtractor={(notification) => notification._id}
+          onEndReached={() => onScrollEndList()}
+          ListFooterComponent={() => (
+            <ActivityIndicator className="p-2" size={36} color={Color.primary} />
+          )}
         />
       )}
 
