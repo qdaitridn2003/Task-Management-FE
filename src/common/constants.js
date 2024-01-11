@@ -41,3 +41,9 @@ export const ScreenName = {
   accountDetails: 'account-details',
   editAccount: 'edit-account',
 };
+
+export const NoticeActionType = {
+  create: 'Create',
+  update: 'Update',
+  delete: 'Delete',
+};

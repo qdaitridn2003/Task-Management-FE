@@ -8,8 +8,10 @@ import {
   DemoScreen,
   EventDetailsScreen,
   EventsScreen,
+  NotificationScreen,
   TaskDetailsScreen,
   TasksScreen,
+  NotificationDetailScreen,
 } from '../screens';
 import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
 import EditAccountScreen from '../screens/account/EditAccountScreen';

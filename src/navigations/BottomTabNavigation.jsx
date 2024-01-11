@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
-import { EventsStack, ManagementStack, TasksStack } from './StackNavigations';
+import { EventsStack, ManagementStack, NotificationStack, TasksStack } from './StackNavigations';
 import { Color, ScreenName } from '../common';
 import { Icon, View } from '../components';
 import NotificationsScreen from '../screens/notification/NotificationsScreen';

@@ -13,3 +13,4 @@ export * from './StatusIndicator';
 export * from './LocationTextInput';
 export * from './SingleSelector';
 export * from './MainHeaderBar';
+export * from './NotificationCard';
