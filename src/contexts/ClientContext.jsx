@@ -14,8 +14,10 @@ export const ClientProvider = ({ children }) => {
 
   const fetchData = async (page) => {
     const token = await asyncStorageGetItem(accessTokenKey);
-    const response = await axiosAuthGet('/client/get-client-list', { limit: 6, page }, token);
-    const dataResponse = response.data.listClient;
+    // console.log(token);
+    const response = await axiosAuthGet('/client/get-client-list', token, { limit: 6, page });
+    console.log('Respone: ', response.listClient);
+    const dataResponse = response.listClient;
     if (dataResponse.length > 0) {
       if (page === 1) {
         setIsLoading(false);

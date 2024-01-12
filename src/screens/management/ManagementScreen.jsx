@@ -8,11 +8,6 @@ import { AuthContext } from '../../contexts';
 const ManagementScreen = () => {
   const { setIsLogin } = useContext(AuthContext);
   const navigation = useNavigation();
-  const [permissions, setPermissions] = useState();
-  const [image, setImage] = useState(null);
-  const [data, setData] = useState({});
-  const [checkData, setCheckData] = useState({});
-  const [isModalIndicator, setIsModalIndicator] = useState(true);
 
   // useEffect(() => {
   //   const interval = setInterval(() => {

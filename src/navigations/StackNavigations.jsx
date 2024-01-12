@@ -12,6 +12,9 @@ import {
   TaskDetailsScreen,
   TasksScreen,
   NotificationDetailScreen,
+  EmployeeScreen,
+  EmployeeDetailsScreen,
+  UpdateRoleEmployeeScreen,
 } from '../screens';
 import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
 import EditAccountScreen from '../screens/account/EditAccountScreen';
@@ -70,6 +73,19 @@ export const ClientStack = () => {
   );
 };
 
+export const EmployeeStack = () => {
+  const Employee = createNativeStackNavigator();
+  return (
+    <Employee.Navigator
+      initialRouteName={ScreenName.employeeList}
+      screenOptions={{ headerShown: false }}>
+      <Employee.Screen name={ScreenName.employeeList} component={EmployeeScreen} />
+      <Employee.Screen name={ScreenName.employeeDetails} component={EmployeeDetailsScreen} />
+      <Employee.Screen name={ScreenName.updatRoleEmployee} component={UpdateRoleEmployeeScreen} />
+    </Employee.Navigator>
+  );
+};
+
 export const ManagementStack = () => {
   const ManagementStack = createNativeStackNavigator();
   return (
@@ -80,6 +96,7 @@ export const ManagementStack = () => {
       <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
       <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
       <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
+      <ManagementStack.Screen name={ScreenName.employee} component={EmployeeStack} />
     </ManagementStack.Navigator>
   );
 };

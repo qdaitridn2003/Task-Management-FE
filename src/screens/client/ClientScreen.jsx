@@ -20,6 +20,7 @@ const ClientScreen = () => {
   const navigation = useNavigation();
   const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
     useContext(ClientContext);
+  // console.log(page);
 
   const loadMoreData = () => {
     setIsLoading(true);
