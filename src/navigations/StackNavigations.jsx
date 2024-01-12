@@ -5,15 +5,16 @@ import { ScreenName } from '../common';
 import {
   AddEventScreen,
   AddTaskScreen,
+  ChangePasswordScreen,
   DemoScreen,
   EventDetailsScreen,
   EventsScreen,
   TaskDetailsScreen,
   TasksScreen,
+  ManagementScreen,
+  AccountDetailsScreen,
+  EditAccountScreen,
 } from '../screens';
-import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
-import EditAccountScreen from '../screens/account/EditAccountScreen';
-import { ManagementScreen } from '../screens/management';
 
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
@@ -49,7 +50,7 @@ export const AccountStack = () => {
       screenOptions={{ headerShown: false }}>
       <AccountStack.Screen name={ScreenName.accountDetails} component={AccountDetailsScreen} />
       <AccountStack.Screen name={ScreenName.editAccount} component={EditAccountScreen} />
-      {/* <AccountStack.Screen name={ScreenName.changePassword} component={ChangePasswordScreen} /> */}
+      <AccountStack.Screen name={ScreenName.changePassword} component={ChangePasswordScreen} />
     </AccountStack.Navigator>
   );
 };

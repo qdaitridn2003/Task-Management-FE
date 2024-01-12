@@ -40,4 +40,5 @@ export const ScreenName = {
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
+  changePassword: 'change-pasword',
 };

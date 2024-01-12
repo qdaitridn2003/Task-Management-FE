@@ -20,7 +20,7 @@ const EditAccountScreen = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchData();
+      // fetchData();
     }, 0);
 
     return () => {
@@ -28,28 +28,28 @@ const EditAccountScreen = () => {
     };
   }, [checkData]);
 
-  const fetchData = async () => {
-    const accessToken = await AsyncStorage.getItem(accessTokenKey);
-    const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
-    if (respone) {
-      setIsModalIndicator(false);
-    }
+  // const fetchData = async () => {
+  //   const accessToken = await AsyncStorage.getItem(accessTokenKey);
+  //   const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
+  //   if (respone) {
+  //     setIsModalIndicator(false);
+  //   }
 
-    if (checkData !== respone) {
-      setCheckData(respone);
-      const employee = respone.employee;
-      const date = format(new Date(employee.birthDay), 'dd/MM/yyyy');
-      const gender = employee.gender === 'male' ? 'Nam' : 'Nữ';
-      setData({
-        name: employee.name,
-        birthDay: date,
-        gender,
-        phone: employee.phone,
-        address: employee.address,
-        avatar: employee.avatar,
-      });
-    }
-  };
+  //   if (checkData !== respone) {
+  //     setCheckData(respone);
+  //     const employee = respone.employee;
+  //     const date = format(new Date(employee.birthDay), 'dd/MM/yyyy');
+  //     const gender = employee.gender === 'male' ? 'Nam' : 'Nữ';
+  //     setData({
+  //       name: employee.name,
+  //       birthDay: date,
+  //       gender,
+  //       phone: employee.phone,
+  //       address: employee.address,
+  //       avatar: employee.avatar,
+  //     });
+  //   }
+  // };
 
   return (
     <ContainerView>

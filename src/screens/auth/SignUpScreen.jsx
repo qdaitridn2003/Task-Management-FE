@@ -65,6 +65,8 @@ const SignUpScreen = () => {
 
         await AsyncStorage.setItem(otpSecretKey, response.otpSecret);
         await AsyncStorage.setItem(emailRegisterKey, inputs.email);
+
+        ToastAndroid.show('Đã gửi mã OTP. Vui lòng check email.', ToastAndroid.SHORT);
       }
     }
   };
