@@ -13,7 +13,6 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
   const [countdown, setcountdown] = useState(60);
   const [showBtnResendOtp, setShowBtnResendOtp] = useState(false);
-  // const [inputOtp, setInputOtp] = useState('');
   const [errors, setErrors] = useState({});
   const [firstSend, setFirstSend] = useState(true);
   const [inputs, setInputs] = useState({
@@ -35,31 +34,34 @@ const SignUpScreen = () => {
 
     if (!inputs.email) {
       handleErrors('Vui lòng nhập email', 'email');
-    } else if (response.message === 'Account already exists') {
-      handleErrors('Email đã tồn tại', 'email');
+    } else if (response.message === 'Tài khoản đã được đăng ký') {
+      handleErrors('Tài khoản đã được đăng ký', 'email');
     } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
       handleErrors('Vui lòng nhập Email hợp lệ', 'email');
+    } else {
+      handleErrors('', 'email');
     }
 
     if (!inputs.password) {
       handleErrors('Vui lòng nhập mật khẩu', 'password');
     } else if (inputs.password.length < 6) {
       handleErrors('Mật khẩu phải có ít nhất 6 ký tự', 'password');
+    } else {
+      handleErrors('', 'password');
     }
 
     if (!inputs.confirmPassword) {
       handleErrors('Vui lòng nhập lại mật khẩu', 'confirmPassword');
     } else if (inputs.confirmPassword !== inputs.password) {
       handleErrors('Mật khẩu không trùng khớp', 'confirmPassword');
+    } else {
+      handleErrors('', 'confirmPassword');
     }
 
     // if (!errors.email && !errors.password && !errors.confirmPassword) {
     if (inputs.email && inputs.password && inputs.confirmPassword) {
       console.log(response);
       if (response.otpSecret) {
-        // console.log(inputs.email);
-        // console.log(inputs.password);
-
         setFirstSend(false);
         setcountdown(60);
 
@@ -127,21 +129,20 @@ const SignUpScreen = () => {
     });
 
     if (!inputs.otp) {
-      handleErrors('Vui lòng nhập mã OTP');
+      ToastAndroid('Vui lòng nhập mã OTP', ToastAndroid.SHORT);
     } else if (inputs.otp.length > 6 || inputs.otp.length < 6) {
-      handleErrors('Mã OTP Phải có 6 số');
+      ToastAndroid('Mã OTP Phải có 6 số', ToastAndroid.SHORT);
     } else if (response.message === 'Otp was expired or invalid') {
-      handleErrors('Otp đã hết hạn hoặc không hợp lệ');
-    }
-    // console.log(response);
-    if (response) {
+      ToastAndroid('Otp đã hết hạn hoặc không hợp lệ', ToastAndroid.SHORT);
+    } else if (response) {
       ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
       navigation.navigate(ScreenName.signIn);
     }
   };
 
   return (
-    <View>
+    <View tw="flex-1 bg-white">
+      <Text tw="self-center text-2xl font-semibold py-4 pt-9">Đăng ký</Text>
       <TextInputWithLabel
         label="Email"
         placeholder="Địa chỉ email"

@@ -10,24 +10,17 @@ import {
   EventDetailsScreen,
   EventsScreen,
   NotificationScreen,
+  NotificationDetailScreen,
   TaskDetailsScreen,
   TasksScreen,
-<<<<<<< HEAD
   ManagementScreen,
   AccountDetailsScreen,
   EditAccountScreen,
-} from '../screens';
-=======
-  NotificationDetailScreen,
   EmployeeScreen,
   EmployeeDetailsScreen,
   UpdateRoleEmployeeScreen,
 } from '../screens';
-import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
-import EditAccountScreen from '../screens/account/EditAccountScreen';
-import { ManagementScreen } from '../screens/management';
 import { AddClientScreen, ClientDetailsScreen, ClientScreen } from '../screens/client';
->>>>>>> 2624b4b3fbff48346031727e8522f5e41b9df2cc
 
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();

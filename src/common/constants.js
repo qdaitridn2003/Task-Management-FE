@@ -34,15 +34,13 @@ export const ScreenName = {
   management: 'Quản lý',
   managementMenu: 'management-menu',
 
-  employee: 'Nhân viên',
   addEmployee: 'add-employee',
 
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
-<<<<<<< HEAD
   changePassword: 'change-pasword',
-=======
+
   client: 'client',
   clientList: 'client-list',
   clientDetails: 'client-details',
@@ -59,5 +57,4 @@ export const NoticeActionType = {
   create: 'Create',
   update: 'Update',
   delete: 'Delete',
->>>>>>> 2624b4b3fbff48346031727e8522f5e41b9df2cc
 };

@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
 import * as yup from 'yup';
 
-import { Color, ScreenName, accessTokenKey, authIdKey } from '../../common';
+import { Color, ScreenName, accessTokenKey } from '../../common';
 import {
   Button,
   ContainerView,

@@ -52,7 +52,7 @@ const ResetPasswordScreen = () => {
 
   return (
     <View tw="mt-10">
-      <Text tw="ml-5 font-bold text-lg mb-4">Email: {inputs.email}</Text>
+      <Text tw="ml-5 font-bold text-lg mb-4">{inputs.email}</Text>
       <TextInputWithLabel
         label="Mật khẩu"
         placeholder="Mật khẩu"

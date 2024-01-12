@@ -1,32 +1,34 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { asyncStorageGetItem, axiosAuthGet } from '../configs';
+
 import { accessTokenKey } from '../common';
+import { asyncStorageGetItem, axiosAuthGet } from '../configs';
 
 export const EmployeeContext = createContext();
 
 export const EmployeeProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [employeeId, setEmployeeId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [edit, setEdit] = useState(1);
 
   const fetchData = async (page) => {
     const token = await asyncStorageGetItem(accessTokenKey);
-    console.log(token);
+    // console.log(token);
     const response = await axiosAuthGet('/employee/get-employee-list', token, { limit: 6, page });
-    const listEmployee = response.listEmployee;
-    // console.log(response.listEmployee);
-    setData(listEmployee);
-    // const dataResponse = response.data.listClient;
-    // if (dataResponse.length > 0) {
-    //   if (page === 1) {
-    //     setIsLoading(false);
-    //     setData(dataResponse);
-    //   } else {
-    //     setData([...data, ...dataResponse]);
-    //     setIsLoading(false);
-    //   }
-    // } else {
-    //   setIsLoading(false);
-    // }
+    console.log('Respone: ', response.listEmployee);
+    const dataResponse = response.listEmployee;
+    if (dataResponse.length > 0) {
+      if (page === 1) {
+        setIsLoading(false);
+        setData(dataResponse);
+      } else {
+        setData([...data, ...dataResponse]);
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -34,7 +36,20 @@ export const EmployeeProvider = ({ children }) => {
   }, [page]);
 
   return (
-    <EmployeeContext.Provider value={{ data, setData, page, setPage }}>
+    <EmployeeContext.Provider
+      value={{
+        data,
+        setData,
+        employeeId,
+        setEmployeeId,
+        fetchData,
+        page,
+        setPage,
+        isLoading,
+        setIsLoading,
+        edit,
+        setEdit,
+      }}>
       {children}
     </EmployeeContext.Provider>
   );

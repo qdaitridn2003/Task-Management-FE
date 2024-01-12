@@ -3,17 +3,22 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ToastAndroid } from 'react-native';
 
-import { ScreenName, emailRegisterKey } from '../../common';
+import { ScreenName, accessTokenKey, emailRegisterKey } from '../../common';
 import { Button, Text, TextInputWithLabel, View } from '../../components';
-import { axiosPut } from '../../configs';
+import { axiosAuthPut, axiosPut } from '../../configs';
 
 const ChangePasswordScreen = () => {
   const navigation = useNavigation();
+  const [errors, setErrors] = useState({});
   const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
+    oldPassword: '',
+    newPassword: '',
     confirmPassword: '',
   });
+
+  const handleErrors = (errorMessage, input) => {
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
+  };
 
   useEffect(() => {
     const getEmailFromStorage = async () => {
@@ -25,45 +30,61 @@ const ChangePasswordScreen = () => {
   }, []);
 
   const verifiedPassword = async () => {
-    if (!inputs.password) {
-      ToastAndroid('Vui lòng nhập mật khẩu', ToastAndroid.SHORT);
-    } else if (inputs.password.length < 6) {
-      ToastAndroid('Mật khẩu phải có ít nhất 6 ký tự', ToastAndroid.SHORT);
+    const token = await AsyncStorage.getItem(accessTokenKey);
+    if (!inputs.oldPassword) {
+      handleErrors('Vui lòng nhập mật khẩu', 'oldPassword');
+    } else if (inputs.oldPassword.length < 6) {
+      handleErrors('Mật khẩu phải có ít nhất 6 ký tự', 'oldPassword');
+    } else {
+      handleErrors('', 'oldPassword');
+    }
+
+    if (!inputs.newPassword) {
+      handleErrors('Vui lòng nhập mật khẩu', 'newPassword');
+    } else if (inputs.newPassword.length < 6) {
+      handleErrors('Mật khẩu phải có ít nhất 6 ký tự', 'newPassword');
+    } else {
+      handleErrors('', 'newPassword');
     }
 
     if (!inputs.confirmPassword) {
-      ToastAndroid('Vui lòng nhập lại mật khẩu', ToastAndroid.SHORT);
-    } else if (inputs.confirmPassword !== inputs.password) {
-      ToastAndroid('Mật khẩu không trùng khớp', ToastAndroid.SHORT);
+      handleErrors('Vui lòng nhập lại mật khẩu', 'confirmPassword');
+    } else if (inputs.confirmPassword !== inputs.newPassword) {
+      handleErrors('Mật khẩu không trùng khớp', 'confirmPassword');
+    } else {
+      handleErrors('', 'confirmPassword');
     }
 
-    const response = await axiosPut('/auth/reset-password', {
-      username: inputs.email,
-      password: inputs.password,
+    // console.log(token);
+    const response = await axiosAuthPut('/auth/change-password', token, {
+      oldPassword: inputs.oldPassword,
+      newPassword: inputs.newPassword,
       confirmPassword: inputs.confirmPassword,
     });
 
     if (response) {
       ToastAndroid.show('Đổi mật khẩu thành công', ToastAndroid.SHORT);
-      navigation.navigate(ScreenName.signIn);
+      navigation.navigate(ScreenName.accountDetails);
     }
   };
 
   return (
-    <View tw="mt-10">
+    <View tw=" flex-1 mt-10">
       <TextInputWithLabel
         label="Mật khẩu cũ"
         placeholder="Nhập mật khẩu cũ"
         secureTextEntry
-        onChangeText={(text) => setInputs({ ...inputs, password: text })}
-        value={inputs.password}
+        onChangeText={(text) => setInputs({ ...inputs, oldPassword: text })}
+        value={inputs.oldPassword}
+        error={errors.oldPassword}
       />
       <TextInputWithLabel
         label="Mật khẩu mới"
         placeholder="Nhập mật khẩu mới"
         secureTextEntry
-        onChangeText={(text) => setInputs({ ...inputs, password: text })}
-        value={inputs.password}
+        onChangeText={(text) => setInputs({ ...inputs, newPassword: text })}
+        value={inputs.newPassword}
+        error={errors.newPassword}
       />
       <TextInputWithLabel
         label="Xác nhận mật khẩu"
@@ -71,6 +92,7 @@ const ChangePasswordScreen = () => {
         secureTextEntry
         onChangeText={(text) => setInputs({ ...inputs, confirmPassword: text })}
         value={inputs.confirmPassword}
+        error={errors.confirmPassword}
       />
 
       <Button tw="mb-4" onPress={verifiedPassword}>

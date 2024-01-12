@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import React, { useContext } from 'react';
 
+import { Color, ScreenName, accessTokenKey } from '../../common';
 import {
   ContainerView,
   MainHeaderBar,
@@ -11,7 +12,6 @@ import {
   FlatList,
   ActivityIndicator,
 } from '../../components';
-import { Color, ScreenName, accessTokenKey } from '../../common';
 import { ClientCard } from '../../components/customs/ClientCard';
 import { asyncStorageGetItem, axiosAuthGet } from '../../configs';
 import { ClientContext } from '../../contexts';
