@@ -5,8 +5,15 @@ import { Color } from '../../common';
 import { Icon } from './CustomIcon';
 import { View, PaperTextInput, TouchableOpacity, TextInput } from './TailwindComponent';
 
-const CustomSearchbar = ({ placeholder, onSubmitEditing, style }) => {
-  const [searchText, setSearchText] = useState('');
+const CustomSearchbar = ({
+  placeholder,
+  onSubmitEditing,
+  style,
+  onChangeText,
+  value,
+  setSearchText,
+}) => {
+  // const [searchText, setSearchText] = useState('');
 
   const handleClear = () => {
     setSearchText('');
@@ -29,12 +36,12 @@ const CustomSearchbar = ({ placeholder, onSubmitEditing, style }) => {
         textColor={Color.primary}
         cursorColor={Color.primary}
         placeholderTextColor={Color.neutral2}
-        value={searchText}
-        onChangeText={(text) => setSearchText(text)}
+        value={value}
+        onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}
       />
 
-      {searchText !== '' && (
+      {value !== '' && (
         <TouchableOpacity onPress={handleClear}>
           <Icon
             source={require('../../assets/icons/Close.png')}

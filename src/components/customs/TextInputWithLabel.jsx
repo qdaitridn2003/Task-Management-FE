@@ -12,6 +12,7 @@ const CustomTextInput = ({
   label,
   value,
   onChangeText,
+  onFocus,
   error,
   secureTextEntry,
   placeholder,
@@ -45,6 +46,7 @@ const CustomTextInput = ({
           autoCapitalize="none"
           value={value}
           onChangeText={onChangeText}
+          onFocus={onFocus}
           secureTextEntry={isPasswordVisible}
         />
         {secureTextEntry && (

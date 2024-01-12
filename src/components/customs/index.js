@@ -15,3 +15,4 @@ export * from './DatetimeButton';
 export * from './DateTimePickerWithLabel';
 export * from './MainHeaderBar';
 export * from './RadioButtonOptionGender';
+export * from './EmployeeCard';

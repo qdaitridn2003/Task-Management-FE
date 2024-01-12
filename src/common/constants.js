@@ -43,4 +43,10 @@ export const ScreenName = {
   clientList: 'client-list',
   clientDetails: 'client-details',
   addClient: 'add-client',
+  updateClient: 'update-client',
+
+  employee: 'employee',
+  employeeList: 'employee-list',
+  employeeDetails: 'employee-details',
+  updatRoleEmployee: 'update-role-employee',
 };

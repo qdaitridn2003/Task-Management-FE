@@ -16,32 +16,32 @@ const ManagementScreen = () => {
   const [checkData, setCheckData] = useState({});
   const [isModalIndicator, setIsModalIndicator] = useState(true);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchData();
+  //   }, 1000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [checkData]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [checkData]);
 
-  const fetchData = async () => {
-    const accessToken = await AsyncStorage.getItem(accessTokenKey);
-    const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
-    if (respone) {
-      setIsModalIndicator(false);
-    }
+  // const fetchData = async () => {
+  //   const accessToken = await AsyncStorage.getItem(accessTokenKey);
+  //   const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
+  //   if (respone) {
+  //     setIsModalIndicator(false);
+  //   }
 
-    if (checkData !== respone) {
-      setCheckData(respone);
-      const employee = respone.employee;
-      setData({
-        name: employee.name,
-        avatar: employee.avatar,
-      });
-    }
-  };
+  //   if (checkData !== respone) {
+  //     setCheckData(respone);
+  //     const employee = respone.employee;
+  //     setData({
+  //       name: employee.name,
+  //       avatar: employee.avatar,
+  //     });
+  //   }
+  // };
 
   const handleOnEdit = () => {
     console.log('handleOnEdit');
@@ -61,15 +61,11 @@ const ManagementScreen = () => {
         Cá nhân
       </Button>
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.client)}>
-        Quản lý khách hàng
-      </Button>
-
-      <Button tw="mb-4" type="secondary">
-        Nhân viên
-      </Button>
-
-      <Button tw="mb-4" type="secondary">
         Khách hàng
+      </Button>
+
+      <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.employee)}>
+        Nhân viên
       </Button>
 
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.demo)}>

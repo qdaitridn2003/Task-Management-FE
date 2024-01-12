@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from '../../components';
-import { axiosAuthGet } from '../../configs';
+import { asyncStorageGetItem, axiosAuthGet } from '../../configs';
 
 const TextRow = ({ label, value }) => {
   let textColor = '';
@@ -47,39 +47,12 @@ const AccountDetailsScreen = () => {
   const [isModalIndicator, setIsModalIndicator] = useState(true);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 0);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [checkData]);
-
-  const fetchData = async () => {
-    const accessToken = await AsyncStorage.getItem(accessTokenKey);
-    const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
-    if (respone) {
-      setIsModalIndicator(false);
-    }
-
-    if (checkData !== respone) {
-      setCheckData(respone);
-      const employee = respone.employee;
-      const date = format(new Date(employee.birthday), 'dd/MM/yyyy');
-      const gender = employee.gender === 'male' ? 'Nam' : 'Nữ';
-      setData({
-        name: employee.name,
-        role: employee.auth.role.name,
-        birthDay: date,
-        gender,
-        phone: employee.phone,
-        address: employee.address,
-        email: employee.email,
-        avatar: employee.avatar,
-      });
-    }
-  };
+    (async () => {
+      const token = await asyncStorageGetItem(accessTokenKey);
+      const response = await axiosAuthGet('/employee/get-employee-profile', {}, token);
+      console.log(response);
+    })();
+  }, []);
 
   const handleOnEdit = () => {
     console.log('handleOnEdit');
