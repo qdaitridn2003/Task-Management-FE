@@ -40,5 +40,24 @@ export const ScreenName = {
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
+<<<<<<< HEAD
   changePassword: 'change-pasword',
+=======
+  client: 'client',
+  clientList: 'client-list',
+  clientDetails: 'client-details',
+  addClient: 'add-client',
+  updateClient: 'update-client',
+
+  employee: 'employee',
+  employeeList: 'employee-list',
+  employeeDetails: 'employee-details',
+  updatRoleEmployee: 'update-role-employee',
+};
+
+export const NoticeActionType = {
+  create: 'Create',
+  update: 'Update',
+  delete: 'Delete',
+>>>>>>> 2624b4b3fbff48346031727e8522f5e41b9df2cc
 };

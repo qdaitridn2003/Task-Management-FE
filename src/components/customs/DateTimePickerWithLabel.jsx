@@ -62,7 +62,7 @@ const CustomDateTimePickerWithLabel = ({
         <DateTimeButton
           tw="px-5"
           type={type}
-          value={processedDate}
+          value={value}
           onChangeText={onChangeText}
           error={error}
           notEditable={notEditable}

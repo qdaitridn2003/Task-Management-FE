@@ -9,12 +9,25 @@ import {
   DemoScreen,
   EventDetailsScreen,
   EventsScreen,
+  NotificationScreen,
   TaskDetailsScreen,
   TasksScreen,
+<<<<<<< HEAD
   ManagementScreen,
   AccountDetailsScreen,
   EditAccountScreen,
 } from '../screens';
+=======
+  NotificationDetailScreen,
+  EmployeeScreen,
+  EmployeeDetailsScreen,
+  UpdateRoleEmployeeScreen,
+} from '../screens';
+import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
+import EditAccountScreen from '../screens/account/EditAccountScreen';
+import { ManagementScreen } from '../screens/management';
+import { AddClientScreen, ClientDetailsScreen, ClientScreen } from '../screens/client';
+>>>>>>> 2624b4b3fbff48346031727e8522f5e41b9df2cc
 
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
@@ -55,6 +68,32 @@ export const AccountStack = () => {
   );
 };
 
+export const ClientStack = () => {
+  const ClientStack = createNativeStackNavigator();
+  return (
+    <ClientStack.Navigator
+      initialRouteName={ScreenName.clientList}
+      screenOptions={{ headerShown: false }}>
+      <ClientStack.Screen name={ScreenName.clientList} component={ClientScreen} />
+      <ClientStack.Screen name={ScreenName.clientDetails} component={ClientDetailsScreen} />
+      <ClientStack.Screen name={ScreenName.addClient} component={AddClientScreen} />
+    </ClientStack.Navigator>
+  );
+};
+
+export const EmployeeStack = () => {
+  const Employee = createNativeStackNavigator();
+  return (
+    <Employee.Navigator
+      initialRouteName={ScreenName.employeeList}
+      screenOptions={{ headerShown: false }}>
+      <Employee.Screen name={ScreenName.employeeList} component={EmployeeScreen} />
+      <Employee.Screen name={ScreenName.employeeDetails} component={EmployeeDetailsScreen} />
+      <Employee.Screen name={ScreenName.updatRoleEmployee} component={UpdateRoleEmployeeScreen} />
+    </Employee.Navigator>
+  );
+};
+
 export const ManagementStack = () => {
   const ManagementStack = createNativeStackNavigator();
   return (
@@ -64,6 +103,8 @@ export const ManagementStack = () => {
       <ManagementStack.Screen name={ScreenName.managementMenu} component={ManagementScreen} />
       <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
       <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
+      <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
+      <ManagementStack.Screen name={ScreenName.employee} component={EmployeeStack} />
     </ManagementStack.Navigator>
   );
 };

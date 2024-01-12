@@ -5,3 +5,5 @@ export * from './tasks';
 export * from './management';
 export * from './notification';
 export * from './account';
+export * from './client';
+export * from './employee';
