@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
 import { styled } from 'nativewind';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { View, Text } from './TailwindComponent';
-import { IconButton } from './IconButton';
-import { Color } from '../../common';
-import { TouchableOpacity } from './TailwindComponent';
+
 import { Icon } from './CustomIcon';
+import { IconButton } from './IconButton';
+import { View, Text, TouchableOpacity } from './TailwindComponent';
 
 const CustomSubHeaderBar = ({
   backButton = true,

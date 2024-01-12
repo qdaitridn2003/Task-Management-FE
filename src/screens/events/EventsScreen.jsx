@@ -13,7 +13,6 @@ import {
 } from '../../components';
 import { Color, ScreenName } from '../../common';
 import { BackHandler, ToastAndroid } from 'react-native';
-import { axiosAuthGet } from '../../configs/axios.config';
 
 const DoubleBackToExit = ({ navigation }) => {
   useFocusEffect(
@@ -36,10 +35,9 @@ const DoubleBackToExit = ({ navigation }) => {
 
   const isBackPressedOnce = () => {
     const currentTime = new Date().getTime();
-    // console.log(currentTime)
     const timeDiff = currentTime - lastBackPressed;
     lastBackPressed = currentTime;
-    // console.log(timeDiff)
+
     return timeDiff < 2000;
   };
 
@@ -57,12 +55,6 @@ const listFilter = [
   { status: 'Đang diễn ra' },
   { status: 'Đã hủy' },
 ];
-
-// useEffect(() => {
-//   (async () => {
-//     const respone = await axiosAuthGet('/api/event/create-event', {},)
-//   })()
-// },[])
 
 const EventsScreen = () => {
   const navigation = useNavigation();

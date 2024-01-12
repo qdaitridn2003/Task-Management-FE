@@ -1,11 +1,12 @@
-import React from 'react';
 import { styled } from 'nativewind';
-import { StyleSheet } from 'react-native';
 import { PropTypes } from 'prop-types';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Button as RNPaperButton } from 'react-native-paper';
-import { Color } from '../../common';
+
 import { Icon } from './CustomIcon';
 import { View } from './TailwindComponent';
+import { Color } from '../../common';
 
 const CustomButton = ({
   type,
