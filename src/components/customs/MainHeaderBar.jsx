@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import { styled } from 'nativewind';
-import { View, Text, TouchableOpacity } from './TailwindComponent';
-import { IconButton } from './IconButton';
-import { Color } from '../../common';
+import React from 'react';
+
 import { Icon } from './CustomIcon';
+import { IconButton } from './IconButton';
+import { View, Text } from './TailwindComponent';
 
 const CustomMainHeaderBar = ({ type, onPress, rightButton = true, style }) => {
   const typeDataMap = {
@@ -23,7 +23,10 @@ const CustomMainHeaderBar = ({ type, onPress, rightButton = true, style }) => {
       iconSource: require('../../assets/icons/NotificationsOutline.png'),
       text: 'Thông báo',
     },
-
+    role: {
+      iconSource: require('../../assets/icons/Task.png'),
+      text: 'Chức vụ',
+    },
     default: {
       iconSource: require('../../assets/icons/QuestionMark.png'),
       text: 'Chưa chọn type',

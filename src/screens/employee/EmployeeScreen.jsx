@@ -12,19 +12,27 @@ import {
   ActivityIndicator,
   EmployeeCard,
 } from '../../components';
-import { ClientCard } from '../../components/customs/ClientCard';
 import { EmployeeContext } from '../../contexts';
 
 const EmployeeScreen = () => {
   const navigation = useNavigation();
-  const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
-    useContext(EmployeeContext);
-  // console.log(page);
+  const {
+    data,
+    page,
+    setPage,
+    isLoading,
+    setEmployeeId,
+    setIsLoading,
+    fetchData,
+    searchText,
+    setSearchText,
+  } = useContext(EmployeeContext);
 
   const loadMoreData = () => {
     setIsLoading(true);
     setPage(page + 1);
   };
+
   const renderLoader = () => {
     return isLoading ? (
       <View>
@@ -32,9 +40,21 @@ const EmployeeScreen = () => {
       </View>
     ) : null;
   };
+
   const handleSearch = () => {
     fetchData(1, searchText);
   };
+
+  const handleClearSearch = () => {
+    setSearchText('');
+    fetchData(1, '');
+  };
+
+  const handleEmployeeDetail = (id) => {
+    setEmployeeId(id);
+    navigation.navigate(ScreenName.employeeDetails, { id });
+  };
+
   return (
     <ContainerView tw="px-0">
       <MainHeaderBar type="employees" rightButton={false} />
@@ -43,22 +63,25 @@ const EmployeeScreen = () => {
         <Searchbar
           tw="flex-1 mr-2.5 mb-2"
           onSubmitEditing={handleSearch}
-          value={searchText}
+          value={searchText || ''}
           onChangeText={(text) => setSearchText(text)}
           setSearchText={setSearchText}
         />
-        <IconButton
-          type="secondary"
-          iconColor={Color.neutral2}
-          iconSource={require('../../assets/icons/Tune.png')}
-        />
+        {searchText && (
+          <IconButton icon="cross" onPress={handleClearSearch} style={{ marginLeft: 8 }} />
+        )}
       </View>
 
       <FlatList
-        tw="mx-6 my-4 "
+        tw="mx-6 my-4"
         data={data}
         renderItem={({ item }) => (
-          <EmployeeCard id={item._id} name={item.name} avatar={item.avatar} />
+          <EmployeeCard
+            id={item._id}
+            name={item.name}
+            avatar={item.avatar}
+            onPress={() => handleEmployeeDetail(item._id)}
+          />
         )}
         keyExtractor={(item) => item._id}
         ListFooterComponent={renderLoader}

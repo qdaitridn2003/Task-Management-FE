@@ -9,48 +9,17 @@ const ManagementScreen = () => {
   const { setIsLogin } = useContext(AuthContext);
   const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchData();
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [checkData]);
-
-  // const fetchData = async () => {
-  //   const accessToken = await AsyncStorage.getItem(accessTokenKey);
-  //   const respone = await axiosAuthGet('/employee/get-employee-profile', accessToken);
-  //   if (respone) {
-  //     setIsModalIndicator(false);
-  //   }
-
-  //   if (checkData !== respone) {
-  //     setCheckData(respone);
-  //     const employee = respone.employee;
-  //     setData({
-  //       name: employee.name,
-  //       avatar: employee.avatar,
-  //     });
-  //   }
-  // };
-
-  const handleOnEdit = () => {
-    console.log('handleOnEdit');
-  };
-
   return (
     <ContainerView>
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.account)}>
         Cá nhân
       </Button>
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.client)}>
-        Khách hàng
+        Quản lý Khách hàng
       </Button>
 
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.employee)}>
-        Nhân viên
+        Quản lý Nhân viên
       </Button>
 
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.demo)}>

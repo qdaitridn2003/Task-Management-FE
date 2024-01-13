@@ -1,21 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { Color, ScreenName, accessTokenKey } from '../../common';
+import { ScreenName, accessTokenKey } from '../../common';
 import {
   Button,
   ContainerView,
-  Icon,
   Image,
   ScrollView,
   SubHeaderBar,
   Text,
-  TouchableOpacity,
   View,
 } from '../../components';
-import { asyncStorageGetItem, axiosAuthDel, axiosAuthGet } from '../../configs';
+import { axiosAuthGet } from '../../configs';
+import { EmployeeContext } from '../../contexts';
 
 const TextRow = ({ label, value }) => {
   let textColor = '';
@@ -39,75 +38,45 @@ const TextRow = ({ label, value }) => {
   );
 };
 
-const EmployeeDetailsScreen = ({ route }) => {
+const EmployeeDetailsScreen = () => {
   const navigation = useNavigation();
+  const { employeeId } = useContext(EmployeeContext);
   const [data, setData] = useState({});
-  const [checkData, setCheckData] = useState({});
-  const [isModalIndicator, setIsModalIndicator] = useState(true);
-
-  const { selectedItem } = route.params;
-  // const [data, setData] = useState(selectedItem);
-
-  const [isPopupVisible, setPopupVisible] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-
-  const showPopup = () => setPopupVisible(true);
-  const hidePopup = () => setPopupVisible(false);
 
   const fetchData = async () => {
     try {
-      const token = await AsyncStorage.getItem(accessTokenKey);
+      const accessToken = await AsyncStorage.getItem(accessTokenKey);
+      const response = await axiosAuthGet(
+        `/employee/get-employee-profile/${employeeId}`,
+        accessToken,
+      );
 
-      const response = await axiosAuthGet(`/employee/get-employee-profile/${data._id}`, token);
-
-      console.log('Cient info:', response);
-      setData(response.employee);
+      console.log(response);
+      console.log(employeeId);
+      const employee = response.employee;
+      const dateString = employee.birthday;
+      const formattedDate = format(new Date(dateString), 'dd/MM/yyyy');
+      const formattedGender = employee.gender === 'nam' ? 'Nam' : 'Nữ';
+      setData({
+        status: employee.status,
+        name: employee.name,
+        birthDay: formattedDate,
+        role: employee.auth ? employee.auth.role.name : 'null',
+        gender: formattedGender,
+        phone: employee.phone,
+        address: employee.address,
+        email: employee.email,
+        avatar: employee.avatar,
+      });
+      console.log(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
   useEffect(() => {
-    // Fetch data when the screen is focused
-    const unsubscribe = navigation.addListener('focus', fetchData);
-
-    // Cleanup the listener when the component is unmounted
-    return unsubscribe;
-  }, [navigation]);
-
-  // const handleConfirm = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = await AsyncStorage.getItem(accessTokenKey);
-  //     await axiosAuthDel(`/client/delete-client/${data._id}`, token);
-  //     console.log('Client deleted successfully');
-
-  //     hidePopup();
-  //     // Navigate back to the previous screen
-  //     navigation.goBack();
-  //   } catch (error) {
-  //     console.error('Error deleting client:', error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  const handleEdit = () => {
-    navigation.navigate('AddClient', { editData: data });
-  };
-
-  const formatBirthday = (birthdayString) => {
-    const date = new Date(birthdayString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-
-    return `${day}-${month}-${year}`;
-  };
-
-  const mapGenderToVietnamese = (gender) => {
-    return gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : '';
-  };
+    fetchData();
+  }, [employeeId]);
 
   return (
     <ContainerView tw="px-0">
@@ -120,25 +89,28 @@ const EmployeeDetailsScreen = ({ route }) => {
 
       <ScrollView>
         <View tw="p-5 mt-2 mb-4 mx-5 rounded-2xl elevation items-center">
-          {/* <Image
+          <Image
             tw="mb-3.5 h-32 w-32 rounded-full"
             source={data.avatar ? { uri: data.avatar } : { uri: 'https://picsum.photos/700' }}
           />
 
-          <Text tw="mb-3.5 text-primary text-2xl font-bold">{data.name}</Text>
+          <Text tw="mb-3.5 text-2xl font-bold">{data.name}</Text>
+          <Text tw="mb-3.5 text-lg font-bold">{data.role}</Text>
 
-          <Text tw="mb-3.5 text-primary text-lg font-bold">{data.role}</Text> */}
-
-          <TextRow label="Ngày sinh" value="18/01/2000" />
-          {/* <TextRow label="Giới tính" value={data.gender} />
+          <TextRow label="Ngày sinh" value={data.birthDay} />
+          <TextRow label="Giới tính" value={data.gender} />
           <TextRow label="Số điện thoại" value={data.phone} />
           <TextRow label="Email" value={data.email} />
-          <TextRow label="Địa chỉ" value={data.address} /> */}
-          <TextRow label="Tài khoản" value="active" />
+          <TextRow label="Địa chỉ" value={data.address} />
+          <TextRow label="Tài khoản" value={data.status} />
         </View>
 
         <Button tw="mb-4" onPress={() => navigation.navigate(ScreenName.updatRoleEmployee)}>
           Đổi chức vụ
+        </Button>
+
+        <Button tw="mb-4" onPress={() => navigation.navigate(ScreenName.updatRoleEmployee)}>
+          Vô hiệu hóa nhân viên
         </Button>
       </ScrollView>
     </ContainerView>

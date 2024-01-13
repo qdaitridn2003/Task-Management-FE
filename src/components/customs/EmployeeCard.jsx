@@ -1,20 +1,18 @@
-import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
 
-import { Pressable, View, Image, Text, TouchableOpacity } from './TailwindComponent';
-import { Color, ScreenName } from '../../common';
+import { View, Image, Text, TouchableOpacity } from './TailwindComponent';
+import { Color } from '../../common';
 import { EmployeeContext } from '../../contexts';
 
 const RNPaperCard = ({ name, avatar, id, role, onPress, onLongPress }) => {
-  const navigation = useNavigation();
-  const { employeeId, setEmployeeId } = useContext(EmployeeContext);
+  const { setEmployeeId } = useContext(EmployeeContext);
 
   const handleClickItem = () => {
     setEmployeeId(id);
-    navigation.navigate(ScreenName.employeeDetails);
+    onPress();
   };
   return (
     <TouchableOpacity onPress={handleClickItem}>
@@ -34,6 +32,7 @@ const RNPaperCard = ({ name, avatar, id, role, onPress, onLongPress }) => {
 };
 
 export const EmployeeCard = styled(RNPaperCard, 'pb-4 px-5');
+
 const styles = StyleSheet.create({
   CardStyle: {
     backgroundColor: Color.neutral4,

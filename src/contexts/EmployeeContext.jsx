@@ -14,10 +14,10 @@ export const EmployeeProvider = ({ children }) => {
 
   const fetchData = async (page) => {
     const token = await asyncStorageGetItem(accessTokenKey);
-    // console.log(token);
     const response = await axiosAuthGet('/employee/get-employee-list', token, { limit: 6, page });
     console.log('Respone: ', response.listEmployee);
     const dataResponse = response.listEmployee;
+
     if (dataResponse.length > 0) {
       if (page === 1) {
         setIsLoading(false);
