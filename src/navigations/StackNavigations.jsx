@@ -5,12 +5,17 @@ import { ScreenName } from '../common';
 import {
   AddEventScreen,
   AddTaskScreen,
+  ChangePasswordScreen,
+  DemoScreen,
   EventDetailsScreen,
   EventsScreen,
   NotificationScreen,
+  NotificationDetailScreen,
   TaskDetailsScreen,
   TasksScreen,
-  NotificationDetailScreen,
+  ManagementScreen,
+  AccountDetailsScreen,
+  EditAccountScreen,
   EmployeeScreen,
   EmployeeDetailsScreen,
   UpdateRoleEmployeeScreen,
@@ -59,7 +64,7 @@ export const AccountStack = () => {
       screenOptions={{ headerShown: false }}>
       <AccountStack.Screen name={ScreenName.accountDetails} component={AccountDetailsScreen} />
       <AccountStack.Screen name={ScreenName.editAccount} component={EditAccountScreen} />
-      {/* <AccountStack.Screen name={ScreenName.changePassword} component={ChangePasswordScreen} /> */}
+      <AccountStack.Screen name={ScreenName.changePassword} component={ChangePasswordScreen} />
     </AccountStack.Navigator>
   );
 };

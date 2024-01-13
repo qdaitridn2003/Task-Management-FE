@@ -1,18 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import * as yup from 'yup';
 
-import { ScreenName, accessTokenKey } from '../../common';
 import { Button, ContainerView, Text, TextInputWithLabel, View } from '../../components';
 import { axiosPut } from '../../configs';
 import { AuthContext } from '../../contexts';
 
-const AddEmployee = () => {
-  const navigation = useNavigation();
+const AddEmployee = ({ route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { setIsLogin } = useContext(AuthContext);
   const [isFocus, setIsFocus] = useState(false);
@@ -20,10 +16,18 @@ const AddEmployee = () => {
 
   const listGender = [{ gender: 'Nam' }, { gender: 'Nữ' }];
   const changeGender = (displayValue) => {
-    if (displayValue === 'Nam') return 'male';
-    if (displayValue === 'Nữ') return 'female';
-    return 'male';
+    if (displayValue === 'Nam') return 'nam';
+    if (displayValue === 'Nữ') return 'nữ';
+    return 'nam';
   };
+
+  const email = route.params?.email || '';
+  const authId = route.params?.authId || '';
+
+  useEffect(() => {
+    console.log('Email from SignInScreen:', email);
+    console.log('AuthId from SignInScreen:', authId);
+  }, [email, authId]);
 
   return (
     <ContainerView>
@@ -35,25 +39,28 @@ const AddEmployee = () => {
             initialValues={{ name: '', phone: '', gender: '' }}
             validationSchema={yup.object({
               name: yup.string().required('Tên không được để trống'),
-              phone: yup.string().required('Số điện thoại không được để trống'),
+              phone: yup
+                .string()
+                .required('Số điện thoại không được để trống')
+                .matches(/^\d{1,10}$/, 'Số điện thoại phải có ít hơn 10 chữ số'),
             })}
             onSubmit={async (values) => {
               setIsLoading(true);
 
-              console.log(values.gender);
               try {
-                const accessToken = await AsyncStorage.getItem(accessTokenKey);
                 const response = await axiosPut('/employee/register-employee-profile', {
-                  email: accessToken.username,
-                  authId: accessToken.authId,
-                  name: values.name,
-                  phone: values.phone,
+                  username: email,
+                  authId,
+                  fullName: values.name,
+                  phoneNumber: values.phone,
                   gender: changeGender(values.gender),
                 });
 
-                console.log('AddEmloyee response:', accessToken);
-                setIsLogin(true);
-                ToastAndroid.show('Lưu thành công', ToastAndroid.SHORT);
+                console.log(response);
+                if (response && response.employee) {
+                  setIsLogin(true);
+                  ToastAndroid.show('Lưu thành công', ToastAndroid.SHORT);
+                }
               } catch (error) {
                 console.log('API error:', error);
               }

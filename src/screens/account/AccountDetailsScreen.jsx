@@ -72,7 +72,7 @@ const AccountDetailsScreen = () => {
 
           <Text tw="mb-3.5 text-primary text-lg font-bold">{data.role}</Text>
 
-          <TextRow label="Ngày sinh" value={data.birthDay} />
+          <TextRow label="Ngày sinh" value="18/01/2000" />
           <TextRow label="Giới tính" value={data.gender} />
           <TextRow label="Số điện thoại" value={data.phone} />
           <TextRow label="Email" value={data.email} />
@@ -82,7 +82,7 @@ const AccountDetailsScreen = () => {
         <View tw="pb-4">
           <TouchableOpacity
             tw="self-start mx-5 pr-4 items-center justify-center"
-            onPress={() => console.log('Settings')}>
+            onPress={() => navigation.navigate(ScreenName.changePassword)}>
             <View tw="flex-row items-center">
               <Icon source={require('../../assets/icons/Lock.png')} color={Color.primary} />
               <Text tw="ml-2 text-base font-bold text-primary">Đổi mật khẩu</Text>

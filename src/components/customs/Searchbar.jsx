@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import { Entypo } from '@expo/vector-icons';
 import { styled } from 'nativewind';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Color } from '../../common';
+
 import { Icon } from './CustomIcon';
-import { View, PaperTextInput, TouchableOpacity, TextInput } from './TailwindComponent';
+import { View, TextInput } from './TailwindComponent';
+import { Color } from '../../common';
 
-const CustomSearchbar = ({ placeholder, onSubmitEditing, style, value }) => {
-  const [searchText, setSearchText] = useState('');
-
-  const handleClear = () => {
-    setSearchText('');
-  };
+const CustomSearchbar = ({
+  placeholder,
+  onSubmitEditing,
+  style,
+  searchPhrase,
+  setSearchPhrase,
+}) => {
+  const [clicked, setClicked] = useState(false);
 
   return (
     <View tw="flex-row h-12 elevation rounded-2xl mb-4 items-center" style={style}>
@@ -25,24 +29,26 @@ const CustomSearchbar = ({ placeholder, onSubmitEditing, style, value }) => {
         tw="text-base flex-1"
         underlineColor="transparent"
         activeUnderlineColor="transparent"
-        placeholder={placeholder ? placeholder : 'Search'}
+        placeholder={placeholder ? placeholder : 'Tìm kiếm...'}
         textColor={Color.primary}
         cursorColor={Color.primary}
         placeholderTextColor={Color.neutral2}
-        value={searchText}
-        onChangeText={(text) => setSearchText(text)}
         onSubmitEditing={onSubmitEditing}
+        onFocus={() => setClicked(true)}
+        value={searchPhrase}
+        onChangeText={setSearchPhrase}
       />
 
-      {searchText !== '' && (
-        <TouchableOpacity onPress={handleClear}>
-          <Icon
-            source={require('../../assets/icons/Close.png')}
-            style={{ marginLeft: 8, marginRight: 16 }}
-            size={24}
-            color={Color.neutral2}
-          />
-        </TouchableOpacity>
+      {clicked && (
+        <Entypo
+          name="cross"
+          size={20}
+          color="black"
+          style={styles.iconSearch}
+          onPress={() => {
+            setSearchPhrase('');
+          }}
+        />
       )}
     </View>
   );
@@ -51,10 +57,10 @@ const CustomSearchbar = ({ placeholder, onSubmitEditing, style, value }) => {
 export const Searchbar = styled(CustomSearchbar);
 
 const styles = StyleSheet.create({
-  textInputStyle: {
-    flex: 1,
-    backgroundColor: Color.neutral4,
-    fontSize: 16,
-    height: 40,
+  iconSearch: {
+    padding: 1,
+    backgroundColor: '#d9dbda',
+    borderRadius: 40,
+    marginRight: 15,
   },
 });
