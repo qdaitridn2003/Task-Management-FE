@@ -1,7 +1,7 @@
-import { Color, ScreenName, accessTokenKey } from '../../common';
 import React, { useContext, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
+
 import {
   View,
   Text,
@@ -15,7 +15,8 @@ import {
   RadioButtonOptionGender,
   Button,
 } from '../../components';
-import { axiosGet, axiosPost, axiosAuthPost, asyncStorageGetItem } from '../../configs';
+import { Color, ScreenName, accessTokenKey } from '../../common';
+import { axiosAuthPost, asyncStorageGetItem } from '../../configs';
 import { uploadImage } from '../../utilities/uploadImage';
 import { ClientContext } from '../../contexts';
 
@@ -127,9 +128,10 @@ const AddClientScreen = () => {
         />
 
         <DateTimePickerWithLabel
+          value={birthday}
           onChange={(text) => setBirthday(text)}
           label="Ngày sinh"
-          type="birthday"
+          type="birthDay"
           mode="date"
         />
 

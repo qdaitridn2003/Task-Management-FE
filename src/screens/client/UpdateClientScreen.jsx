@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
-  ContainerView,
   Icon,
   ScrollView,
   Image,
@@ -15,15 +14,18 @@ import {
   RadioButtonOptionGender,
   Button,
   ActivityIndicator,
+  ContainerView,
+  SubHeaderBar,
 } from '../../components';
 import { ScreenName, accessTokenKey, Color } from '../../common';
 import { add, format, set } from 'date-fns';
 import { asyncStorageGetItem, axiosAuthGet, axiosAuthPost, axiosAuthPut } from '../../configs';
 import { ClientContext } from '../../contexts';
 import { uploadImage } from '../../utilities/uploadImage';
+
 const UpdateClientScreen = () => {
   const navigation = useNavigation();
-  const { clientId, edit, setEdit } = useContext(ClientContext);
+  const { clientId, edit, setEdit, fetchData } = useContext(ClientContext);
   const [isLoading, setIsLoading] = useState(true);
 
   const [name, setName] = useState('');
@@ -33,6 +35,8 @@ const UpdateClientScreen = () => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [status, setStatus] = useState('');
+
   const [errors, setErrors] = useState({
     email: '',
     name: '',
@@ -92,52 +96,66 @@ const UpdateClientScreen = () => {
       setEdit(edit + 1);
     }
   };
-
+  const handleChangeStatus = async () => {
+    const token = await asyncStorageGetItem(accessTokenKey);
+    const response = await axiosAuthPut(`/client/update-client-status/${clientId}`, token, {
+      status: 'disabled',
+    });
+    if (response) {
+      console.log(response);
+      setEdit(edit + 1);
+      fetchData(1);
+      navigation.navigate(ScreenName.clientDetails);
+    }
+  };
   useEffect(() => {
     (async () => {
       const token = await asyncStorageGetItem(accessTokenKey);
-      const response = await axiosAuthGet(`/client/get-client-detail/${clientId}`, {}, token);
+      console.log('clientIdDetails:', clientId);
+
+      const response = await axiosAuthGet(`/client/get-client-detail/${clientId}`, token, {});
+      console.log('Response: ', response);
       if (response) {
-        const formattedDate = format(new Date(response.data.birthday), 'yyyy-MM-dd');
-        setName(response.data.name);
-        setPhone(response.data.phone);
-        setAddress(response.data.address);
+        const formattedDate = format(new Date(response.birthday), 'yyyy-MM-dd');
+        setName(response.name);
+        setPhone(response.phone);
+        setAddress(response.address);
         setBirthday(formattedDate);
-        setAvatar(response.data.avatar);
-        setEmail(response.data.email);
-        setGender(response.data.gender);
+        setAvatar(response.avatar);
+        setEmail(response.email);
+        setGender(response.gender);
+        setStatus(response.status);
         setIsLoading(false);
       }
     })();
   }, []);
 
   return (
-    <ScrollView tw="flex justify-content bg-white">
+    <ScrollView className="bg-white">
       <ContainerView>
         {isLoading ? (
           <ActivityIndicator size={40} color={Color.primary} />
         ) : (
           <View>
-            <View tw="flex flex-row justify-between mx-6">
-              <TouchableOpacity onPress={() => navigation.navigate(ScreenName.clientDetails)}>
-                <Icon size={24} source={require('../../assets/icons/Back.png')} />
-              </TouchableOpacity>
-              <Text tw="text-lg font-semibold">Sửa khách hàng</Text>
-              <View tw="w-6"></View>
-            </View>
+            <SubHeaderBar
+              tw="-mb-2 mx-5"
+              title="Sửa khách hàng"
+              onBackPress={() => navigation.navigate(ScreenName.clientList)}
+              onDeletePress={handleChangeStatus}
+            />
 
-            <View tw="mt-4 py-2 items-center min-h-32">
+            <View className="mt-4 py-2 items-center min-h-32">
               <TouchableOpacity onPress={imagePicker}>
                 <Image
-                  tw="w-20 h-20 rounded-full"
+                  className="w-20 h-20 rounded-full"
                   source={avatar ? { uri: avatar } : require('../../assets/images/AddAvatar.jpeg')}
                 />
-                <View tw="w-6 h-6 p-1 absolute bottom-0 right-0 rounded-full">
-                  <Image tw="w-4 h-4 " source={require('../../assets/icons/AddPhoto.png')} />
+                <View className="w-6 h-6 p-1 absolute bottom-0 right-0 rounded-full">
+                  <Image className="w-4 h-4 " source={require('../../assets/icons/AddPhoto.png')} />
                 </View>
               </TouchableOpacity>
               <View>
-                <Text style={{ color: Color.primary }} tw="mt-4 text-sm">
+                <Text style={{ color: Color.primary }} className="mt-4 text-sm">
                   Nhấn vào hình để tải lên ảnh mới
                 </Text>
               </View>
@@ -156,7 +174,7 @@ const UpdateClientScreen = () => {
               value={birthday}
               onChange={(text) => setBirthday(text)}
               label="Ngày sinh"
-              type="birthday"
+              type="birthDay"
               mode="date"
             />
 
@@ -192,7 +210,7 @@ const UpdateClientScreen = () => {
             />
 
             <Button
-              tw="mb-4"
+              className="mb-4"
               icon={'right'}
               onPress={handleUpdateClient}
               iconSource={require('../../assets/icons/ForwardArow.png')}

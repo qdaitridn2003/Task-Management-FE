@@ -1,10 +1,9 @@
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
 export const dateFormatDetail = (date) => {
-  if (!date) {
-    return '';
-  }
-  const formattedDate = formatDistanceToNow(parseISO(date));
+  const handleDate = new Date(date);
+
+  const formattedDate = formatDistanceToNow(handleDate);
   if (formattedDate === 'less than a minute') {
     return '1 phút trước';
   } else if (formattedDate.includes('minute')) {

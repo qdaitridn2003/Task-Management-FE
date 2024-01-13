@@ -43,7 +43,7 @@ const NotificationsScreen = () => {
       }
     })();
   }, [page]);
-
+  // console.log('List notification', listNotification);
   const onScrollEndList = () => {
     if (!isFetching) {
       setIsFetching(true);

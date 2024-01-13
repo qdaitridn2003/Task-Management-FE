@@ -47,8 +47,9 @@ const AccountDetailsScreen = () => {
   useEffect(() => {
     (async () => {
       const token = await asyncStorageGetItem(accessTokenKey);
-      const response = await axiosAuthGet('/employee/get-employee-profile', {}, token);
+      const response = await axiosAuthGet('/employee/get-employee-profile', token, {});
       console.log(response);
+      setData(response.employee);
     })();
   }, []);
 

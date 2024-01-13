@@ -12,20 +12,28 @@ export const ClientProvider = ({ children }) => {
   const [edit, setEdit] = useState(1);
   // const [searchText, setSearchText] = useState('');
 
-  const fetchData = async (page) => {
+  const fetchData = async (page, status) => {
     const token = await asyncStorageGetItem(accessTokenKey);
     // console.log(token);
-    const response = await axiosAuthGet('/client/get-client-list', token, { limit: 6, page });
-    console.log('Respone: ', response.listClient);
-    const dataResponse = response.listClient;
-    if (dataResponse.length > 0) {
+    const response = await axiosAuthGet('/client/get-client-list', token, {
+      limit: 6,
+      page,
+      status: status ? status : 'active',
+    });
+
+    const listClient = response.listClient;
+
+    if (listClient.length > 0) {
       if (page === 1) {
         setIsLoading(false);
-        setData(dataResponse);
+        setData(listClient);
       } else {
-        setData([...data, ...dataResponse]);
+        setData([...data, ...listClient]);
         setIsLoading(false);
       }
+    } else if (listClient.length === 0 && status) {
+      setIsLoading(false);
+      setData(listClient);
     } else {
       setIsLoading(false);
     }

@@ -40,8 +40,10 @@ export const ScreenName = {
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
+
   client: 'client',
   clientList: 'client-list',
+  listClientDisabled: 'list-client-disabled',
   clientDetails: 'client-details',
   addClient: 'add-client',
   updateClient: 'update-client',

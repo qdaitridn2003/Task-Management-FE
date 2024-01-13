@@ -8,12 +8,8 @@ export const AppContext = createContext({});
 
 export const AppProvider = ({ children }) => {
   return (
-    <EmployeeProvider>
-      <ClientProvider>
-        <AuthProvider>
-          <AppContext.Provider value={{}}>{children}</AppContext.Provider>
-        </AuthProvider>
-      </ClientProvider>
-    </EmployeeProvider>
+    <AuthProvider>
+      <AppContext.Provider value={{}}>{children}</AppContext.Provider>
+    </AuthProvider>
   );
 };

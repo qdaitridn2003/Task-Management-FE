@@ -139,7 +139,7 @@ const SignUpScreen = () => {
   };
 
   return (
-    <View>
+    <ContainerView>
       <TextInputWithLabel
         label="Email"
         placeholder="Địa chỉ email"
@@ -203,7 +203,7 @@ const SignUpScreen = () => {
       <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.signIn)}>
         Đăng nhập
       </Button>
-    </View>
+    </ContainerView>
   );
 };
 

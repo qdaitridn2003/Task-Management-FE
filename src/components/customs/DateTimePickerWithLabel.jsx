@@ -5,7 +5,7 @@ import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from '
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Pressable, Text, View } from './TailwindComponent';
 import { Color } from '../../common';
-import { DateTimeButton } from './DateTimeButton';
+import { DateTimeButton } from './DatetimeButton';
 
 const CustomDateTimePickerWithLabel = ({
   label,

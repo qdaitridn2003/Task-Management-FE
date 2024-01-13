@@ -5,7 +5,6 @@ import { ScreenName } from '../common';
 import {
   AddEventScreen,
   AddTaskScreen,
-  DemoScreen,
   EventDetailsScreen,
   EventsScreen,
   NotificationScreen,
@@ -15,12 +14,17 @@ import {
   EmployeeScreen,
   EmployeeDetailsScreen,
   UpdateRoleEmployeeScreen,
+  DemoScreen,
+  ClientScreen,
+  ClientDetailsScreen,
+  AddClientScreen,
+  ListClientDisabled,
 } from '../screens';
 import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
 import EditAccountScreen from '../screens/account/EditAccountScreen';
 import { ManagementScreen } from '../screens/management';
-import { AddClientScreen, ClientDetailsScreen, ClientScreen } from '../screens/client';
-
+import { UpdateClientScreen } from '../screens/client';
+import { ClientProvider, EmployeeProvider } from '../contexts';
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
   return (
@@ -63,26 +67,31 @@ export const AccountStack = () => {
 export const ClientStack = () => {
   const ClientStack = createNativeStackNavigator();
   return (
-    <ClientStack.Navigator
-      initialRouteName={ScreenName.clientList}
-      screenOptions={{ headerShown: false }}>
-      <ClientStack.Screen name={ScreenName.clientList} component={ClientScreen} />
-      <ClientStack.Screen name={ScreenName.clientDetails} component={ClientDetailsScreen} />
-      <ClientStack.Screen name={ScreenName.addClient} component={AddClientScreen} />
-    </ClientStack.Navigator>
+    <ClientProvider>
+      <ClientStack.Navigator
+        initialRouteName={ScreenName.clientList}
+        screenOptions={{ headerShown: false }}>
+        <ClientStack.Screen name={ScreenName.clientList} component={ClientScreen} />
+        <ClientStack.Screen name={ScreenName.clientDetails} component={ClientDetailsScreen} />
+        <ClientStack.Screen name={ScreenName.addClient} component={AddClientScreen} />
+        <ClientStack.Screen name={ScreenName.updateClient} component={UpdateClientScreen} />
+      </ClientStack.Navigator>
+    </ClientProvider>
   );
 };
 
 export const EmployeeStack = () => {
   const Employee = createNativeStackNavigator();
   return (
-    <Employee.Navigator
-      initialRouteName={ScreenName.employeeList}
-      screenOptions={{ headerShown: false }}>
-      <Employee.Screen name={ScreenName.employeeList} component={EmployeeScreen} />
-      <Employee.Screen name={ScreenName.employeeDetails} component={EmployeeDetailsScreen} />
-      <Employee.Screen name={ScreenName.updatRoleEmployee} component={UpdateRoleEmployeeScreen} />
-    </Employee.Navigator>
+    <EmployeeProvider>
+      <Employee.Navigator
+        initialRouteName={ScreenName.employeeList}
+        screenOptions={{ headerShown: false }}>
+        <Employee.Screen name={ScreenName.employeeList} component={EmployeeScreen} />
+        <Employee.Screen name={ScreenName.employeeDetails} component={EmployeeDetailsScreen} />
+        <Employee.Screen name={ScreenName.updatRoleEmployee} component={UpdateRoleEmployeeScreen} />
+      </Employee.Navigator>
+    </EmployeeProvider>
   );
 };
 

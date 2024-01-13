@@ -9,7 +9,7 @@ const CustomMainHeaderBar = ({ type, onPress, rightButton = true, style }) => {
   const typeDataMap = {
     tasks: {
       iconSource: require('../../assets/icons/Task.png'),
-      text: 'Cộng việc',
+      text: 'Công việc',
     },
     clients: {
       iconSource: require('../../assets/icons/GroupOutline.png'),
@@ -38,7 +38,7 @@ const CustomMainHeaderBar = ({ type, onPress, rightButton = true, style }) => {
         <Text tw="text-2xl font-bold pr-2">{text}</Text>
         <Icon source={iconSource} size={28} />
       </View>
-      {rightButton && <IconButton onPress={onPress} />}
+      <View tw="flex-row items-center">{rightButton && <IconButton onPress={onPress} />}</View>
     </View>
   );
 };
