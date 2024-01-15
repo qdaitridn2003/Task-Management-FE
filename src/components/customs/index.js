@@ -17,3 +17,4 @@ export * from './RadioButtonOptionGender';
 export * from './EmployeeCard';
 export * from './NotificationCard';
 export * from './DateTimePickerWithLabel';
+export * from './TagCard';

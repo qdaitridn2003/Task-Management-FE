@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
 
 import { Color, ScreenName, accessTokenKey } from '../../common';
 import {

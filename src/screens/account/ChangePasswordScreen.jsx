@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ToastAndroid } from 'react-native';
 
 import { ScreenName, accessTokenKey, emailRegisterKey } from '../../common';
-import { Button, Text, TextInputWithLabel, View } from '../../components';
+import { Button, ContainerView, Text, TextInputWithLabel, View } from '../../components';
 import { axiosAuthPut, axiosPut } from '../../configs';
 
 const ChangePasswordScreen = () => {
@@ -69,7 +69,7 @@ const ChangePasswordScreen = () => {
   };
 
   return (
-    <View tw=" flex-1 mt-10">
+    <ContainerView>
       <TextInputWithLabel
         label="Mật khẩu cũ"
         placeholder="Nhập mật khẩu cũ"
@@ -98,7 +98,7 @@ const ChangePasswordScreen = () => {
       <Button tw="mb-4" onPress={verifiedPassword}>
         Đổi mật khẩu
       </Button>
-    </View>
+    </ContainerView>
   );
 };
 

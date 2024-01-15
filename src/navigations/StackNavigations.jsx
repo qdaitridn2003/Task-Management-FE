@@ -6,11 +6,8 @@ import {
   AddEventScreen,
   AddTaskScreen,
   ChangePasswordScreen,
-  DemoScreen,
   EventDetailsScreen,
   EventsScreen,
-  NotificationScreen,
-  NotificationDetailScreen,
   TaskDetailsScreen,
   TasksScreen,
   ManagementScreen,
@@ -23,13 +20,12 @@ import {
   ClientScreen,
   ClientDetailsScreen,
   AddClientScreen,
-  ListClientDisabled,
+  TagScreen,
+  AddTagScreen,
 } from '../screens';
-import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
-import EditAccountScreen from '../screens/account/EditAccountScreen';
-import { ManagementScreen } from '../screens/management';
+
 import { UpdateClientScreen } from '../screens/client';
-import { ClientProvider, EmployeeProvider } from '../contexts';
+import { ClientProvider, EmployeeProvider, TagProvider } from '../contexts';
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
   return (
@@ -100,6 +96,18 @@ export const EmployeeStack = () => {
   );
 };
 
+const TagStack = () => {
+  const Tag = createNativeStackNavigator();
+  return (
+    <TagProvider>
+      <Tag.Navigator initialRouteName={ScreenName.tagList} screenOptions={{ headerShown: false }}>
+        <Tag.Screen name={ScreenName.tagList} component={TagScreen} />
+        <Tag.Screen name={ScreenName.addTag} component={AddTagScreen} />
+      </Tag.Navigator>
+    </TagProvider>
+  );
+};
+
 export const ManagementStack = () => {
   const ManagementStack = createNativeStackNavigator();
   return (
@@ -111,6 +119,7 @@ export const ManagementStack = () => {
       <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
       <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
       <ManagementStack.Screen name={ScreenName.employee} component={EmployeeStack} />
+      <ManagementStack.Screen name={ScreenName.tag} component={TagStack} />
     </ManagementStack.Navigator>
   );
 };

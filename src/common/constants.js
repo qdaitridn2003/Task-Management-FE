@@ -52,6 +52,10 @@ export const ScreenName = {
   employeeList: 'employee-list',
   employeeDetails: 'employee-details',
   updatRoleEmployee: 'update-role-employee',
+
+  tag: 'tag',
+  tagList: 'tag-list',
+  addTag: 'add-tag',
 };
 
 export const NoticeActionType = {

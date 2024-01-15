@@ -11,6 +11,10 @@ const CustomMainHeaderBar = ({ type, onPress, rightButton = true, style }) => {
       iconSource: require('../../assets/icons/Task.png'),
       text: 'Công việc',
     },
+    management: {
+      iconSource: require('../../assets/icons/Manager.png'),
+      text: 'Quản lý',
+    },
     clients: {
       iconSource: require('../../assets/icons/GroupOutline.png'),
       text: 'Khách hàng',
@@ -26,6 +30,10 @@ const CustomMainHeaderBar = ({ type, onPress, rightButton = true, style }) => {
     role: {
       iconSource: require('../../assets/icons/Task.png'),
       text: 'Chức vụ',
+    },
+    tag: {
+      iconSource: require('../../assets/icons/Tag.png'),
+      text: 'Thẻ công việc',
     },
     default: {
       iconSource: require('../../assets/icons/QuestionMark.png'),

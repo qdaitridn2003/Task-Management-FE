@@ -90,7 +90,7 @@ const AccountDetailsScreen = () => {
           </TouchableOpacity>
         </View>
         <View tw="pb-4">
-          <TouchableOpacity
+          {/* <TouchableOpacity
             tw="self-start mx-5 pr-4 items-center justify-center"
             onPress={() => console.log('Settings')}>
             <View tw="flex-row items-center">
@@ -100,7 +100,7 @@ const AccountDetailsScreen = () => {
               />
               <Text tw="ml-2 text-base font-bold text-primary">Cài đặt</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </ContainerView>

@@ -22,6 +22,7 @@ import { add, format, set } from 'date-fns';
 import { asyncStorageGetItem, axiosAuthGet, axiosAuthPost, axiosAuthPut } from '../../configs';
 import { ClientContext } from '../../contexts';
 import { uploadImage } from '../../utilities/uploadImage';
+import { ToastAndroid } from 'react-native';
 
 const UpdateClientScreen = () => {
   const navigation = useNavigation();
@@ -58,6 +59,7 @@ const UpdateClientScreen = () => {
 
       if (!canceled) {
         const imageUri = assets[0].uri;
+
         const result = await uploadImage('/client/upload-image/', imageUri, 'avatar');
         if (result) {
           setAvatar(result);
@@ -67,6 +69,7 @@ const UpdateClientScreen = () => {
       console.log(error);
     }
   };
+
   const handleUpdateClient = async () => {
     const token = await asyncStorageGetItem(accessTokenKey);
     // console.log(token);
@@ -94,6 +97,7 @@ const UpdateClientScreen = () => {
     if (response) {
       navigation.navigate(ScreenName.clientDetails);
       setEdit(edit + 1);
+      fetchData(1);
     }
   };
   const handleChangeStatus = async () => {
@@ -101,7 +105,9 @@ const UpdateClientScreen = () => {
     const response = await axiosAuthPut(`/client/update-client-status/${clientId}`, token, {
       status: 'disabled',
     });
-    if (response) {
+    if (response.message === 'Không thể thay đổi trạng thái khách hàng này') {
+      ToastAndroid.show('Không thể thay đổi trạng thái khách hàng', ToastAndroid.LONG);
+    } else {
       console.log(response);
       setEdit(edit + 1);
       fetchData(1);

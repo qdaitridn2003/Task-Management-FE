@@ -7,3 +7,4 @@ export * from './notification';
 export * from './account';
 export * from './client';
 export * from './employee';
+export * from './tag';

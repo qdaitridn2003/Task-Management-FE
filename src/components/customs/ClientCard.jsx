@@ -2,9 +2,9 @@ import { styled } from 'nativewind';
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
-import { View, Text, Image, Pressable } from './TailwindComponent';
 import { useNavigation } from '@react-navigation/native';
 
+import { View, Text, Image, Pressable } from './TailwindComponent';
 import { Color, ScreenName } from '../../common';
 import { ClientContext } from '../../contexts';
 
