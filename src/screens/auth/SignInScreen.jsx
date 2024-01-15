@@ -17,6 +17,37 @@ import {
 import { axiosPost } from '../../configs';
 import { AuthContext } from '../../contexts';
 
+const handleDevSignIn = async (setIsLoading, setIsLogin, navigation) => {
+  setIsLoading(true);
+
+  try {
+    const response = await axiosPost('/auth/sign-in', {
+      username: 'admin@mail.com',
+      password: 'admin123',
+    });
+
+    console.log('API response:', response);
+
+    if (response.message === 'Tài khoản không tồn tại') {
+      ToastAndroid.show('Email không hợp lệ', ToastAndroid.SHORT);
+    } else if (response.message === 'Mật khẩu không đúng') {
+      ToastAndroid.show('Mật khẩu không đúng', ToastAndroid.SHORT);
+    } else {
+      if (response && response.authId && response.username) {
+        await AsyncStorage.setItem(accessTokenKey, response.accessToken);
+        navigation.navigate(ScreenName.addEmployee);
+      } else if (response) {
+        await AsyncStorage.setItem(accessTokenKey, response.accessToken);
+        setIsLogin(true);
+      }
+    }
+  } catch (error) {
+    console.log('API error:', error);
+  }
+
+  setIsLoading(false);
+};
+
 const SignInScreen = () => {
   const navigation = useNavigation();
   const { setIsLogin } = useContext(AuthContext);
@@ -99,7 +130,7 @@ const SignInScreen = () => {
                 </Button>
 
                 {/* Seperator */}
-                <View tw="flex-row items-center pb-4">
+                <View tw="flex-row items-center pb-4 px-5">
                   <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
                   <Text tw="px-2 text-base" style={{ color: Color.neutral2 }}>
                     Hoặc
@@ -114,8 +145,11 @@ const SignInScreen = () => {
                   Đăng ký tài khoản
                 </Button>
 
-                <Button tw="mb-4" type="secondary" onPress={() => setIsLogin(true)}>
-                  Dev Login
+                <Button
+                  tw="mb-4"
+                  type="secondary"
+                  onPress={() => handleDevSignIn(setIsLoading, setIsLogin, navigation)}>
+                  Dev Sign In. Don't forget to remove this
                 </Button>
               </View>
             )}

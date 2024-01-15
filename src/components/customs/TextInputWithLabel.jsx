@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput as RNTextInput } from 'react-native';
 
 import { Icon } from './CustomIcon';
-import { View, Text, TouchableOpacity } from './TailwindComponent';
+import { View, Text, TouchableOpacity, PaperTextInput } from './TailwindComponent';
+import { TextInput } from 'react-native-paper';
 import { Color } from '../../common';
 
 const StyledRNTextInput = styled(RNTextInput);
@@ -17,51 +18,62 @@ const CustomTextInput = ({
   placeholder,
   multiline,
   keyboardType,
+  returnKeyType,
   notEditable,
+  onBlur,
+  autoCapitalize,
   style,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
+  const [isFocused, setIsFocused] = useState(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const errorStyle = error ? 'border-semanticRed' : 'border-transparent';
+
+  const borderColor = error
+    ? 'border-semanticRed'
+    : isFocused
+      ? 'border-primary'
+      : 'border-transparent';
+
   return (
     <View tw="mb-4" style={style}>
       {label && <Text tw="mb-2 text-base font-bold">{label}</Text>}
-      <View
-        tw={
-          error
-            ? 'border-2 border-semanticRed mb-1 flex-row items-center elevation overflow-hidden rounded-2xl'
-            : 'mb-1 flex-row items-center elevation overflow-hidden rounded-2xl'
-        }>
-        <StyledRNTextInput
-          style={styles.textInputStyle}
-          selectionColor="rgba(100, 80, 255, 0.5)"
-          editable={!notEditable}
-          multiline={multiline}
-          keyboardType={keyboardType}
-          placeholder={placeholder}
-          autoCapitalize="none"
-          value={value}
-          onChangeText={onChangeText}
-          secureTextEntry={isPasswordVisible}
-        />
-        {secureTextEntry && (
-          <TouchableOpacity tw="mr-4" onPress={togglePasswordVisibility}>
-            <Icon
-              source={
-                isPasswordVisible
-                  ? require('../../assets/icons/Visibility.png')
-                  : require('../../assets/icons/VisibilityOff.png')
-              }
-              color={Color.neutral1}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
+
+      {/* <View tw="flex-1 flex-row"> */}
+      <PaperTextInput
+        theme={{ colors: { onSurfaceVariant: Color.neutral2 } }} // Placeholder color
+        style={[styles.textInputStyle, multiline && { height: null, paddingVertical: 12 }]}
+        outlineStyle={[styles.outlineStyle, error ? styles.errorOutlineStyle : null]}
+        outlineColor="transparent"
+        editable={!notEditable}
+        multiline={multiline}
+        keyboardType={keyboardType}
+        returnKeyType={returnKeyType}
+        placeholder={placeholder}
+        autoCapitalize={autoCapitalize}
+        mode="outlined"
+        value={value}
+        onBlur={onBlur}
+        // onFocus={multiline ? }
+        onChangeText={onChangeText}
+        secureTextEntry={isPasswordVisible}
+        right={
+          <TextInput.Icon
+            icon={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
+            style={secureTextEntry ? null : { width: '0%' }}
+            onPress={togglePasswordVisibility}
+            color={Color.neutral2}
+          />
+        }
+      />
+      {/* </View> */}
+
       {error && (
-        <View tw="flex-row items-center">
+        <View tw="flex-row items-center mt-2">
           <Icon source={require('../../assets/icons/ErrorOutline.png')} color={Color.semanticRed} />
           <Text style={styles.errorText}>{error}</Text>
         </View>
@@ -70,32 +82,24 @@ const CustomTextInput = ({
   );
 };
 
-export const TextInputWithLabel = styled(CustomTextInput, 'mx-5');
+export const TextInputWithLabel = styled(CustomTextInput, 'px-5');
 
 const styles = StyleSheet.create({
   textInputStyle: {
-    flex: 1,
-    borderRadius: 16,
     height: 48,
-    paddingHorizontal: 16,
     fontSize: 16,
+    width: '100%',
   },
-  contentStyle: {
-    paddingHorizontal: 20,
-    backgroundColor: 'transparent',
+  errorOutlineStyle: {
+    borderWidth: 2,
+    borderColor: Color.semanticRed,
     borderRadius: 16,
-    height: 48,
-    marginBottom: 8,
-  },
-  underlineStyle: {
-    backgroundColor: 'transparent',
   },
   outlineStyle: {
     backgroundColor: Color.neutral4,
-    height: 48,
-    borderRadius: 16,
+    // borderColor: 'transparent',
     elevation: 3,
-    borderWidth: 2,
+    borderRadius: 16,
   },
   errorText: {
     color: Color.semanticRed,

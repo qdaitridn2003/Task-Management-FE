@@ -5,6 +5,8 @@ import { Color } from './common';
 import { AppProvider } from './contexts';
 import { AppNavigation } from './navigations';
 
+import { MenuProvider } from 'react-native-popup-menu';
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -20,11 +22,13 @@ const theme = {
 
 const App = () => {
   return (
-    <PaperProvider theme={theme}>
-      <AppProvider>
-        <AppNavigation />
-      </AppProvider>
-    </PaperProvider>
+    <MenuProvider>
+      <PaperProvider theme={theme}>
+        <AppProvider>
+          <AppNavigation />
+        </AppProvider>
+      </PaperProvider>
+    </MenuProvider>
   );
 };
 

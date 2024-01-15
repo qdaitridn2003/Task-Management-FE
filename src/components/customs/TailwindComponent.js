@@ -9,6 +9,7 @@ import {
   ActivityIndicator as RNActivityIndicator,
   TextInput as RNTextInput,
   FlatList as RNFlatList,
+  Modal as RNModal,
 } from 'react-native';
 import {
   Text as RNPaperText,
@@ -18,6 +19,7 @@ import {
   Avatar as RNPaperAvatar,
   HelperText,
   ActivityIndicator as RNPaperActivityIndicator,
+  Card as RNPaperCard,
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -30,6 +32,7 @@ export const ScrollView = styled(RNScrollView);
 export const ActivityIndicator = styled(RNActivityIndicator, 'flex-1');
 export const TextInput = styled(RNTextInput);
 export const FlatList = styled(RNFlatList);
+export const Modal = styled(RNModal);
 
 // Paper Components
 export const PaperText = styled(RNPaperText);
@@ -38,7 +41,8 @@ export const PaperModal = styled(RNPaperModal);
 export const PaperTextInput = styled(RNPaperTextInput);
 export const PaperAvatar = styled(RNPaperAvatar);
 export const PaperHelperText = styled(HelperText);
-export const PaperActivityIndicator = styled(RNPaperActivityIndicator, 'flex-1');
+export const PaperActivityIndicator = styled(RNPaperActivityIndicator);
+export const PaperCard = styled(RNPaperCard);
 
 export const ColView = styled(RNView, 'flex-col');
 export const RowView = styled(RNView, 'flex-row');

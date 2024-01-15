@@ -8,7 +8,7 @@ import { Icon } from './CustomIcon';
 const CustomStatusIndicator = ({ status, style, size }) => {
   const statusMappings = {
     upcoming: { text: 'Sắp tới', icon: require('../../assets/icons/Alarm.png') },
-    active: { text: 'Hoạt động', icon: require('../../assets/icons/DoubleArrowCircle.png') },
+    ongoing: { text: 'Hoạt động', icon: require('../../assets/icons/DoubleArrowCircle.png') },
     completed: { text: 'Hoàn thành', icon: require('../../assets/icons/CheckCircleOutline.png') },
     canceled: { text: 'Đã hủy', icon: require('../../assets/icons/AlarmOff.png') },
     unknown: { text: 'Không rõ trạng thái', icon: require('../../assets/icons/QuestionMark.png') },
@@ -18,7 +18,7 @@ const CustomStatusIndicator = ({ status, style, size }) => {
     switch (status) {
       case 'upcoming':
         return Color.neutral1;
-      case 'active':
+      case 'ongoing':
         return Color.secondary;
       case 'completed':
         return Color.semanticGreen;

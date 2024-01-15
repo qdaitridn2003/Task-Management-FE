@@ -44,6 +44,7 @@ const CustomTextInput = ({
           value={value}
           onChangeText={onChangeText}
           onBlur={onBlur}
+          pointerEvents={notEditable ? 'none' : 'auto'} // Set pointerEvents based on notEditable
         />
 
         {error && (

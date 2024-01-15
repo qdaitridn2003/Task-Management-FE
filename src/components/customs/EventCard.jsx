@@ -5,73 +5,89 @@ import { PropTypes } from 'prop-types';
 import { Card } from 'react-native-paper';
 import { Color } from '../../common';
 import { Icon } from './CustomIcon';
-import { Text, View } from './TailwindComponent';
+import { Text, View, PaperCard } from './TailwindComponent';
 import { StatusIndicator } from './StatusIndicator';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
-const RNPaperCard = ({ status, title, startDate, endDate, onPress, onLongPress, ...props }) => {
-  const statusMappings = {
-    upcoming: { text: 'Sắp tới', icon: require('../../assets/icons/Alarm.png') },
-    active: { text: 'Hoạt động', icon: require('../../assets/icons/DoubleArrowCircle.png') },
-    completed: { text: 'Hoàn thành', icon: require('../../assets/icons/CheckCircleOutline.png') },
-    canceled: { text: 'Đã hủy', icon: require('../../assets/icons/AlarmOff.png') },
-  };
-
-  const getStatusColor = () => {
-    switch (status) {
-      case 'upcoming':
-        return Color.neutral1;
-      case 'active':
-        return Color.secondary;
-      case 'completed':
-        return Color.semanticGreen;
-      case 'canceled':
-        return Color.semanticRed;
-      default:
-        return Color.neutral2;
-    }
+const RNPaperCard = ({
+  imageSource,
+  status,
+  title,
+  startDate,
+  endDate,
+  onPress,
+  onLongPress,
+  onContextMenuEdit,
+  onContextMenuStatus,
+  style,
+}) => {
+  const formatDateString = (dateString) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+    return formattedDate;
   };
 
   return (
-    <View {...props}>
-      <Card onPress={onPress} onLongPress={onLongPress} style={styles.cardStyle}>
-        <ImageBackground style={styles.imageStyle} source={{ uri: 'https://picsum.photos/700' }}>
-          {/* Status Indicator */}
-          <StatusIndicator tw="absolute bottom-4 left-6" status={status} />
-          {/* <View style={[styles.statusContainer, { borderColor: getStatusColor() }]}>
-            <Icon source={statusMappings[status].icon} size={20} color={getStatusColor()} />
+    <View style={style}>
+      <PaperCard
+        onPress={onPress}
+        onLongPress={onLongPress}
+        tw="bg-neutral4 mt-0.5 overflow-hidden rounded-2xl">
+        {imageSource ? (
+          <ImageBackground style={styles.imageStyle} source={imageSource}>
+            {/* Status Indicator */}
+            <StatusIndicator tw="absolute bottom-4 left-6" status={status} />
+          </ImageBackground>
+        ) : (
+          <StatusIndicator tw="mx-5 mt-4" status={status} />
+        )}
 
-            <Text style={[styles.statusText, { color: getStatusColor() }]}>
-              {statusMappings[status].text}
-            </Text>
-          </View> */}
-        </ImageBackground>
+        <View tw="flex-row justify-between mx-6 my-4">
+          <View>
+            <Text tw="text-xl font-medium pb-1 -mt-1.5">{title}</Text>
 
-        <View style={styles.contentStyle}>
-          <Text tw="text-lg font-medium pb-1">{title}</Text>
+            {startDate && (
+              <View tw="flex-row items-center py-1">
+                <Icon
+                  source={require('../../assets/icons/EventStart.png')}
+                  size={20}
+                  color={Color.semanticGreen}
+                />
+                <Text tw="text-base pl-1">{formatDateString(startDate)}</Text>
+              </View>
+            )}
 
-          {startDate && (
-            <View tw="flex-row items-center py-1">
-              <Icon
-                source={require('../../assets/icons/EventStart.png')}
-                size={20}
-                color={Color.semanticGreen}
-              />
-              <Text tw="text-sm pl-1">{startDate}</Text>
-            </View>
-          )}
+            {endDate && (
+              <View tw="flex-row items-center pt-1">
+                <Icon
+                  source={require('../../assets/icons/Event.png')}
+                  size={20}
+                  color={Color.primary}
+                />
+                <Text tw="text-base pl-1">{formatDateString(endDate)}</Text>
+              </View>
+            )}
+          </View>
 
-          {endDate && (
-            <View tw="flex-row items-center pt-1">
-              <Icon
-                source={require('../../assets/icons/Event.png')}
-                size={20}
-                color={Color.primary}
-              />
-              <Text tw="text-sm pl-1">{endDate}</Text>
-            </View>
-          )}
+          <View tw={imageSource ? 'self-center' : 'mt-1'}>
+            <Menu>
+              <MenuTrigger customStyles={styles.triggerStyles}>
+                <Icon source={require('../../assets/icons/MoreVert.png')} color={Color.neutral2} />
+              </MenuTrigger>
+
+              <MenuOptions customStyles={styles.optionsStyles}>
+                <MenuOption onSelect={onContextMenuEdit}>
+                  <Text style={styles.popupMenuText}>Sửa</Text>
+                </MenuOption>
+
+                <MenuOption onSelect={onContextMenuStatus}>
+                  <Text style={styles.popupMenuText}>Trạng thái</Text>
+                </MenuOption>
+              </MenuOptions>
+            </Menu>
+          </View>
         </View>
-      </Card>
+      </PaperCard>
     </View>
   );
 };
@@ -88,31 +104,11 @@ EventCard.propTypes = {
 
 EventCard.defaultProps = {
   title: 'Tên sự kiện',
-  startDate: 'Thứ Hai, 01/03/2023',
-  endDate: 'Thứ Bảy, 06/03/2023',
+  startDate: 'Ngày bắt đầu',
+  endDate: 'Ngày kết thúc',
 };
 
 const styles = StyleSheet.create({
-  cardStyle: {
-    backgroundColor: Color.neutral4,
-    overflow: 'hidden',
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 16,
-    left: 24,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-  },
-  statusText: {
-    paddingLeft: 4,
-    paddingRight: 2,
-    fontSize: 14,
-    fontWeight: '600',
-  },
   contentStyle: {
     marginHorizontal: 24,
     marginVertical: 16,
@@ -121,5 +117,19 @@ const styles = StyleSheet.create({
     height: 140,
     width: '100%',
     resizeMode: 'cover',
+  },
+  optionsStyles: {
+    optionsContainer: {
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+      width: 144,
+      borderRadius: 16,
+    },
+    optionText: {},
+  },
+  optionStyle: {},
+  popupMenuText: {
+    fontSize: 16,
+    paddingLeft: 4,
   },
 });
