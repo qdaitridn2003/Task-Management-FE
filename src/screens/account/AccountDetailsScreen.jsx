@@ -45,11 +45,15 @@ const AccountDetailsScreen = () => {
   const { setIsLogin } = useContext(AuthContext);
   const navigation = useNavigation();
   const [data, setData] = useState({});
+  const [checkData, setCheckData] = useState({});
+  const [isModalIndicator, setIsModalIndicator] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       const token = await asyncStorageGetItem(accessTokenKey);
       const response = await axiosAuthGet('/employee/get-employee-profile', token, {});
+      // console.log(response);
       setData(response.employee);
     });
 
@@ -90,7 +94,7 @@ const AccountDetailsScreen = () => {
           </TouchableOpacity>
         </View>
         <View tw="pb-4">
-          <TouchableOpacity
+          {/* <TouchableOpacity
             tw="self-start mx-5 pr-4 items-center justify-center"
             onPress={() => console.log('Settings')}>
             <View tw="flex-row items-center">
@@ -100,7 +104,7 @@ const AccountDetailsScreen = () => {
               />
               <Text tw="ml-2 text-base font-bold text-primary">Cài đặt</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View tw="pb-4">
           <TouchableOpacity

@@ -63,22 +63,11 @@ const NotificationsScreen = () => {
           renderItem={(notification) => <NotificationCard notification={notification} />}
           keyExtractor={(notification) => notification._id}
           onEndReached={() => onScrollEndList()}
-          ListFooterComponent={() => (
-            <ActivityIndicator className="p-2" size={36} color={Color.primary} />
-          )}
+          ListFooterComponent={() =>
+            isLoading ? <ActivityIndicator className="p-2" size={36} color={Color.primary} /> : null
+          }
         />
       )}
-
-      <Button type="secondary" iconSource={require('../../assets/icons/DoneAll.png')}>
-        Đánh dấu đã đọc tất cả
-      </Button>
-
-      <Button
-        type="secondary"
-        textColor={Color.semanticRed}
-        iconSource={require('../../assets/icons/Delete.png')}>
-        Xóa tất cả
-      </Button>
     </ContainerView>
   );
 };

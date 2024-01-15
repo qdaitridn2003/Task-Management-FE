@@ -48,7 +48,7 @@ const ClientScreen = () => {
 
   return (
     <ContainerView tw="px-0">
-      <MainHeaderBar type="clients" onPress={handleChangeListStatus} />
+      <MainHeaderBar type="clients" onPress={() => navigation.navigate(ScreenName.addClient)} />
 
       <View tw="flex-row px-5">
         <Searchbar tw="flex-1 mr-2.5 mb-2" onChangeText={(text) => setSearchText(text)} />
