@@ -58,7 +58,7 @@ const ClientScreen = () => {
           iconSource={require('../../assets/icons/Tune.png')}
         />
       </View>
-      <FilterBar listTab={listFilter} />
+      {/* <FilterBar listTab={listFilter} /> */}
 
       {data.length === 0 ? (
         <View className="flex-1 align-middle justify-center">

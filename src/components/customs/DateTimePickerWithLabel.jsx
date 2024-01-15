@@ -112,9 +112,9 @@ const CustomDateTimePickerWithLabel = ({
   }, [value]);
 
   return (
-    <View tw="flex" style={style}>
+    <View tw="flex-1" style={style}>
       {label && <Text tw="text-base font-bold mb-2 px-4">{label}</Text>}
-      <Pressable onPress={showDateTimePicker}>
+      <Pressable onPress={notEditable ? null : showDateTimePicker}>
         <DateTimeButton
           tw="px-5"
           type={type}

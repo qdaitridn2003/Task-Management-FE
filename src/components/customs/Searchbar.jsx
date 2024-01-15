@@ -1,10 +1,9 @@
-import { Entypo } from '@expo/vector-icons';
 import { styled } from 'nativewind';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Icon } from './CustomIcon';
-import { View, TextInput } from './TailwindComponent';
+import { View, TextInput, TouchableOpacity } from './TailwindComponent';
 import { Color } from '../../common';
 
 const CustomSearchbar = ({

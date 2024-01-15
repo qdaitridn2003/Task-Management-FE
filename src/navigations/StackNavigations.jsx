@@ -2,7 +2,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import { ScreenName } from '../common';
-import { ClientProvider, EmployeeProvider } from '../contexts';
 import {
   AddEventScreen,
   AddTaskScreen,
@@ -17,7 +16,7 @@ import {
   EmployeeScreen,
   EmployeeDetailsScreen,
   UpdateRoleEmployeeScreen,
-  // DemoScreen,
+  DemoScreen,
   ClientScreen,
   ClientDetailsScreen,
   AddClientScreen,
@@ -118,7 +117,7 @@ export const ManagementStack = () => {
       screenOptions={{ headerShown: false }}>
       <ManagementStack.Screen name={ScreenName.managementMenu} component={ManagementScreen} />
       <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
-      <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
+      {/* <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} /> */}
       <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
       <ManagementStack.Screen name={ScreenName.employee} component={EmployeeStack} />
       <ManagementStack.Screen name={ScreenName.tag} component={TagStack} />
