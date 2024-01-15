@@ -1,33 +1,80 @@
-import { Formik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import * as yup from 'yup';
 
-import { Button, ContainerView, Text, TextInputWithLabel, View } from '../../components';
+import {
+  Button,
+  ContainerView,
+  DateTimePickerWithLabel,
+  RadioButtonOptionGender,
+  Text,
+  TextInputWithLabel,
+  View,
+} from '../../components';
 import { axiosPut } from '../../configs';
 import { AuthContext } from '../../contexts';
+import { ScreenName } from '../../common';
 
 const AddEmployee = ({ route }) => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const { setIsLogin } = useContext(AuthContext);
-  const [isFocus, setIsFocus] = useState(false);
-  const [genderValue, setGenderValue] = useState('Nam');
+  const [gender, setGender] = useState('');
+  const [errors, setErrors] = useState({});
+  const [birthday, setBirthday] = useState();
+  const [isFocus, setIsFocus] = useState('');
+  const [inputs, setInputs] = useState({
+    name: '',
+    phone: '',
+    address: '',
+  });
 
-  const listGender = [{ gender: 'Nam' }, { gender: 'Nữ' }];
-  const changeGender = (displayValue) => {
-    if (displayValue === 'Nam') return 'nam';
-    if (displayValue === 'Nữ') return 'nữ';
-    return 'nam';
+  const handleErrors = (errorMessage, input) => {
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   };
 
   const email = route.params?.email || '';
   const authId = route.params?.authId || '';
 
   useEffect(() => {
-    console.log('Email from SignInScreen:', email);
-    console.log('AuthId from SignInScreen:', authId);
+    // console.log('Email from SignInScreen:', email);
+    // console.log('AuthId from SignInScreen:', authId);
   }, [email, authId]);
+
+  const AddEmployees = async () => {
+    if (!inputs.name) {
+      handleErrors('Vui lòng nhập họ và tên', 'name');
+    } else {
+      handleErrors('', 'name');
+    }
+    if (!inputs.phone) {
+      handleErrors('Vui lòng nhập số điện thoại', 'phone');
+    } else if (!/^\d{10}$/.test(inputs.phone)) {
+      handleErrors('Số điện thoại phải có đúng 10 số', 'phone');
+    } else {
+      handleErrors('', 'phone');
+    }
+    if (!inputs.address) {
+      handleErrors('Vui lòng nhập họ và tên', 'address');
+    } else {
+      handleErrors('', 'address');
+    }
+
+    const response = await axiosPut('/employee/register-employee-profile', {
+      username: email,
+      authId,
+      fullName: inputs.name,
+      phoneNumber: inputs.phone,
+      address: inputs.address,
+      gender: gender,
+    });
+
+    console.log(response);
+    if (inputs.name && inputs.phone && inputs.address) {
+      navigation.navigate(ScreenName.signIn);
+      ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+    }
+  };
 
   return (
     <ContainerView>
@@ -35,83 +82,58 @@ const AddEmployee = ({ route }) => {
         <View tw="flex-1">
           <Text tw="self-center text-2xl font-semibold py-4">Tạo nhân viên</Text>
 
-          <Formik
-            initialValues={{ name: '', phone: '', gender: '' }}
-            validationSchema={yup.object({
-              name: yup.string().required('Tên không được để trống'),
-              phone: yup
-                .string()
-                .required('Số điện thoại không được để trống')
-                .matches(/^\d{1,10}$/, 'Số điện thoại phải có ít hơn 10 chữ số'),
-            })}
-            onSubmit={async (values) => {
-              setIsLoading(true);
+          <TextInputWithLabel
+            label="Họ và tên"
+            placeholder="Nguyễn Văn A"
+            onChangeText={(text) => setInputs({ ...inputs, name: text })}
+            onFocus={() => {
+              setErrors((prevState) => ({ ...prevState, name: '' }));
+              setIsFocus('name');
+            }}
+            value={inputs.name}
+            error={errors.name}
+          />
+          <TextInputWithLabel
+            label="Số điện thoại"
+            placeholder="0326252558"
+            onChangeText={(text) => setInputs({ ...inputs, phone: text })}
+            onFocus={() => {
+              setErrors((prevState) => ({ ...prevState, phone: '' }));
+              setIsFocus('phone');
+            }}
+            value={inputs.phone}
+            error={errors.phone}
+          />
 
-              try {
-                const response = await axiosPut('/employee/register-employee-profile', {
-                  username: email,
-                  authId,
-                  fullName: values.name,
-                  phoneNumber: values.phone,
-                  gender: changeGender(values.gender),
-                });
+          <DateTimePickerWithLabel
+            value={birthday}
+            onChange={(text) => setBirthday(text)}
+            label="Ngày sinh"
+            type="birthDay"
+            mode="date"
+          />
 
-                console.log(response);
-                if (response && response.employee) {
-                  setIsLogin(true);
-                  ToastAndroid.show('Lưu thành công', ToastAndroid.SHORT);
-                }
-              } catch (error) {
-                console.log('API error:', error);
-              }
+          <RadioButtonOptionGender
+            label="Giới tính"
+            onValueChange={(value) => setGender(value)}
+            gender={gender}
+          />
 
-              setIsLoading(false);
-            }}>
-            {(props) => (
-              <View>
-                <TextInputWithLabel
-                  label="Tên"
-                  placeholder="Nguyễn Văn A"
-                  onChangeText={props.handleChange('name')}
-                  onBlur={props.handleBlur('name')}
-                  value={props.values.name}
-                  error={props.touched.name && props.errors.name}
-                />
-                <TextInputWithLabel
-                  label="Số điện thoại"
-                  placeholder="0326252558"
-                  onChangeText={props.handleChange('phone')}
-                  onBlur={props.handleBlur('phone')}
-                  value={props.values.phone}
-                  error={props.touched.phone && props.errors.phone}
-                />
+          <TextInputWithLabel
+            label="Địa chỉ"
+            placeholder="12 Nguyễn Thị Thập"
+            onChangeText={(text) => setInputs({ ...inputs, address: text })}
+            onFocus={() => {
+              setErrors((prevState) => ({ ...prevState, address: '' }));
+              setIsFocus('address');
+            }}
+            value={inputs.address}
+            error={errors.address}
+          />
 
-                <View tw="mx-4">
-                  <Text tw="mt-4 font-bold text-xl text-indigo-800">Giới tính</Text>
-                </View>
-                <Dropdown
-                  style="mx-4 border border-gray-500 rounded px-2"
-                  placeholderStyle="text-gray-600 text-xl"
-                  selectedItemStyle="text-xl"
-                  iconStyle="w-5 h-5 mr-1"
-                  data={listGender}
-                  labelField="gender"
-                  valueField="gender"
-                  value={genderValue}
-                  onFocus={() => setIsFocus(true)}
-                  onBlur={() => setIsFocus(false)}
-                  onChange={(item) => {
-                    setGenderValue(item.gender);
-                    setIsFocus(false);
-                  }}
-                />
-
-                <Button tw="mb-4 mt-8" onPress={props.handleSubmit} loading={isLoading}>
-                  Tạo nhân viên
-                </Button>
-              </View>
-            )}
-          </Formik>
+          <Button tw="mb-4 mt-8" onPress={AddEmployees} loading={isLoading}>
+            Tạo nhân viên
+          </Button>
         </View>
       </TouchableWithoutFeedback>
     </ContainerView>

@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import React, { useContext, useEffect, useState } from 'react';
+import { ToastAndroid } from 'react-native';
 
 import { ScreenName, accessTokenKey } from '../../common';
 import {
@@ -13,7 +14,7 @@ import {
   Text,
   View,
 } from '../../components';
-import { axiosAuthGet } from '../../configs';
+import { asyncStorageGetItem, axiosAuthGet, axiosAuthPut } from '../../configs';
 import { EmployeeContext } from '../../contexts';
 
 const TextRow = ({ label, value }) => {
@@ -25,7 +26,7 @@ const TextRow = ({ label, value }) => {
     displayText = 'Hoạt động';
   } else if (value === 'disabled') {
     textColor = 'color-semanticRed';
-    displayText = 'Đã vô hiệu hóa';
+    displayText = 'Vô hiệu hóa';
   }
 
   return (
@@ -40,43 +41,52 @@ const TextRow = ({ label, value }) => {
 
 const EmployeeDetailsScreen = () => {
   const navigation = useNavigation();
-  const { employeeId } = useContext(EmployeeContext);
+  const { employeeId, edit, setEdit, fetchData } = useContext(EmployeeContext);
   const [data, setData] = useState({});
+  const [formatBirthday, setFormatBirthday] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchData = async () => {
-    try {
+  useEffect(() => {
+    (async () => {
       const accessToken = await AsyncStorage.getItem(accessTokenKey);
       const response = await axiosAuthGet(
         `/employee/get-employee-profile/${employeeId}`,
         accessToken,
+        {},
       );
+      // console.log('Response: ', response);
 
-      console.log(response);
-      console.log(employeeId);
-      const employee = response.employee;
-      const dateString = employee.birthday;
-      const formattedDate = format(new Date(dateString), 'dd/MM/yyyy');
-      const formattedGender = employee.gender === 'nam' ? 'Nam' : 'Nữ';
-      setData({
-        status: employee.status,
-        name: employee.name,
-        birthDay: formattedDate,
-        role: employee.auth ? employee.auth.role.name : 'null',
-        gender: formattedGender,
-        phone: employee.phone,
-        address: employee.address,
-        email: employee.email,
-        avatar: employee.avatar,
-      });
-      console.log(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+      if (response) {
+        const formattedDate = format(new Date(response.employee.birthday), 'dd/MM/yyyy');
+        setFormatBirthday(formattedDate);
+        setData(response.employee);
+        setIsLoading(false);
+      }
+    })();
+  }, [edit]);
+
+  const handleDisabled = async () => {
+    const token = await asyncStorageGetItem(accessTokenKey);
+    const response = await axiosAuthPut(`employee/update-employee-status/${employeeId}`, token, {
+      status: 'disabled',
+    });
+    if (response) {
+      fetchData(1);
+      ToastAndroid.show('Đã vô hiệu hóa', ToastAndroid.SHORT);
+      navigation.navigate(ScreenName.employeeList);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [employeeId]);
+  const handleActive = async () => {
+    const token = await asyncStorageGetItem(accessTokenKey);
+    const response = await axiosAuthPut(`employee/update-employee-status/${employeeId}`, token, {
+      status: 'active',
+    });
+    if (response) {
+      ToastAndroid.show('Đã kích hoạt lại', ToastAndroid.SHORT);
+      fetchData(1, 'disabled');
+    }
+  };
 
   return (
     <ContainerView tw="px-0">
@@ -91,13 +101,15 @@ const EmployeeDetailsScreen = () => {
         <View tw="p-5 mt-2 mb-4 mx-5 rounded-2xl elevation items-center">
           <Image
             tw="mb-3.5 h-32 w-32 rounded-full"
-            source={data.avatar ? { uri: data.avatar } : { uri: 'https://picsum.photos/700' }}
+            source={
+              data.avatar ? { uri: data.avatar } : require('../../assets/images/AddAvatar.jpeg')
+            }
           />
 
           <Text tw="mb-3.5 text-2xl font-bold">{data.name}</Text>
           <Text tw="mb-3.5 text-lg font-bold">{data.role}</Text>
 
-          <TextRow label="Ngày sinh" value={data.birthDay} />
+          <TextRow label="Ngày sinh" value={formatBirthday} />
           <TextRow label="Giới tính" value={data.gender} />
           <TextRow label="Số điện thoại" value={data.phone} />
           <TextRow label="Email" value={data.email} />
@@ -105,13 +117,41 @@ const EmployeeDetailsScreen = () => {
           <TextRow label="Tài khoản" value={data.status} />
         </View>
 
-        <Button tw="mb-4" onPress={() => navigation.navigate(ScreenName.updatRoleEmployee)}>
-          Đổi chức vụ
-        </Button>
+        {data.status === 'active' && (
+          <>
+            <Button tw="mb-4" onPress={() => navigation.navigate(ScreenName.updatRoleEmployee)}>
+              Đổi chức vụ
+            </Button>
 
-        <Button tw="mb-4" onPress={() => navigation.navigate(ScreenName.updatRoleEmployee)}>
-          Vô hiệu hóa nhân viên
-        </Button>
+            <Button tw="mb-4" type="secondary" onPress={handleDisabled}>
+              Vô hiệu hóa nhân viên
+            </Button>
+
+            {/* Ẩn button Kích hoạt */}
+            <Button tw="mb-4" style={{ display: 'none' }}>
+              Kích hoạt nhân viên
+            </Button>
+          </>
+        )}
+
+        {data.status === 'disabled' && (
+          <>
+            {/* Ẩn button Đổi chức vụ */}
+            <Button tw="mb-4" style={{ display: 'none' }}>
+              Đổi chức vụ
+            </Button>
+
+            {/* Ẩn button Vô hiệu hóa nhân viên */}
+            <Button tw="mb-4" type="secondary" style={{ display: 'none' }}>
+              Vô hiệu hóa nhân viên
+            </Button>
+
+            {/* Hiển thị button Kích hoạt */}
+            <Button tw="mb-4" onPress={handleActive}>
+              Kích hoạt nhân viên
+            </Button>
+          </>
+        )}
       </ScrollView>
     </ContainerView>
   );

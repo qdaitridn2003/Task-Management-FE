@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Color, ScreenName } from '../../common';
 import {
@@ -11,28 +11,21 @@ import {
   FlatList,
   ActivityIndicator,
   EmployeeCard,
+  FilterBar,
+  Text,
 } from '../../components';
 import { EmployeeContext } from '../../contexts';
 
 const EmployeeScreen = () => {
-  const navigation = useNavigation();
-  const {
-    data,
-    page,
-    setPage,
-    isLoading,
-    setEmployeeId,
-    setIsLoading,
-    fetchData,
-    searchText,
-    setSearchText,
-  } = useContext(EmployeeContext);
+  const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
+    useContext(EmployeeContext);
+  const [isStatusDisabled, setIsStatusDisabled] = useState(false);
+  // console.log(data);
 
   const loadMoreData = () => {
     setIsLoading(true);
     setPage(page + 1);
   };
-
   const renderLoader = () => {
     return isLoading ? (
       <View>
@@ -41,53 +34,57 @@ const EmployeeScreen = () => {
     ) : null;
   };
 
-  const handleSearch = () => {
-    fetchData(1, searchText);
-  };
+  const listFilter = [{ status: 'Tất cả' }, { status: 'Hoạt động' }, { status: 'Đã vô hiệu hoá' }];
 
-  const handleClearSearch = () => {
-    setSearchText('');
-    fetchData(1, '');
-  };
-
-  const handleEmployeeDetail = (id) => {
-    setEmployeeId(id);
-    navigation.navigate(ScreenName.employeeDetails, { id });
+  const handleChangeListStatus = () => {
+    if (!isStatusDisabled) {
+      fetchData(1, 'disabled');
+      setIsStatusDisabled(true);
+    } else {
+      fetchData(1, 'active');
+      setIsStatusDisabled(false);
+    }
   };
 
   return (
     <ContainerView tw="px-0">
-      <MainHeaderBar type="employees" rightButton={false} />
+      <MainHeaderBar type="employees" rightButton={false} onPress={handleChangeListStatus} />
 
       <View tw="flex-row px-5">
-        <Searchbar
-          tw="flex-1 mr-2.5 mb-2"
-          onSubmitEditing={handleSearch}
-          value={searchText || ''}
-          onChangeText={(text) => setSearchText(text)}
-          setSearchText={setSearchText}
+        <Searchbar tw="flex-1 mr-2.5 mb-2" onChangeText={(text) => setSearchText(text)} />
+        <IconButton
+          type="secondary"
+          iconColor={Color.neutral2}
+          iconSource={require('../../assets/icons/Tune.png')}
         />
-        {searchText && (
-          <IconButton icon="cross" onPress={handleClearSearch} style={{ marginLeft: 8 }} />
-        )}
       </View>
+      <FilterBar listTab={listFilter} />
 
-      <FlatList
-        tw="mx-6 my-4"
-        data={data}
-        renderItem={({ item }) => (
-          <EmployeeCard
-            id={item._id}
-            name={item.name}
-            avatar={item.avatar}
-            onPress={() => handleEmployeeDetail(item._id)}
-          />
-        )}
-        keyExtractor={(item) => item._id}
-        ListFooterComponent={renderLoader}
-        showsVerticalScrollIndicator={false}
-        onEndReached={loadMoreData}
-      />
+      {data.length === 0 ? (
+        <View className="flex-1 align-middle justify-center">
+          <Text className="text-base text-center">Không có nhân viên nào</Text>
+        </View>
+      ) : (
+        <FlatList
+          tw="mx-6 my-4 "
+          data={data}
+          renderItem={({ item }) => (
+            <EmployeeCard
+              id={item._id}
+              name={item.name}
+              avatar={item.avatar}
+              status={item.status}
+              role={item.role}
+            />
+          )}
+          keyExtractor={(item) => item._id}
+          ListFooterComponent={(item) => {
+            item.length > 6 ? renderLoader : null;
+          }}
+          showsVerticalScrollIndicator={false}
+          onEndReached={loadMoreData}
+        />
+      )}
     </ContainerView>
   );
 };

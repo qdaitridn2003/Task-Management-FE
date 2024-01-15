@@ -52,7 +52,6 @@ const SignInScreen = () => {
                 } else {
                   if (response && response.authId && response.username) {
                     await AsyncStorage.setItem(accessTokenKey, response.accessToken);
-                    // await AsyncStorage.setItem(authIdKey, response.data.authId);
                     navigation.navigate(ScreenName.addEmployee, {
                       email: response.username,
                       authId: response.authId,

@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { Color, ScreenName, accessTokenKey } from '../../common';
+import { Color } from '../../common';
 import {
   ContainerView,
   MainHeaderBar,
@@ -10,17 +9,14 @@ import {
   Searchbar,
   View,
   Text,
-  ScrollView,
   FlatList,
   ActivityIndicator,
   FilterBar,
 } from '../../components';
 import { ClientCard } from '../../components/customs/ClientCard';
-import { asyncStorageGetItem, axiosAuthGet } from '../../configs';
 import { ClientContext } from '../../contexts';
 
 const ClientScreen = () => {
-  const navigation = useNavigation();
   const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
     useContext(ClientContext);
   const [isStatusDisabled, setIsStatusDisabled] = useState(false);

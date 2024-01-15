@@ -1,9 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { TouchableWithoutFeedback, Keyboard, ToastAndroid } from 'react-native';
-import * as yup from 'yup';
+import { Keyboard, ToastAndroid } from 'react-native';
 
 import { Color, ScreenName, emailRegisterKey, otpSecretKey } from '../../common';
 import { ContainerView, Text, Button, TextInputWithLabel, View } from '../../components';
@@ -14,6 +12,7 @@ const SignUpScreen = () => {
   const [countdown, setcountdown] = useState(60);
   const [showBtnResendOtp, setShowBtnResendOtp] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isFocus, setIsFocus] = useState('');
   const [firstSend, setFirstSend] = useState(true);
   const [inputs, setInputs] = useState({
     email: '',
@@ -24,9 +23,6 @@ const SignUpScreen = () => {
 
   const handleErrors = (errorMessage, input) => {
     setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
-  };
-  const handleOnChange = (text, input) => {
-    setInputs((prevState) => ({ ...prevState, [input]: text }));
   };
 
   const verifiedAccount = async () => {
@@ -68,7 +64,7 @@ const SignUpScreen = () => {
         await AsyncStorage.setItem(otpSecretKey, response.otpSecret);
         await AsyncStorage.setItem(emailRegisterKey, inputs.email);
 
-        ToastAndroid.show('Đã gửi mã OTP. Vui lòng check email.', ToastAndroid.SHORT);
+        ToastAndroid.show('Đã gửi mã OTP. Vui lòng kiểm tra email.', ToastAndroid.SHORT);
       }
     }
   };
@@ -118,7 +114,6 @@ const SignUpScreen = () => {
 
   const registerHandler = async () => {
     const otpSecret = await AsyncStorage.getItem(otpSecretKey);
-    // console.log('otpSecret: ' + otpSecret);
     Keyboard.dismiss();
     const response = await axiosPost('/auth/sign-up', {
       username: inputs.email,
@@ -142,12 +137,14 @@ const SignUpScreen = () => {
 
   return (
     <ContainerView>
+      <Text tw="self-center text-2xl font-semibold py-4">Đăng ký</Text>
       <TextInputWithLabel
         label="Email"
         placeholder="Địa chỉ email"
         onChangeText={(text) => setInputs({ ...inputs, email: text })}
-        onBlur={() => {
-          /* Handle onBlur if needed */
+        onFocus={() => {
+          setErrors((prevState) => ({ ...prevState, email: '' }));
+          setIsFocus('email');
         }}
         value={inputs.email}
         error={errors.email}
@@ -157,8 +154,9 @@ const SignUpScreen = () => {
         placeholder="Mật khẩu"
         secureTextEntry
         onChangeText={(text) => setInputs({ ...inputs, password: text })}
-        onBlur={() => {
-          /* Handle onBlur if needed */
+        onFocus={() => {
+          setErrors((prevState) => ({ ...prevState, password: '' }));
+          setIsFocus('password');
         }}
         value={inputs.password}
         error={errors.password}
@@ -168,8 +166,9 @@ const SignUpScreen = () => {
         placeholder="Nhập lại mật khẩu"
         secureTextEntry
         onChangeText={(text) => setInputs({ ...inputs, confirmPassword: text })}
-        onBlur={() => {
-          /* Handle onBlur if needed */
+        onFocus={() => {
+          setErrors((prevState) => ({ ...prevState, confirmPassword: '' }));
+          setIsFocus('confirmPassword');
         }}
         value={inputs.confirmPassword}
         error={errors.confirmPassword}
@@ -185,7 +184,7 @@ const SignUpScreen = () => {
           error={errors.otp}
         />
         <Button type="secondary" tw="flex justify-end mb-5 ml-1" onPress={verifiedAccount}>
-          Gủi mã
+          Gửi mã
         </Button>
       </View>
 
@@ -193,7 +192,6 @@ const SignUpScreen = () => {
         Đăng ký
       </Button>
 
-      {/* Seperator */}
       <View tw="flex-row items-center pb-4">
         <View tw="flex-1 h-0.5" style={{ backgroundColor: Color.neutral3 }} />
         <Text tw="px-2 text-base" style={{ color: Color.neutral2 }}>

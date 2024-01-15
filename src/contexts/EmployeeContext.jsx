@@ -12,21 +12,28 @@ export const EmployeeProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(1);
 
-  const fetchData = async (page) => {
+  const fetchData = async (page, status) => {
     const token = await asyncStorageGetItem(accessTokenKey);
     // console.log(token);
-    const response = await axiosAuthGet('/employee/get-employee-list', token, { limit: 6, page });
-    console.log('Respone: ', response.listEmployee);
-    const dataResponse = response.listEmployee;
+    const response = await axiosAuthGet('/employee/get-employee-list', token, {
+      limit: 6,
+      page,
+      status: status ? status : 'active',
+    });
 
-    if (dataResponse.length > 0) {
+    const listEmployee = response.listEmployee;
+
+    if (listEmployee.length > 0) {
       if (page === 1) {
         setIsLoading(false);
-        setData(dataResponse);
+        setData(listEmployee);
       } else {
-        setData([...data, ...dataResponse]);
+        setData([...data, ...listEmployee]);
         setIsLoading(false);
       }
+    } else if (listEmployee.length === 0 && status) {
+      setIsLoading(false);
+      setData(listEmployee);
     } else {
       setIsLoading(false);
     }

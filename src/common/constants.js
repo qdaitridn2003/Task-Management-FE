@@ -33,6 +33,8 @@ export const ScreenName = {
 
   management: 'Quản lý',
   managementMenu: 'management-menu',
+  ManagementEmployee: 'Cá nhân',
+  managementEmployeeMenu: 'management-employee-menu',
 
   addEmployee: 'add-employee',
 

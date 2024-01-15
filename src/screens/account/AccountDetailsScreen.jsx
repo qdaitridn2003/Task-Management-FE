@@ -1,7 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { format, parseISO } from 'date-fns';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Color, ScreenName, accessTokenKey } from '../../common';
 import {
@@ -15,6 +14,7 @@ import {
   View,
 } from '../../components';
 import { asyncStorageGetItem, axiosAuthGet } from '../../configs';
+import { AuthContext } from '../../contexts';
 
 const TextRow = ({ label, value }) => {
   let textColor = '';
@@ -26,6 +26,9 @@ const TextRow = ({ label, value }) => {
   } else if (value === 'disabled') {
     textColor = 'color-semanticRed';
     displayText = 'Đã vô hiệu hóa';
+  } else if (label === 'Ngày sinh' && value) {
+    const formattedBirthday = format(parseISO(value), 'dd/MM/yyyy');
+    displayText = formattedBirthday;
   }
 
   return (
@@ -39,22 +42,22 @@ const TextRow = ({ label, value }) => {
 };
 
 const AccountDetailsScreen = () => {
+  const { setIsLogin } = useContext(AuthContext);
   const navigation = useNavigation();
   const [data, setData] = useState({});
-  const [checkData, setCheckData] = useState({});
-  const [isModalIndicator, setIsModalIndicator] = useState(true);
 
   useEffect(() => {
-    (async () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       const token = await asyncStorageGetItem(accessTokenKey);
       const response = await axiosAuthGet('/employee/get-employee-profile', token, {});
-      console.log(response);
       setData(response.employee);
-    })();
-  }, []);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const handleOnEdit = () => {
-    navigation.navigate(ScreenName.editAccount);
+    navigation.navigate(ScreenName.editAccount, { data });
   };
 
   return (
@@ -69,10 +72,7 @@ const AccountDetailsScreen = () => {
           />
 
           <Text tw="mb-3.5 text-primary text-2xl font-bold">{data.name}</Text>
-
-          <Text tw="mb-3.5 text-primary text-lg font-bold">{data.role}</Text>
-
-          <TextRow label="Ngày sinh" value="18/01/2000" />
+          <TextRow label="Ngày sinh" value={data.birthday} />
           <TextRow label="Giới tính" value={data.gender} />
           <TextRow label="Số điện thoại" value={data.phone} />
           <TextRow label="Email" value={data.email} />
@@ -99,6 +99,19 @@ const AccountDetailsScreen = () => {
                 color={Color.primary}
               />
               <Text tw="ml-2 text-base font-bold text-primary">Cài đặt</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View tw="pb-4">
+          <TouchableOpacity
+            tw="self-start mx-5 pr-4 items-center justify-center"
+            onPress={() => setIsLogin(false)}>
+            <View tw="flex-row items-center">
+              <Icon
+                source={require('../../assets/icons/SettingsOutline.png')}
+                color={Color.primary}
+              />
+              <Text tw="ml-2 text-base font-bold text-primary">Đăng xuất</Text>
             </View>
           </TouchableOpacity>
         </View>

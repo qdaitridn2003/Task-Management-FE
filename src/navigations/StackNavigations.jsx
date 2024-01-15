@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import { ScreenName } from '../common';
+import { ClientProvider, EmployeeProvider } from '../contexts';
 import {
   AddEventScreen,
   AddTaskScreen,
@@ -9,8 +10,6 @@ import {
   DemoScreen,
   EventDetailsScreen,
   EventsScreen,
-  NotificationScreen,
-  NotificationDetailScreen,
   TaskDetailsScreen,
   TasksScreen,
   ManagementScreen,
@@ -19,17 +18,13 @@ import {
   EmployeeScreen,
   EmployeeDetailsScreen,
   UpdateRoleEmployeeScreen,
-  DemoScreen,
+  // DemoScreen,
   ClientScreen,
   ClientDetailsScreen,
   AddClientScreen,
-  ListClientDisabled,
+  ManagementEmployeeScreen,
 } from '../screens';
-import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
-import EditAccountScreen from '../screens/account/EditAccountScreen';
-import { ManagementScreen } from '../screens/management';
 import { UpdateClientScreen } from '../screens/client';
-import { ClientProvider, EmployeeProvider } from '../contexts';
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
   return (
@@ -111,6 +106,21 @@ export const ManagementStack = () => {
       <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
       <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
       <ManagementStack.Screen name={ScreenName.employee} component={EmployeeStack} />
+    </ManagementStack.Navigator>
+  );
+};
+
+export const ManagementEmployeeStack = () => {
+  const ManagementStack = createNativeStackNavigator();
+  return (
+    <ManagementStack.Navigator
+      initialRouteName={ScreenName.ManagementEmployee}
+      screenOptions={{ headerShown: false }}>
+      <ManagementStack.Screen
+        name={ScreenName.managementEmployeeMenu}
+        component={AccountDetailsScreen}
+      />
+      <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
     </ManagementStack.Navigator>
   );
 };
