@@ -31,7 +31,11 @@ const AddTagScreen = () => {
 
   return (
     <ContainerView>
-      <SubHeaderBar tw="-mb-2 mx-5" title="Thêm thẻ công việc" />
+      <SubHeaderBar
+        tw="-mb-2 mx-5"
+        title="Thêm thẻ công việc"
+        onBackPress={() => navigation.navigate(ScreenName.tagList)}
+      />
       <TextInputWithLabel
         className="mt-6"
         label="Tên thẻ"

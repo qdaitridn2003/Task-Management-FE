@@ -93,8 +93,8 @@ const AccountDetailsScreen = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View tw="pb-4">
-          {/* <TouchableOpacity
+        {/* <View tw="pb-4">
+          <TouchableOpacity
             tw="self-start mx-5 pr-4 items-center justify-center"
             onPress={() => console.log('Settings')}>
             <View tw="flex-row items-center">
@@ -104,17 +104,14 @@ const AccountDetailsScreen = () => {
               />
               <Text tw="ml-2 text-base font-bold text-primary">Cài đặt</Text>
             </View>
-          </TouchableOpacity> */}
-        </View>
+          </TouchableOpacity>
+        </View> */}
         <View tw="pb-4">
           <TouchableOpacity
             tw="self-start mx-5 pr-4 items-center justify-center"
             onPress={() => setIsLogin(false)}>
             <View tw="flex-row items-center">
-              <Icon
-                source={require('../../assets/icons/SettingsOutline.png')}
-                color={Color.primary}
-              />
+              <Icon source={require('../../assets/icons/SignOut.png')} color={Color.primary} />
               <Text tw="ml-2 text-base font-bold text-primary">Đăng xuất</Text>
             </View>
           </TouchableOpacity>
