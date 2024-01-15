@@ -17,7 +17,7 @@ import {
   EmployeeScreen,
   EmployeeDetailsScreen,
   UpdateRoleEmployeeScreen,
-  // DemoScreen,
+  DemoScreen,
   ClientScreen,
   ClientDetailsScreen,
   AddClientScreen,

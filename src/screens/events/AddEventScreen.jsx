@@ -1,56 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { styled } from 'nativewind';
-import { KeyboardAvoidingView, StyleSheet } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
-  AppBar,
   Button,
   ContainerView,
-  EventCard,
-  FilterBar,
-  IconButton,
-  Image,
   LocationTextInput,
   ScrollView,
-  Searchbar,
-  StatusIndicator,
   SubHeaderBar,
   Text,
-  TextInput,
   View,
   SingleSelector,
   Icon,
-  DateTimeButton,
   TextInputWithLabel,
   DateTimePickerWithLabel,
+  PopupModal,
 } from '../../components';
-import { Color, ScreenName } from '../../common';
-import { BackHandler, ToastAndroid, TextInput as BlankTextInput } from 'react-native';
-import DateTimePickerWrapper from '../../components/customs/DateTimePickerWrapper';
+import { ScreenName } from '../../common';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { getAccessToken } from '../../utilities/getAccessToken';
+import { axiosAuthPost } from '../../configs';
 
-/*
-  TO DO:
-  - Image picker
-  - Edit event
-  - Loading indicator
-*/
-
-const AddEventScreen = () => {
+const AddEventScreen = ({ route }) => {
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // FORM SUBMISSION
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     eventName: '',
     eventDescription: '',
     clientId: '',
     eventStart: '',
     eventEnd: '',
     location: '',
+    status: 'upcoming',
     image: '',
-  };
+  });
 
   const validationSchema = Yup.object().shape({
     eventStart: Yup.date().required('Chưa chọn ngày bắt đầu'),
@@ -62,47 +47,72 @@ const AddEventScreen = () => {
     clientId: Yup.string(),
   });
 
-  const onSubmit = ({ values }) => {
-    const navigation = useNavigation();
-    const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    // Extract passed data
+    const { passedData } = route.params;
 
-    setIsLoading(true);
-    console.log('Form submitted with values:', values);
+    if (passedData) {
+      setInitialValues({
+        eventName: passedData.name || '',
+        eventDescription: passedData.description || '',
+        clientId: passedData._id || '',
+        eventStart: passedData.startDateTime || '',
+        eventEnd: passedData.endDateTime || '',
+        location: passedData.location || '',
+        status: passedData.status || 'upcoming',
+        image: '',
+      });
+    }
 
-    /* 
-      >>> CALL API HERE <<<
-    */
-
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Simulating API call...');
-      console.log('API response: Success');
-
-      setIsLoading(false);
-    }, 1000);
-  };
+    console.log('Passed data:', route.params.passedData);
+  }, [route.params.passedData]);
 
   return (
     <ContainerView tw="px-0 ">
-      <SubHeaderBar tw="px-5" title="Tạo sự kiện" onBackPress={() => navigation.goBack()} />
+      <SubHeaderBar
+        tw="px-5"
+        title="Tạo sự kiện"
+        onBackPress={() => navigation.navigate(ScreenName.eventsList, { focusScreen: true })}
+      />
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          setIsLoading(true);
+        onSubmit={async (values) => {
           console.log('Form submitted with values:', values);
 
-          /* 
-            >>> CALL API HERE <<<
-          */
+          setLoading(true);
 
-          // Simulate API call
-          setTimeout(() => {
-            console.log('Simulating API call...');
-            console.log('API response: Success');
+          try {
+            const apiPath = '/event/create-event';
 
-            setIsLoading(false);
-          }, 1000);
+            const accessToken = await getAccessToken();
+
+            const data = {
+              name: values.eventName,
+              clientId: values.clientId,
+              description: values.eventDescription,
+              startDateTime: values.eventStart,
+              endDateTime: values.eventEnd,
+              location: values.location,
+              // Check if start day is in the past
+              status:
+                values.eventStart && new Date(values.eventStart) <= new Date()
+                  ? 'ongoing'
+                  : 'upcoming',
+            };
+
+            const apiResponse = await axiosAuthPost(apiPath, accessToken, data);
+
+            // console.log('Post API response:', apiResponse);
+
+            setLoading(false);
+
+            navigation.navigate(ScreenName.eventsList);
+          } catch (error) {
+            console.error('Error posting data:', error);
+            setLoading(false);
+          }
         }}>
         {(props) => (
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -122,12 +132,13 @@ const AddEventScreen = () => {
               onBlur={props.handleBlur('eventDescription')}
               value={props.values.eventDescription}
               error={props.touched.eventDescription && props.errors.eventDescription}
+              multiline
             />
 
             {/* Select Client */}
             <SingleSelector
               tw="px-5"
-              onSelectClient={(clientId) => props.handleChange('clientId')(clientId)}
+              onSelectProfile={(clientId) => props.handleChange('clientId')(clientId)}
             />
 
             <View tw="mb-2 px-4">
@@ -162,19 +173,17 @@ const AddEventScreen = () => {
               value={props.values.location}
             />
 
-            <View tw="mb-4">
-              <Text tw="text-base font-bold ">Hình ảnh</Text>
-            </View>
-
             <Button
-              tw="px-5 mb-4"
+              tw="mb-4"
               icon="right"
-              loading={isLoading}
+              loading={loading}
               iconSource={require('../../assets/icons/ForwardArow.png')}
               right
               onPress={props.handleSubmit}>
               Tạo sự kiện
             </Button>
+
+            <PopupModal visible={loading} loading={loading} />
           </ScrollView>
         )}
       </Formik>

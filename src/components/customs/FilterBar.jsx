@@ -2,33 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { styled } from 'nativewind';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button } from './CustomButton';
-import { Color } from './../../common/colors';
 
-const CustomFilterBar = ({ listTab, style }) => {
-  const [status, setStatus] = useState('');
+const CustomFilterBar = ({ options, selectedStatus, onSelect, style }) => {
+  const [selectedValue, setSelectedValue] = useState(selectedStatus);
 
   useEffect(() => {
-    if (listTab.length > 0) {
-      setStatus(listTab[0].status);
-    }
-  }, [listTab]);
+    setSelectedValue(selectedStatus || options[0].value);
+  }, [selectedStatus]);
 
-  const setStatusFilter = (selectedStatus) => {
-    setStatus(selectedStatus);
-    // You can perform additional actions based on the selected status here
+  const handleSelect = (value) => {
+    setSelectedValue(value);
+    onSelect(value);
   };
 
   return (
     <View style={[styles.container, style]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterBar}>
-        {listTab.map((tab, index) => (
+        {options.map((option, index) => (
           <Button
+            key={index}
             tw="mx-1 my-2 px-0"
             size="small"
-            key={index}
-            onPress={() => setStatusFilter(tab.status)}
-            type={status === tab.status ? 'primary' : 'secondary'}>
-            {tab.status}
+            onPress={() => handleSelect(option.value)}
+            type={selectedValue === option.value ? 'primary' : 'secondary'}>
+            {option.displayText}
           </Button>
         ))}
       </ScrollView>

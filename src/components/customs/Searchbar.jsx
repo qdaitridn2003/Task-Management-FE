@@ -1,20 +1,24 @@
-import { Entypo } from '@expo/vector-icons';
 import { styled } from 'nativewind';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Icon } from './CustomIcon';
-import { View, TextInput } from './TailwindComponent';
+import { View, TextInput, TouchableOpacity } from './TailwindComponent';
 import { Color } from '../../common';
 
 const CustomSearchbar = ({
   placeholder,
   onSubmitEditing,
+  value,
+  onChangeText,
+  returnKeyType,
+  onClear,
   style,
-  searchPhrase,
-  setSearchPhrase,
 }) => {
-  const [clicked, setClicked] = useState(false);
+  const handleClear = () => {
+    onClear();
+    onChangeText('');
+  };
 
   return (
     <View tw="flex-row h-12 elevation rounded-2xl mb-4 items-center" style={style}>
@@ -33,22 +37,21 @@ const CustomSearchbar = ({
         textColor={Color.primary}
         cursorColor={Color.primary}
         placeholderTextColor={Color.neutral2}
+        value={value}
+        onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}
-        onFocus={() => setClicked(true)}
-        value={searchPhrase}
-        onChangeText={setSearchPhrase}
+        returnKeyType={returnKeyType}
       />
 
-      {clicked && (
-        <Entypo
-          name="cross"
-          size={20}
-          color="black"
-          style={styles.iconSearch}
-          onPress={() => {
-            setSearchPhrase('');
-          }}
-        />
+      {value !== '' && (
+        <TouchableOpacity onPress={handleClear}>
+          <Icon
+            source={require('../../assets/icons/Close.png')}
+            style={{ marginLeft: 8, marginRight: 16 }}
+            size={24}
+            color={Color.neutral2}
+          />
+        </TouchableOpacity>
       )}
     </View>
   );
