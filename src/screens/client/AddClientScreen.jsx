@@ -1,6 +1,6 @@
-import { Color } from '../../common';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   View,
@@ -15,18 +15,26 @@ import {
   RadioButtonOptionGender,
   Button,
 } from '../../components';
-import { axiosGet, axiosPost, axiosAuthPost } from '../../configs';
+import { Color, ScreenName, accessTokenKey } from '../../common';
+import { axiosAuthPost, asyncStorageGetItem } from '../../configs';
 import { uploadImage } from '../../utilities/uploadImage';
+import { ClientContext } from '../../contexts';
 
 const AddClientScreen = () => {
   const [name, setName] = useState('');
-  const [gender, setGender] = useState('male');
+  const [gender, setGender] = useState('nam');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [avatar, setAvatar] = useState('');
-
+  const [errors, setErrors] = useState({
+    email: '',
+    name: '',
+    phone: '',
+  });
+  const navigation = useNavigation();
+  const { fetchData } = useContext(ClientContext);
   const imagePicker = async () => {
     try {
       const { canceled, assets } = await ImagePicker.launchImageLibraryAsync({
@@ -35,7 +43,7 @@ const AddClientScreen = () => {
         aspect: [4, 3],
         quality: 1,
       });
-      // console.log('Image: ', assets[0].uri);
+      console.log('Image: ', assets[0].uri);
 
       if (!canceled) {
         const imageUri = assets[0].uri;
@@ -49,24 +57,47 @@ const AddClientScreen = () => {
     }
   };
 
-  // const handleAddClient = async () => {
-  //   const respone = await axiosAuthPost('/client/create-info-client', {
-  //     email,
-  //     fullName: name,
-  //     gender,
-  //     dateOfBirth: birthday,
-  //     phoneNumber: phone,
-  //     address,
-  //     avatarUrl: avatar,
-  //   });
-  //   console.log(respone);
-  // };
+  const handleErrors = (errorMessage, input) => {
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
+  };
+
+  const handleAddClient = async () => {
+    const token = await asyncStorageGetItem(accessTokenKey);
+    // console.log(token);
+    const response = await axiosAuthPost('/client/create-info-client', token, {
+      email,
+      fullName: name,
+      gender,
+      dateOfBirth: birthday,
+      phoneNumber: phone,
+      address,
+      avatarUrl: avatar,
+    });
+    console.log(response);
+    if (!email) {
+      handleErrors('Email không được để trống', 'email');
+    } else if (response.message === 'Email không hợp lệ') {
+      handleErrors('Email không hợp lệ', 'email');
+    }
+    if (!name) {
+      handleErrors('Tên không được để trống', 'name');
+    }
+    if (!phone) {
+      handleErrors('Số điện thoại không được để trống', 'phone');
+    }
+    if (response._id) {
+      navigation.navigate(ScreenName.clientList);
+      await fetchData(1);
+    }
+  };
 
   return (
     <ScrollView>
       <ContainerView>
         <View tw="flex flex-row justify-between mx-6">
-          <Icon size={24} source={require('../../assets/icons/Back.png')} />
+          <TouchableOpacity onPress={() => navigation.navigate(ScreenName.clientList)}>
+            <Icon size={24} source={require('../../assets/icons/Back.png')} />
+          </TouchableOpacity>
           <Text tw="text-lg font-semibold">Thêm khách hàng</Text>
           <View tw="w-6"></View>
         </View>
@@ -92,12 +123,15 @@ const AddClientScreen = () => {
           label="Họ và tên"
           placeholder="Nhập họ và tên"
           onChangeText={(text) => setName(text)}
+          onFocus={() => handleErrors(null, 'name')}
+          error={errors.name}
         />
 
         <DateTimePickerWithLabel
+          value={birthday}
           onChange={(text) => setBirthday(text)}
           label="Ngày sinh"
-          type="birthday"
+          type="birthDay"
           mode="date"
         />
 
@@ -111,12 +145,16 @@ const AddClientScreen = () => {
           label="Email"
           placeholder="Nhập email"
           onChangeText={(text) => setEmail(text)}
+          onFocus={() => handleErrors(null, 'email')}
+          error={errors.email}
         />
 
         <TextInputWithLabel
           label="Số điện thoại"
           placeholder="Nhập số điện thoại"
           onChangeText={(text) => setPhone(text)}
+          onFocus={() => handleErrors(null, 'phone')}
+          error={errors.phone}
         />
 
         <TextInputWithLabel

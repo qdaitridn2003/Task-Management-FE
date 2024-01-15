@@ -12,6 +12,7 @@ export const ScreenName = {
   signIn: 'sign-in',
   signUp: 'sign-up',
   forgotPassword: 'forgot-password',
+  resetPassword: 'reset-password',
   test: 'test',
   demo: 'demo',
   inquiry: 'inquiry',
@@ -32,11 +33,35 @@ export const ScreenName = {
 
   management: 'Quản lý',
   managementMenu: 'management-menu',
+  ManagementEmployee: 'Cá nhân',
+  managementEmployeeMenu: 'management-employee-menu',
 
-  employee: 'Nhân viên',
   addEmployee: 'add-employee',
 
   account: 'account',
   accountDetails: 'account-details',
   editAccount: 'edit-account',
+  changePassword: 'change-pasword',
+
+  client: 'client',
+  clientList: 'client-list',
+  listClientDisabled: 'list-client-disabled',
+  clientDetails: 'client-details',
+  addClient: 'add-client',
+  updateClient: 'update-client',
+
+  employee: 'employee',
+  employeeList: 'employee-list',
+  employeeDetails: 'employee-details',
+  updatRoleEmployee: 'update-role-employee',
+
+  tag: 'tag',
+  tagList: 'tag-list',
+  addTag: 'add-tag',
+};
+
+export const NoticeActionType = {
+  create: 'Create',
+  update: 'Update',
+  delete: 'Delete',
 };

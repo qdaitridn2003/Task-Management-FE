@@ -13,6 +13,7 @@ const CustomTextInput = ({
   label,
   value,
   onChangeText,
+  onFocus,
   error,
   secureTextEntry,
   placeholder,

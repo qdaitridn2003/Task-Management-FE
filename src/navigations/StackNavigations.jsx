@@ -2,19 +2,32 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import { ScreenName } from '../common';
+import { ClientProvider, EmployeeProvider } from '../contexts';
 import {
   AddEventScreen,
   AddTaskScreen,
-  DemoScreen,
+  ChangePasswordScreen,
   EventDetailsScreen,
   EventsScreen,
   TaskDetailsScreen,
   TasksScreen,
+  ManagementScreen,
+  AccountDetailsScreen,
+  EditAccountScreen,
+  EmployeeScreen,
+  EmployeeDetailsScreen,
+  UpdateRoleEmployeeScreen,
+  // DemoScreen,
+  ClientScreen,
+  ClientDetailsScreen,
+  AddClientScreen,
+  TagScreen,
+  AddTagScreen,
+  ManagementEmployeeScreen,
 } from '../screens';
-import AccountDetailsScreen from '../screens/account/AccountDetailsScreen';
-import EditAccountScreen from '../screens/account/EditAccountScreen';
-import { ManagementScreen } from '../screens/management';
 
+import { UpdateClientScreen } from '../screens/client';
+import { ClientProvider, EmployeeProvider, TagProvider } from '../contexts';
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
   return (
@@ -49,8 +62,51 @@ export const AccountStack = () => {
       screenOptions={{ headerShown: false }}>
       <AccountStack.Screen name={ScreenName.accountDetails} component={AccountDetailsScreen} />
       <AccountStack.Screen name={ScreenName.editAccount} component={EditAccountScreen} />
-      {/* <AccountStack.Screen name={ScreenName.changePassword} component={ChangePasswordScreen} /> */}
+      <AccountStack.Screen name={ScreenName.changePassword} component={ChangePasswordScreen} />
     </AccountStack.Navigator>
+  );
+};
+
+export const ClientStack = () => {
+  const ClientStack = createNativeStackNavigator();
+  return (
+    <ClientProvider>
+      <ClientStack.Navigator
+        initialRouteName={ScreenName.clientList}
+        screenOptions={{ headerShown: false }}>
+        <ClientStack.Screen name={ScreenName.clientList} component={ClientScreen} />
+        <ClientStack.Screen name={ScreenName.clientDetails} component={ClientDetailsScreen} />
+        <ClientStack.Screen name={ScreenName.addClient} component={AddClientScreen} />
+        <ClientStack.Screen name={ScreenName.updateClient} component={UpdateClientScreen} />
+      </ClientStack.Navigator>
+    </ClientProvider>
+  );
+};
+
+export const EmployeeStack = () => {
+  const Employee = createNativeStackNavigator();
+  return (
+    <EmployeeProvider>
+      <Employee.Navigator
+        initialRouteName={ScreenName.employeeList}
+        screenOptions={{ headerShown: false }}>
+        <Employee.Screen name={ScreenName.employeeList} component={EmployeeScreen} />
+        <Employee.Screen name={ScreenName.employeeDetails} component={EmployeeDetailsScreen} />
+        <Employee.Screen name={ScreenName.updatRoleEmployee} component={UpdateRoleEmployeeScreen} />
+      </Employee.Navigator>
+    </EmployeeProvider>
+  );
+};
+
+const TagStack = () => {
+  const Tag = createNativeStackNavigator();
+  return (
+    <TagProvider>
+      <Tag.Navigator initialRouteName={ScreenName.tagList} screenOptions={{ headerShown: false }}>
+        <Tag.Screen name={ScreenName.tagList} component={TagScreen} />
+        <Tag.Screen name={ScreenName.addTag} component={AddTagScreen} />
+      </Tag.Navigator>
+    </TagProvider>
   );
 };
 
@@ -63,6 +119,24 @@ export const ManagementStack = () => {
       <ManagementStack.Screen name={ScreenName.managementMenu} component={ManagementScreen} />
       <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
       <ManagementStack.Screen name={ScreenName.demo} component={DemoScreen} />
+      <ManagementStack.Screen name={ScreenName.client} component={ClientStack} />
+      <ManagementStack.Screen name={ScreenName.employee} component={EmployeeStack} />
+      <ManagementStack.Screen name={ScreenName.tag} component={TagStack} />
+    </ManagementStack.Navigator>
+  );
+};
+
+export const ManagementEmployeeStack = () => {
+  const ManagementStack = createNativeStackNavigator();
+  return (
+    <ManagementStack.Navigator
+      initialRouteName={ScreenName.ManagementEmployee}
+      screenOptions={{ headerShown: false }}>
+      <ManagementStack.Screen
+        name={ScreenName.managementEmployeeMenu}
+        component={AccountDetailsScreen}
+      />
+      <ManagementStack.Screen name={ScreenName.account} component={AccountStack} />
     </ManagementStack.Navigator>
   );
 };

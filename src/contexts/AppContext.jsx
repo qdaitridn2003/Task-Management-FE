@@ -1,6 +1,8 @@
 import { createContext } from 'react';
 
 import { AuthProvider } from './AuthContext';
+import { ClientProvider } from './ClientContext';
+import { EmployeeProvider } from './EmployeeContext';
 
 export const AppContext = createContext({});
 

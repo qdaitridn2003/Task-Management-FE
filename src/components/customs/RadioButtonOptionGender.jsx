@@ -9,8 +9,8 @@ const CustomRadioButton = ({ label, onValueChange, gender }) => {
       {label && <Text tw="mb-1   text-base font-bold">{label}</Text>}
       <RadioButton.Group onValueChange={onValueChange} value={gender}>
         <View tw="flex flex-row items-center">
-          <RadioButton.Item label="Nam" value="male" />
-          <RadioButton.Item label="Nữ" value="female" />
+          <RadioButton.Item label="Nam" value="nam" />
+          <RadioButton.Item label="Nữ" value="nữ" />
         </View>
       </RadioButton.Group>
     </View>

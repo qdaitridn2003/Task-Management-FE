@@ -16,7 +16,7 @@ const HomeNavigation = () => {
           name={ScreenName.bottomTab}
           component={BottomTabNavigation}
           options={({ route }) => ({
-            tabBarVisible: route.state && route.state.index === 0, // Ẩn thanh tab khi không ở trang chính
+            tabBarVisible: route.state && route.state.index === 0,
           })}
         />
       </HomeStack.Navigator>

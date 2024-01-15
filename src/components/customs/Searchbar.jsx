@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import { Entypo } from '@expo/vector-icons';
 import { styled } from 'nativewind';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Color } from '../../common';
+
 import { Icon } from './CustomIcon';
-import { View, PaperTextInput, TouchableOpacity, TextInput } from './TailwindComponent';
+import { View, TextInput } from './TailwindComponent';
+import { Color } from '../../common';
 
 const CustomSearchbar = ({
   placeholder,
@@ -32,7 +34,7 @@ const CustomSearchbar = ({
         tw="text-base flex-1"
         underlineColor="transparent"
         activeUnderlineColor="transparent"
-        placeholder={placeholder ? placeholder : 'Search'}
+        placeholder={placeholder ? placeholder : 'Tìm kiếm...'}
         textColor={Color.primary}
         cursorColor={Color.primary}
         placeholderTextColor={Color.neutral2}
@@ -59,10 +61,10 @@ const CustomSearchbar = ({
 export const Searchbar = styled(CustomSearchbar);
 
 const styles = StyleSheet.create({
-  textInputStyle: {
-    flex: 1,
-    backgroundColor: Color.neutral4,
-    fontSize: 16,
-    height: 40,
+  iconSearch: {
+    padding: 1,
+    backgroundColor: '#d9dbda',
+    borderRadius: 40,
+    marginRight: 15,
   },
 });
