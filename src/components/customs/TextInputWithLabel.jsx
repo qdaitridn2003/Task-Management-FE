@@ -44,6 +44,7 @@ const CustomTextInput = ({
           keyboardType={keyboardType}
           placeholder={placeholder}
           autoCapitalize="none"
+          autoCorrect={false}
           value={value}
           onChangeText={onChangeText}
           onFocus={onFocus}

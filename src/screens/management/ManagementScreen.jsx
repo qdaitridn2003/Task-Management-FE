@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Color, ScreenName } from '../../common';
@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Pressable,
   MainHeaderBar,
+  UploadImage,
 } from '../../components';
 import { AuthContext } from '../../contexts';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -24,6 +25,7 @@ const ManagementScreen = () => {
   return (
     <ContainerView>
       <MainHeaderBar type="management" rightButton={false} />
+
       <View className="flex flex-row justify-between px-6 my-6 w-full h-auto">
         <Pressable onPress={() => navigation.navigate(ScreenName.account)}>
           <View className="w-40 h-40" style={styles.boxButton}>

@@ -43,12 +43,13 @@ const AccountDetailsScreen = () => {
   const [data, setData] = useState({});
   const [checkData, setCheckData] = useState({});
   const [isModalIndicator, setIsModalIndicator] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const token = await asyncStorageGetItem(accessTokenKey);
       const response = await axiosAuthGet('/employee/get-employee-profile', token, {});
-      console.log(response);
+      // console.log(response);
       setData(response.employee);
     })();
   }, []);

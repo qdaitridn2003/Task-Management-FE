@@ -18,3 +18,4 @@ export * from './EmployeeCard';
 export * from './NotificationCard';
 export * from './DateTimePickerWithLabel';
 export * from './TagCard';
+export * from './UploadImage';
