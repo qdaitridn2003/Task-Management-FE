@@ -40,6 +40,18 @@ const RNPaperCard = ({
     return formattedDateTime;
   };
 
+  const firstIcon =
+    type === 'event'
+      ? require('../../assets/icons/EventStart.png')
+      : require('../../assets/icons/Event.png');
+  const secondIcon =
+    type === 'event'
+      ? require('../../assets/icons/Event.png')
+      : require('../../assets/icons/NotificationsOutline.png');
+
+  const firstColor = type === 'event' ? Color.semanticGreen : Color.primary;
+  const secondColor = type === 'event' ? Color.primary : Color.secondary;
+
   return (
     <View style={style}>
       <PaperCard
@@ -61,22 +73,14 @@ const RNPaperCard = ({
 
             {startDate && (
               <View tw="flex-row items-center py-1">
-                <Icon
-                  source={require('../../assets/icons/EventStart.png')}
-                  size={20}
-                  color={Color.semanticGreen}
-                />
+                <Icon source={firstIcon} size={20} color={firstColor} />
                 <Text tw="text-sm pl-1">{formatDateTimeString(startDate, type)}</Text>
               </View>
             )}
 
             {endDate && (
               <View tw="flex-row items-center pt-1">
-                <Icon
-                  source={require('../../assets/icons/Event.png')}
-                  size={20}
-                  color={Color.primary}
-                />
+                <Icon source={secondIcon} size={20} color={secondColor} />
                 <Text tw="text-sm pl-1">{formatDateTimeString(endDate, type)}</Text>
               </View>
             )}

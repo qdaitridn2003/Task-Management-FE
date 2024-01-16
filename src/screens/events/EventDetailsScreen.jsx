@@ -21,6 +21,7 @@ import {
 import { ScreenName } from '../../common';
 import { getAccessToken } from '../../utilities/getAccessToken';
 import { axiosAuthGet, axiosAuthPut } from '../../configs';
+import { StyleSheet } from 'react-native';
 
 const EventDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -38,6 +39,9 @@ const EventDetailsScreen = ({ route }) => {
   const [itemId, setItemId] = useState(null);
 
   const [isConfirmModalVisible, setConfirmModalVisible] = useState(false);
+
+  // Top tab
+  const [taskTabSelected, setTaskTabSelected] = useState(false);
 
   const fetchDetails = async (itemId) => {
     try {
@@ -112,19 +116,25 @@ const EventDetailsScreen = ({ route }) => {
 
   return (
     <ContainerView>
-      {loading ? (
-        <PaperActivityIndicator size="40" tw="flex-1" />
+      {loading && (
+        <View tw="bg-neutral4" style={{ ...StyleSheet.absoluteFill, zIndex: 1 }}>
+          <PaperActivityIndicator size="40" tw="flex-1" />
+        </View>
+      )}
+
+      <SubHeaderBar
+        tw="px-5"
+        onEditPress={() => {
+          navigation.navigate(ScreenName.addEvent, { passedData: detailsData });
+        }}
+        onDeletePress={handleDelete}
+        onBackPress={() => navigation.goBack()}
+      />
+
+      {taskTabSelected ? (
+        <View>Test</View>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <SubHeaderBar
-            tw="px-5"
-            onEditPress={() => {
-              navigation.navigate(ScreenName.addEvent, { passedData: detailsData });
-            }}
-            onDeletePress={handleDelete}
-            onBackPress={() => navigation.goBack()}
-          />
-
           <ScrollView>
             {detailsData?.images?.length > 0 && (
               <View tw="flex-1 px-5 mb-4">

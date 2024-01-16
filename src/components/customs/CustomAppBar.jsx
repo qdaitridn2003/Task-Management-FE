@@ -73,7 +73,7 @@ const CustomAppbar = ({ onPress, ...props }) => {
     <View {...props}>
       <View style={styles.appBar}>
         <View style={styles.mainContainer}>
-          <Avatar.Image size={48} source={{ uri: 'https://picsum.photos/200' }} />
+          <Avatar.Image size={48} source={require('../../assets/images/AddAvatar.jpeg')} />
           <View style={styles.textContainer}>
             <Text style={styles.textTime}>{currentTime}</Text>
             <Text style={styles.textDay}>{currentDay}</Text>

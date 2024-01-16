@@ -35,7 +35,7 @@ const CustomSingleSelector = ({
     console.log('Current page number:', pageNumber);
 
     try {
-      const apiPath = type === 'client' ? '/client/get-list-client' : '/employee/get-employee-list';
+      const apiPath = type === 'client' ? '/client/get-client-list' : '/employee/get-employee-list';
 
       const accessToken = await getAccessToken();
 
@@ -43,6 +43,7 @@ const CustomSingleSelector = ({
         limit: limit,
         page: pageNumber,
         search: searchQuery,
+        status: 'active',
       };
 
       console.log('Query:', query);
@@ -50,7 +51,7 @@ const CustomSingleSelector = ({
       const response = await axiosAuthGet(apiPath, accessToken, query);
 
       const data = type === 'client' ? response.listClient : response.listEmployee;
-      // console.log('Profiles list API response: ', data);
+      console.log('Profiles list API response: ', response);
 
       if (data.length > 0) {
         setProfilesList((previousProfiles) =>
