@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
 
-import { Color } from '../../common';
+import { Color, ScreenName } from '../../common';
 import {
   ContainerView,
   MainHeaderBar,
@@ -17,6 +17,7 @@ import { ClientCard } from '../../components/customs/ClientCard';
 import { ClientContext } from '../../contexts';
 
 const ClientScreen = () => {
+  const navigation = useNavigation();
   const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
     useContext(ClientContext);
   const [isStatusDisabled, setIsStatusDisabled] = useState(false);

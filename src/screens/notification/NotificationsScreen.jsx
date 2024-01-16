@@ -25,49 +25,40 @@ const NotificationsScreen = () => {
     (async () => {
       const accessToken = await asyncStorageGetItem(accessTokenKey);
       try {
-        const response = await axiosAuthGet('/notification/get-list-notification', accessToken, {
-          limit: 6,
-          page,
-        });
+        const response = await axiosAuthGet('/notification/get-list-notification', accessToken, {});
+
         const listNotices = response.listNotification;
-        if (page === 1) {
-          setListNotification(listNotices);
-        } else {
-          setListNotification((prevList) => [...prevList, ...listNotices]);
-        }
+        setListNotification(listNotices);
+        // if (page === 1) {
+        // } else {
+        //   setListNotification((prevList) => [...prevList, ...listNotices]);
+        //   setIsLoading(false);
+        // }
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
-        setIsFetching(false);
       }
     })();
   }, [page]);
   // console.log('List notification', listNotification);
-  const onScrollEndList = () => {
-    if (!isFetching) {
-      setIsFetching(true);
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
+  // const onScrollEndList = () => {
+  //   setIsLoading(true);
+  //   setPage((prevPage) => prevPage + 1);
+  // };
 
   return (
     <ContainerView tw="px-0">
       <MainHeaderBar type="notifications" rightButton={false} />
-      {isLoading ? (
-        <ActivityIndicator color={Color.primary} size={48} />
-      ) : (
-        <FlatList
-          className="mb-2"
-          data={listNotification}
-          renderItem={(notification) => <NotificationCard notification={notification} />}
-          keyExtractor={(notification) => notification._id}
-          onEndReached={() => onScrollEndList()}
-          ListFooterComponent={() =>
-            isLoading ? <ActivityIndicator className="p-2" size={36} color={Color.primary} /> : null
-          }
-        />
-      )}
+
+      <FlatList
+        className="mb-2"
+        data={listNotification}
+        renderItem={(notification) => <NotificationCard notification={notification} />}
+        keyExtractor={(notification) => notification._id}
+        // onEndReached={onScrollEndList}
+        // ListFooterComponent={() =>
+        //   isLoading ? <ActivityIndicator className="p-2" size={36} color={Color.primary} /> : null
+        // }
+      />
     </ContainerView>
   );
 };

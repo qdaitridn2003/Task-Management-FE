@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import { ScreenName } from '../common';
+import { ClientProvider, EmployeeProvider, TagProvider } from '../contexts';
 import {
   AddEventScreen,
   AddTaskScreen,
@@ -26,7 +27,6 @@ import {
 } from '../screens';
 
 import { UpdateClientScreen } from '../screens/client';
-import { ClientProvider, EmployeeProvider, TagProvider } from '../contexts';
 export const EventsStack = () => {
   const EventsStack = createNativeStackNavigator();
   return (
