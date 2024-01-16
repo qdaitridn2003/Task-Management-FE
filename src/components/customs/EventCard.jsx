@@ -19,12 +19,25 @@ const RNPaperCard = ({
   onLongPress,
   onContextMenuEdit,
   onContextMenuStatus,
+  type = 'event',
   style,
 }) => {
-  const formatDateString = (dateString) => {
-    const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
-    const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
-    return formattedDate;
+  const formatDateTimeString = (dateTimeString, type) => {
+    const optionsEvent = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const optionsTask = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    };
+
+    const options = type === 'event' ? optionsEvent : optionsTask;
+
+    const formattedDateTime = new Date(dateTimeString).toLocaleString('vi-VN', options);
+    return formattedDateTime;
   };
 
   return (
@@ -53,7 +66,7 @@ const RNPaperCard = ({
                   size={20}
                   color={Color.semanticGreen}
                 />
-                <Text tw="text-base pl-1">{formatDateString(startDate)}</Text>
+                <Text tw="text-sm pl-1">{formatDateTimeString(startDate, type)}</Text>
               </View>
             )}
 
@@ -64,7 +77,7 @@ const RNPaperCard = ({
                   size={20}
                   color={Color.primary}
                 />
-                <Text tw="text-base pl-1">{formatDateString(endDate)}</Text>
+                <Text tw="text-sm pl-1">{formatDateTimeString(endDate, type)}</Text>
               </View>
             )}
           </View>

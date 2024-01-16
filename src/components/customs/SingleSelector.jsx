@@ -8,22 +8,6 @@ import { Searchbar } from './Searchbar';
 import { getAccessToken } from '../../utilities/getAccessToken';
 import { axiosAuthGet } from '../../configs';
 
-const mockProfilesList = [
-  { id: '1', name: 'Nguyễn Văn A', avatar: 'https://picsum.photos/200' },
-  { id: '2', name: 'Nguyễn Văn B', avatar: 'https://picsum.photos/200' },
-  { id: '3', name: 'Nguyễn Văn C', avatar: 'https://picsum.photos/200' },
-  { id: '4', name: 'Nguyễn Văn D', avatar: 'https://picsum.photos/200' },
-  { id: '5', name: 'Nguyễn Văn E', avatar: 'https://picsum.photos/200' },
-  { id: '6', name: 'Nguyễn Văn F', avatar: 'https://picsum.photos/200' },
-  // Add more profiles as needed
-];
-
-const mockSearchResults = [
-  { id: '7', name: 'Lê Thị G', avatar: 'https://picsum.photos/200' },
-  { id: '8', name: 'Lê Thị H', avatar: 'https://picsum.photos/200' },
-  // Add more search results as needed
-];
-
 // SingleSelector
 const CustomSingleSelector = ({
   type = 'client',
@@ -51,7 +35,7 @@ const CustomSingleSelector = ({
     console.log('Current page number:', pageNumber);
 
     try {
-      const apiPath = '/client/get-client-list';
+      const apiPath = type === 'client' ? '/client/get-list-client' : '/employee/get-employee-list';
 
       const accessToken = await getAccessToken();
 
@@ -65,7 +49,7 @@ const CustomSingleSelector = ({
 
       const response = await axiosAuthGet(apiPath, accessToken, query);
 
-      const data = response.listClient;
+      const data = type === 'client' ? response.listClient : response.listEmployee;
       // console.log('Profiles list API response: ', data);
 
       if (data.length > 0) {
@@ -166,7 +150,9 @@ const CustomSingleSelector = ({
 
   return (
     <View tw="mb-4" style={style}>
-      <Text tw="text-base font-bold mb-2 ">Khách hàng</Text>
+      <Text tw="text-base font-bold mb-2 ">
+        {type === 'client' ? 'Khách hàng' : 'Trưởng nhóm công việc'}
+      </Text>
       <View tw="elevation rounded-2xl overflow-hidden h-12 justify-center">
         <TouchableOpacity onPress={openModal}>
           <View tw="flex-row items-center">
@@ -186,7 +172,11 @@ const CustomSingleSelector = ({
             <Text
               tw="text-base flex-1"
               style={{ color: selectedProfile ? Color.neutral1 : Color.neutral2 }}>
-              {selectedProfile ? selectedProfile.name : 'Chọn khách hàng'}
+              {selectedProfile
+                ? selectedProfile.name
+                : type === 'client'
+                  ? 'Khách hàng'
+                  : 'Trưởng nhóm công việc'}
             </Text>
 
             {/* Right Icon */}

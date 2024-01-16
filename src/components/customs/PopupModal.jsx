@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'nativewind';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { PaperActivityIndicator, Modal, Text, TouchableOpacity, View } from './TailwindComponent';
+import { PaperActivityIndicator, Modal, Text, View } from './TailwindComponent';
 import { Button } from './CustomButton';
 
 export const PopupModal = ({
@@ -31,7 +31,7 @@ export const PopupModal = ({
               }}></View>
           </TouchableWithoutFeedback>
         )}
-        <View tw={`p-6 rounded-3xl bg-neutral4 ${!onCancel && !loading && 'w-6/12'}`}>
+        <View tw={`p-6 rounded-3xl bg-neutral4 w-9/12 ${!onCancel && !loading && 'w-6/12'}`}>
           {loading ? (
             <View>
               <PaperActivityIndicator />
@@ -40,7 +40,7 @@ export const PopupModal = ({
           ) : (
             <View>
               {/* Title */}
-              {title && <Text tw="text-xl font-bold self-center mb-6">{title}</Text>}
+              {title && <Text tw="text-xl text-center font-bold self-center mb-6">{title}</Text>}
 
               {/* Buttons */}
               <View tw="flex-row justify-center">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import {
   AppBar,
@@ -8,7 +8,6 @@ import {
   IconButton,
   Searchbar,
   View,
-  ActivityIndicator,
   PaperActivityIndicator,
   Text,
   Icon,
@@ -18,7 +17,6 @@ import {
   BackHandler,
   ToastAndroid,
   FlatList,
-  RefreshControl,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -73,7 +71,7 @@ const EventsScreen = ({ route }) => {
   const [selectedFilter, setSelectedFilter] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
-  const limit = 8;
+  const limit = 6;
   const [noMoreData, setNoMoreData] = useState(false);
 
   const fetchListData = async (pageNumber, searchQuery = '', status = '') => {
@@ -162,7 +160,7 @@ const EventsScreen = ({ route }) => {
 
   useEffect(() => {
     if (isFocused) {
-      // setListData([]);
+      setListData([]);
       setPage(1);
       setNoMoreData(false);
       setSearchQuery('');
@@ -216,6 +214,7 @@ const EventsScreen = ({ route }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ContainerView tw="px-0">
         <AppBar tw="px-5" onPress={() => navigation.navigate(ScreenName.addEvent)} />
+
         {/* Search bar */}
         <View tw="flex-row px-5">
           <Searchbar

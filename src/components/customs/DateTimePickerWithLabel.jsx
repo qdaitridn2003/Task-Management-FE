@@ -48,9 +48,9 @@ const CustomDateTimePickerWithLabel = ({
 
       setSelectedDate(selected);
       setProcessedDate(processedDate);
-      console.log('processedDate: ', processedDate);
+      // console.log('processedDate: ', processedDate);
       setDisplayDate(displayDate);
-      console.log('displayDate: ', displayDate);
+      // console.log('displayDate: ', displayDate);
       onChange(processedDate);
     }
   };
@@ -107,7 +107,7 @@ const CustomDateTimePickerWithLabel = ({
       }
 
       setDisplayDate(displayDate);
-      console.log('displayDate: ', displayDate);
+      // console.log('displayDate: ', displayDate);
     }
   }, [value]);
 
