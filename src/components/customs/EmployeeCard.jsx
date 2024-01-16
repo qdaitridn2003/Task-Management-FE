@@ -44,7 +44,6 @@ const RNPaperCard = ({ name, avatar, id, onPress, onLongPress, status, role }) =
             <View>
               <Text tw="ml-4  text-base font-semibold">{name}</Text>
               <TextRow tw="ml-4  text-base font-semibold" value={status} />
-              <TextRow tw="ml-4  text-base font-semibold" value={role} />
             </View>
           </View>
         </Card>
