@@ -20,7 +20,7 @@ const ClientScreen = () => {
   const navigation = useNavigation();
   const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
     useContext(ClientContext);
-  const [selectedFilter, setSelectedFilter] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState('active');
   // console.log(data);
 
   const loadMoreData = () => {
@@ -43,10 +43,10 @@ const ClientScreen = () => {
   ];
 
   const handleChangeListStatus = (value) => {
-    if (value === 'disabled') {
-      fetchData(1, 'disabled');
-    } else {
+    if (value === 'active') {
       fetchData(1, 'active');
+    } else {
+      fetchData(1, 'disabled');
     }
   };
 

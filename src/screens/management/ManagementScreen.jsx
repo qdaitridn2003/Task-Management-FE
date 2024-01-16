@@ -26,7 +26,7 @@ const ManagementScreen = () => {
     <ContainerView>
       <MainHeaderBar type="management" rightButton={false} />
 
-      <View className="flex flex-row justify-between px-6 my-6 w-full h-auto">
+      <View className="flex flex-row justify-between px-6 my-2 w-full h-auto">
         <Pressable onPress={() => navigation.navigate(ScreenName.account)}>
           <View className="w-40 h-40" style={styles.boxButton}>
             <Icon size={48} source={require('../../assets/icons/ButtonProfile.png')} />
@@ -50,7 +50,7 @@ const ManagementScreen = () => {
         </Pressable>
       </View>
 
-      <View className="flex flex-row justify-between px-6 my-6 w-full h-auto">
+      <View className="flex flex-row justify-between px-6 my-2 w-full h-auto">
         <Pressable onPress={() => navigation.navigate(ScreenName.employee)}>
           <View className="w-40 h-40" style={styles.boxButton}>
             <Icon size={48} source={require('../../assets/icons/ButtonEmployee.png')} />
@@ -74,7 +74,7 @@ const ManagementScreen = () => {
         </Pressable>
       </View>
 
-      <View className="flex flex-row justify-center px-3 my-6 w-ful">
+      {/* <View className="flex flex-row justify-center px-3 my-6 w-ful">
         <Pressable onPress={() => setIsLogin(false)}>
           <View className="w-40 h-40" style={styles.boxButton}>
             <Icon size={48} source={require('../../assets/icons/ButtonSignOut.png')} />
@@ -85,7 +85,7 @@ const ManagementScreen = () => {
             </Text>
           </View>
         </Pressable>
-      </View>
+      </View> */}
 
       {/* <Button tw="mb-4" type="secondary" onPress={() => navigation.navigate(ScreenName.account)}>
         Cá nhân

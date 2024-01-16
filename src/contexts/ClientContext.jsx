@@ -19,7 +19,7 @@ export const ClientProvider = ({ children }) => {
     const response = await axiosAuthGet('/client/get-client-list', token, {
       limit: 6,
       page,
-      status,
+      status: status ? status : 'active',
     });
 
     const listClient = response.listClient;
