@@ -60,6 +60,7 @@ const ClientDetailsScreen = () => {
         const formattedDate = format(new Date(response.birthday), 'dd/MM/yyyy');
         setFormatBirthday(formattedDate);
         setData(response);
+        setAvatar(response.avatar);
         setIsLoading(false);
       }
     })();
@@ -77,6 +78,7 @@ const ClientDetailsScreen = () => {
       fetchData(1, 'disabled');
     }
   };
+
   return (
     <ContainerView tw="px-0">
       <SubHeaderBar
@@ -93,7 +95,9 @@ const ClientDetailsScreen = () => {
           <View tw="p-5 mt-2 mb-4 mx-5 rounded-2xl elevation items-center">
             <Image
               tw="mb-3.5 h-32 w-32 rounded-full"
-              source={data.avatar ? { uri: avatar } : require('../../assets/images/AddAvatar.jpeg')}
+              source={
+                data.avatar ? { uri: data.avatar } : require('../../assets/images/AddAvatar.jpeg')
+              }
             />
 
             <Text tw="mb-3.5 text-primary text-2xl font-bold">{data.name}</Text>
