@@ -51,7 +51,7 @@ export const ChangeStatusModal = ({ visible, onClose, onSelect, type, loading })
             },
             {
               value: 'ongoing',
-              displayText: 'Hoạt động',
+              displayText: 'Đang tiến hành',
               color: Color.secondary,
               iconSource: require('../../assets/icons/DoubleArrowCircle.png'),
             },
@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
     padding: 24,
     paddingBottom: 16,
     borderRadius: 20,
-    width: '50%',
+    width: '60%',
   },
 });

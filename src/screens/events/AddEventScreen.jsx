@@ -14,6 +14,7 @@ import {
   TextInputWithLabel,
   DateTimePickerWithLabel,
   PopupModal,
+  UploadImage,
 } from '../../components';
 import { ScreenName } from '../../common';
 import { Formik } from 'formik';
@@ -24,6 +25,8 @@ import { axiosAuthPost } from '../../configs';
 const AddEventScreen = ({ route }) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+
+  const [passedData, setPassedData] = useState(null);
 
   // FORM SUBMISSION
   const [initialValues, setInitialValues] = useState({
@@ -37,6 +40,17 @@ const AddEventScreen = ({ route }) => {
     image: '',
   });
 
+  // const initialValues = {
+  //   eventName: '',
+  //   eventDescription: '',
+  //   clientId: '',
+  //   eventStart: '',
+  //   eventEnd: '',
+  //   location: '',
+  //   status: 'upcoming',
+  //   image: '',
+  // };
+
   const validationSchema = Yup.object().shape({
     eventStart: Yup.date().required('Chưa chọn ngày bắt đầu'),
     eventEnd: Yup.date().required('Chưa chọn ngày kết thúc'),
@@ -44,35 +58,35 @@ const AddEventScreen = ({ route }) => {
     image: Yup.string(),
     eventName: Yup.string().required('Tên sự kiện là bắt buộc'),
     eventDescription: Yup.string(),
-    clientId: Yup.string(),
+    clientId: Yup.string().required('Chưa chọn khách hàng'),
   });
 
   useEffect(() => {
     // Extract passed data
-    const { passedData } = route.params;
+    setPassedData(route.params?.passedData);
 
-    if (passedData) {
+    if (route.params?.passedData) {
       setInitialValues({
-        eventName: passedData.name || '',
-        eventDescription: passedData.description || '',
-        clientId: passedData._id || '',
-        eventStart: passedData.startDateTime || '',
-        eventEnd: passedData.endDateTime || '',
-        location: passedData.location || '',
-        status: passedData.status || 'upcoming',
+        eventName: route.params?.passedData.name || '',
+        eventDescription: route.params?.passedData.description || '',
+        clientId: route.params?.passedData._id || '',
+        eventStart: route.params?.passedData.startDateTime || '',
+        eventEnd: route.params?.passedData.endDateTime || '',
+        location: route.params?.passedData.location || '',
+        status: route.params?.passedData.status || 'upcoming',
         image: '',
       });
     }
 
-    console.log('Passed data:', route.params.passedData);
-  }, [route.params.passedData]);
+    console.log('Passed data:', route.params);
+  }, [route.params]);
 
   return (
     <ContainerView tw="px-0 ">
       <SubHeaderBar
         tw="px-5"
-        title="Tạo sự kiện"
-        onBackPress={() => navigation.navigate(ScreenName.eventsList, { focusScreen: true })}
+        title={passedData ? 'Cập nhật sự kiện' : 'Tạo sự kiện'}
+        onBackPress={() => navigation.goBack()}
       />
       <Formik
         enableReinitialize
@@ -100,11 +114,12 @@ const AddEventScreen = ({ route }) => {
                 values.eventStart && new Date(values.eventStart) <= new Date()
                   ? 'ongoing'
                   : 'upcoming',
+              imageUrls: values.image,
             };
 
             const apiResponse = await axiosAuthPost(apiPath, accessToken, data);
 
-            // console.log('Post API response:', apiResponse);
+            console.log('Post API response:', apiResponse);
 
             setLoading(false);
 
@@ -173,6 +188,12 @@ const AddEventScreen = ({ route }) => {
               value={props.values.location}
             />
 
+            <UploadImage
+              label="Hình ảnh"
+              tw="mb-4"
+              onUploaded={(url) => props.handleChange('image')(url)}
+            />
+
             <Button
               tw="mb-4"
               icon="right"
@@ -180,10 +201,8 @@ const AddEventScreen = ({ route }) => {
               iconSource={require('../../assets/icons/ForwardArow.png')}
               right
               onPress={props.handleSubmit}>
-              Tạo sự kiện
+              {passedData ? 'Cập nhật sự kiện' : 'Tạo sự kiện'}
             </Button>
-
-            <PopupModal visible={loading} loading={loading} />
           </ScrollView>
         )}
       </Formik>

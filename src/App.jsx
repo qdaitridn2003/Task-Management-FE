@@ -7,6 +7,8 @@ import { AppNavigation } from './navigations';
 
 import { MenuProvider } from 'react-native-popup-menu';
 
+import { LogBox } from 'react-native';
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -21,6 +23,8 @@ const theme = {
 };
 
 const App = () => {
+  LogBox.ignoreLogs(['Key "cancelled" in the image picker result is deprecated']);
+
   return (
     <MenuProvider>
       <PaperProvider theme={theme}>

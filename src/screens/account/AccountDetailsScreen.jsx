@@ -75,7 +75,7 @@ const AccountDetailsScreen = () => {
             source={data.avatar ? { uri: data.avatar } : { uri: 'https://picsum.photos/700' }}
           />
 
-          <Text tw="mb-3.5 text-primary text-2xl font-bold">{data.name}</Text>
+          <Text tw="mb-3.5 text-2xl font-bold">{data.name}</Text>
           <TextRow label="Ngày sinh" value={data.birthday} />
           <TextRow label="Giới tính" value={data.gender} />
           <TextRow label="Số điện thoại" value={data.phone} />

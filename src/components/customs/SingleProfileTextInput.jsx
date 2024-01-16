@@ -15,10 +15,13 @@ const CustomTextInput = ({
   style,
   onBlur,
   onPress,
+  type = 'client',
 }) => {
   return (
     <View tw="mb-4" style={style}>
-      <Text tw="mb-2 text-base font-bold">Khách hàng</Text>
+      <Text tw="mb-2 text-base font-bold">
+        {type === 'client' ? 'Khách hàng' : 'Trưởng nhóm công việc'}
+      </Text>
       <TouchableWithoutFeedback onPress={onPress}>
         <View tw="elevation overflow-hidden h-12 rounded-2xl flex-row items-center">
           <View tw="ml-4 h-12 justify-center items-center">

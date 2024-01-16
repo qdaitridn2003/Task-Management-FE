@@ -6,7 +6,7 @@ import { styled } from 'nativewind';
 import { uploadImage } from '../../utilities';
 import { Color } from '../../common';
 import { Icon } from './CustomIcon';
-const RNPaperCard = ({ label = '', type, onUploaded }) => {
+const RNPaperCard = ({ label = '', type, onUploaded, style }) => {
   const [avatar, setAvatar] = useState('');
 
   const imagePicker = async () => {
@@ -36,7 +36,7 @@ const RNPaperCard = ({ label = '', type, onUploaded }) => {
     onUploaded('');
   };
   return (
-    <View className="flex px-5">
+    <View className="flex px-5" style={style}>
       {label && <Text tw="mb-2 text-base font-bold">{label}</Text>}
       <View className="flex flex-row">
         {avatar === '' ? (

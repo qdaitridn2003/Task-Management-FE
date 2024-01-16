@@ -10,7 +10,7 @@ const CustomStatusIndicator = ({ status, style, size }) => {
     upcoming: { text: 'Sắp tới', icon: require('../../assets/icons/Alarm.png') },
     ongoing: { text: 'Hoạt động', icon: require('../../assets/icons/DoubleArrowCircle.png') },
     completed: { text: 'Hoàn thành', icon: require('../../assets/icons/CheckCircleOutline.png') },
-    canceled: { text: 'Đã hủy', icon: require('../../assets/icons/AlarmOff.png') },
+    cancelled: { text: 'Đã hủy', icon: require('../../assets/icons/AlarmOff.png') },
     unknown: { text: 'Không rõ trạng thái', icon: require('../../assets/icons/QuestionMark.png') },
   };
 
@@ -22,7 +22,7 @@ const CustomStatusIndicator = ({ status, style, size }) => {
         return Color.secondary;
       case 'completed':
         return Color.semanticGreen;
-      case 'canceled':
+      case 'cancelled':
         return Color.semanticRed;
       default:
         return Color.neutral2;
