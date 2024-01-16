@@ -11,15 +11,15 @@ export const ClientProvider = ({ children }) => {
   const [clientId, setClientId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(1);
-  // const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const fetchData = async (page, status) => {
     const token = await asyncStorageGetItem(accessTokenKey);
-    // console.log(token);
+
     const response = await axiosAuthGet('/client/get-client-list', token, {
       limit: 6,
       page,
-      status: status ? status : 'active',
+      status,
     });
 
     const listClient = response.listClient;

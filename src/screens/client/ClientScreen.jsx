@@ -20,30 +20,33 @@ const ClientScreen = () => {
   const navigation = useNavigation();
   const { data, page, setPage, isLoading, setIsLoading, fetchData, searchText, setSearchText } =
     useContext(ClientContext);
-  const [isStatusDisabled, setIsStatusDisabled] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('');
   // console.log(data);
 
   const loadMoreData = () => {
-    setIsLoading(true);
+    if (data.length > 5) {
+      setIsLoading(true);
+    }
     setPage(page + 1);
   };
   const renderLoader = () => {
     return isLoading ? (
       <View>
-        <ActivityIndicator size={40} color={Color} />
+        <ActivityIndicator className="mb-2" size={40} color={Color.primary} />
       </View>
     ) : null;
   };
 
-  const listFilter = [{ status: 'Tất cả' }, { status: 'Hoạt động' }, { status: 'Đã vô hiệu hoá' }];
+  const statusOptions = [
+    { value: 'active', displayText: 'Hoạt động' },
+    { value: 'disabled', displayText: 'Đã vô hiệu hoá' },
+  ];
 
-  const handleChangeListStatus = () => {
-    if (!isStatusDisabled) {
+  const handleChangeListStatus = (value) => {
+    if (value === 'disabled') {
       fetchData(1, 'disabled');
-      setIsStatusDisabled(true);
     } else {
       fetchData(1, 'active');
-      setIsStatusDisabled(false);
     }
   };
 
@@ -59,7 +62,11 @@ const ClientScreen = () => {
           iconSource={require('../../assets/icons/Tune.png')}
         />
       </View>
-      {/* <FilterBar listTab={listFilter} /> */}
+      <FilterBar
+        options={statusOptions}
+        selectedValue={selectedFilter}
+        onSelect={handleChangeListStatus}
+      />
 
       {data.length === 0 ? (
         <View className="flex-1 align-middle justify-center">
@@ -67,15 +74,13 @@ const ClientScreen = () => {
         </View>
       ) : (
         <FlatList
-          tw="mx-6 my-4 "
+          tw="mx-6 "
           data={data}
           renderItem={({ item }) => (
             <ClientCard id={item._id} name={item.name} avatar={item.avatar} status={item.status} />
           )}
           keyExtractor={(item) => item._id}
-          ListFooterComponent={(item) => {
-            item.length > 6 ? renderLoader : null;
-          }}
+          ListFooterComponent={renderLoader}
           showsVerticalScrollIndicator={false}
           onEndReached={loadMoreData}
         />

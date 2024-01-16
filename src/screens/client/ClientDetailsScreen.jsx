@@ -44,6 +44,7 @@ const ClientDetailsScreen = () => {
   const [data, setData] = useState({});
   const [formatBirthday, setFormatBirthday] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [avatar, setAvatar] = useState('');
 
   const handleOnEdit = () => {
     navigation.navigate(ScreenName.updateClient);

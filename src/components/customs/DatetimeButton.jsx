@@ -21,6 +21,12 @@ const CustomDateTimeButton = ({ type, value, onChangeText, error, notEditable, s
       color: Color.primary,
       editable: false,
     },
+    birthDay: {
+      iconSource: require('../../assets/icons/Cake.png'),
+      text: 'Ngày sinh',
+      color: Color.primary,
+      editable: false,
+    },
     event: {
       iconSource: require('../../assets/icons/Event.png'),
       text: 'Thời gian diễn ra',
